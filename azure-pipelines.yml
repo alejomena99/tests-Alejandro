@@ -16,6 +16,7 @@ stages:
           git config --global user.name "$(Build.Repository.Name)"
           git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
           git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
+          git checkout $(Build.SourceBranchName)
         displayName: Clonar el repositorio
       
       - script: |
