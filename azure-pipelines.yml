@@ -19,3 +19,8 @@ stages:
       - script: |
           python -m pip install yaml
         displayName: Pip install request python modules
+      
+      - task: PythonScript@0
+        inputs:
+          scriptSource: 'filePath'
+          scriptPath: '$(System.DefaultWorkingDirectory)/text-manipulation.py'
