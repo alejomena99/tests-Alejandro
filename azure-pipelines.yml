@@ -6,7 +6,7 @@ stages:
   jobs:
     - job: 'job'
       pool:
-        name: agent-Alejo
+        name: ubuntu-20.04
 
       steps:
       - checkout: self
