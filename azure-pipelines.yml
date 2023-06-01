@@ -9,7 +9,17 @@ stages:
         name: agent-Alejo
 
       steps:
-      
+      - checkout: none
+
+      - script: |
+          git config --global user.email "$(Build.RequestedForEmail)"
+          git config --global user.name "$(Build.Repository.Name)"
+          git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
+          git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
+          git branch -a
+          ls
+        displayName: Clonar el repositorio
+
       - script: |
           pip install pyyaml
         displayName: Pip install request python modules
@@ -30,10 +40,4 @@ stages:
       #     git push
       #   displayName: 'Actualizar archivo en repositorio'
 
-      # - script: |
-      #     git config --global user.email "$(Build.RequestedForEmail)"
-      #     git config --global user.name "$(Build.Repository.Name)"
-      #     git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
-      #     git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
-      #     git branch -a
-      #   displayName: Clonar el repositorio
+
