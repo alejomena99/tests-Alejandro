@@ -6,7 +6,7 @@ stages:
   jobs:
     - job: 'job'
       pool:
-        vmImage: ubuntu-latest
+        name: agent-Alejo
 
       steps:
       
