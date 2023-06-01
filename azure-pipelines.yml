@@ -24,7 +24,7 @@ stages:
           git config --global user.name "$(Build.Repository.Name)"
           git add envoy.yaml
           git commit -m "Update envoy.yaml"
-          git push
+          git push HEAD: master
         displayName: Actualizar archivo en repositorio
 
       # - script: |
