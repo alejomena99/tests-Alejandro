@@ -23,4 +23,4 @@ stages:
       - task: PythonScript@0
         inputs:
           scriptSource: 'filePath'
-          scriptPath: '$(System.DefaultWorkingDirectory)/text-manipulation.py'
+          scriptPath: '$(System.DefaultWorkingDirectory)\text-manipulation.py'
