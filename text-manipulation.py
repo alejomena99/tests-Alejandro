@@ -37,6 +37,16 @@ if line_index is not None:
 with open(file_path, 'w') as file:
     file.writelines(lines)
 
+# Leer el archivo YAML actualizado
+with open(file_path, 'r') as file:
+    updated_yaml = yaml.safe_load(file)
+
+# Convertir el YAML actualizado a una cadena con indentación
+output_yaml_str = yaml.dump(updated_yaml, indent=2)
+
+# Imprimir el YAML actualizado con la indentación
+print(output_yaml_str)
+
 # Calcular el tiempo de duración
 duration = time.time() - start_time
 
