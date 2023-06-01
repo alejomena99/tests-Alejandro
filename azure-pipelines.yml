@@ -15,8 +15,9 @@ stages:
           git config --global user.email "$(Build.RequestedForEmail)"
           git config --global user.name "$(Build.Repository.Name)"
           git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
-          git clone $(Build.Repository.Uri)
-          git checkout master
+          git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
+          git remote -v
+          git checkout -b master origin/master
           git branch -a
           ls
         displayName: Clonar el repositorio
@@ -32,13 +33,3 @@ stages:
       - script: |
           git branch -a
         displayName: Run python text manipulation
-
-
-      # - script: |
-      #     git checkout $(Build.SourceBranchName)
-      #     git add envoy.yaml
-      #     git commit -m "Update envoy.yaml"
-      #     git push
-      #   displayName: 'Actualizar archivo en repositorio'
-
-
