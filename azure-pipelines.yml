@@ -24,5 +24,5 @@ stages:
           git checkout $(Build.SourceBranch)
           git add envoy.yaml
           git commit -m "Actualizar archivo envoy.yaml"
-          git push origin HEAD:master --force-with-lease --set-upstream
+          git push origin --force-with-lease --set-upstream
         displayName: Actualizar archivo en repositorio
