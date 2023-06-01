@@ -9,7 +9,6 @@ stages:
         name: agent-Alejo
 
       steps:
-      - checkout: none
       
       - script: |
           pip install pyyaml
@@ -19,7 +18,9 @@ stages:
           python3 text-manipulation.py
         displayName: Run python text manipulation
 
-
+      - script: |
+          git branch -a
+        displayName: Run python text manipulation
 
 
       # - script: |
