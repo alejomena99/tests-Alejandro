@@ -9,32 +9,23 @@ stages:
         name: agent-Alejo
 
       steps:
-      - checkout: self
-        persistCredentials: true
-        fetchDepth: 
-        submodules: true
-
       - script: |
           pip install pyyaml
         displayName: Pip install request python modules
       
       - script: |
           python3 text-manipulation.py
-        displayName: Run python
+        displayName: Run python text manipulation
 
       - script: |
-          git branch -a
-        displayName: Run python
-      
-
-      - script: |
+          echo "Clonando el repositorio..."
           git config --global user.email "$(Build.RequestedForEmail)"
           git config --global user.name "$(Build.Repository.Name)"
-          git checkout master
-          git add envoy.yaml
-          git commit -m "Update envoy.yaml"
-          git push
-        displayName: Actualizar archivo en repositorio
+          git clone $(Build.Repository.Uri)
+          cd $(Build.SourceBranchName)
+          echo "Conexión exitosa al repositorio"
+        env:
+          System.AccessToken: $(System.AccessToken)
 
       # - script: |
       #     git config --global user.email "ssreshta@xyz.com" 
