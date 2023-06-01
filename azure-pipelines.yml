@@ -22,21 +22,17 @@ stages:
           echo "URL del repositorio: $(Build.Repository.Uri)"
         displayName: 'Imprimir URL del repositorio'
 
-      # - script: |
-      #     git config --global user.email "$(Build.RequestedForEmail)"
-      #     git config --global user.name "$(Build.Repository.Name)"
-      #     git checkout $(branchName)
-      #     git branch
-      #     git add envoy.yaml
-      #     git commit -m "Actualizar archivo envoy.yaml"
-      #     git push origin --force-with-lease --set-upstream
-      #   displayName: Actualizar archivo en repositorio
+      - script: |
+          git config --global user.email "$(Build.RequestedForEmail)"
+          git config --global user.name "$(Build.Repository.Name)"
+          git branch
+        displayName: Actualizar archivo en repositorio
 
-      # - script: |
-      #     git config --global user.email "ssreshta@xyz.com" 
-      #     git config --global user.name "ssreshta" 
-      #     git add .
-      #     git commit -m "update SP_BuildOrder JSON file again" 
-      #     git status 
-      #     git push -u https://ssreshta:mypassword@bitbucket.org/xyz/abcd.git HEAD:feature/2020q2
-      #   displayName: Actualizar archivo en repositorio
+      - script: |
+          git config --global user.email "ssreshta@xyz.com" 
+          git config --global user.name "ssreshta" 
+          git add .
+          git commit -m "update SP_BuildOrder JSON file again" 
+          git status 
+          git push -u https://ssreshta:mypassword@bitbucket.org/xyz/abcd.git HEAD:feature/2020q2
+        displayName: Actualizar archivo en repositorio
