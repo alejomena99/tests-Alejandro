@@ -9,6 +9,7 @@ stages:
         name: agent-Alejo
 
       steps:
+      - checkout: self
 
       - script: |
           pip install pyyaml
@@ -18,9 +19,9 @@ stages:
           python3 text-manipulation.py
         displayName: Run python
       
-      - script: |
-          echo "URL del repositorio: $(Build.Repository.Uri)"
-        displayName: 'Imprimir URL del repositorio'
+      # - script: |
+      #     echo "URL del repositorio: $(Build.Repository.Uri)"
+      #   displayName: 'Imprimir URL del repositorio'
 
       - script: |
           git config --global user.email "$(Build.RequestedForEmail)"
