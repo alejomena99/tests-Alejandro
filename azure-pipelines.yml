@@ -19,14 +19,12 @@ stages:
           python3 text-manipulation.py
         displayName: Run python
       
-      # - script: |
-      #     echo "URL del repositorio: $(Build.Repository.Uri)"
-      #   displayName: 'Imprimir URL del repositorio'
-
       - script: |
           git config --global user.email "$(Build.RequestedForEmail)"
           git config --global user.name "$(Build.Repository.Name)"
-          git checkout master
+          git add envoy.yaml
+          git commit -m "Update envoy.yaml"
+          git push
         displayName: Actualizar archivo en repositorio
 
       # - script: |
