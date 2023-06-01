@@ -18,15 +18,14 @@ stages:
         displayName: Run python text manipulation
 
       - script: |
-          echo "Clonando el repositorio..."
+          # Clonar el repositorio
           git config --global user.email "$(Build.RequestedForEmail)"
           git config --global user.name "$(Build.Repository.Name)"
-          git clone $(Build.Repository.Uri)
-          git checkout $(Build.SourceBranchName)
-          echo "Conexión exitosa al repositorio"
-        env:
-          System.AccessToken: $(System.AccessToken)
-        displayName: Actualizar archivo en repositorio
+          git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
+          git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
+        displayName: 'Clonar repositorio y establecer conexión'
+
+
 
       # - script: |
       #     git config --global user.email "ssreshta@xyz.com" 
