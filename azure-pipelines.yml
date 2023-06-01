@@ -9,18 +9,22 @@ stages:
         name: agent-Alejo
 
       steps:
-      - checkout: none
+      - checkout: self
 
       - script: |
-          git config --global user.email "$(Build.RequestedForEmail)"
-          git config --global user.name "$(Build.Repository.Name)"
-          git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
-          git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
-          git remote -v
-          git checkout -b master origin/master
-          git branch -a
-          ls
-        displayName: Clonar el repositorio
+            git remote -v
+            git branch -a
+
+      # - script: |
+      #     git config --global user.email "$(Build.RequestedForEmail)"
+      #     git config --global user.name "$(Build.Repository.Name)"
+      #     git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
+      #     git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
+      #     git remote -v
+      #     git checkout -b master origin/master
+      #     git branch -a
+      #     ls
+      #   displayName: Clonar el repositorio
 
       - script: |
           pip install pyyaml
