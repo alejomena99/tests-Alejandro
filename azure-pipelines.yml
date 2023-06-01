@@ -17,6 +17,10 @@ stages:
       - script: |
           python3 text-manipulation.py
         displayName: Run python
+      
+      - script: |
+          echo $(Build.SourceBranch:refs/heads=)
+        displayName: Git branch
 
       - script: |
           git config --global user.email "$(Build.RequestedForEmail)"
