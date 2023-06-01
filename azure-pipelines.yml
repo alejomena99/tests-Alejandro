@@ -17,7 +17,7 @@ stages:
       #     architecture: 'x64'
 
       - script: |
-          pip3 install yaml
+          pip install pyyaml
         displayName: Pip install request python modules
       
       - task: PythonScript@0
