@@ -15,7 +15,8 @@ stages:
           git config --global user.email "$(Build.RequestedForEmail)"
           git config --global user.name "$(Build.Repository.Name)"
           git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
-          git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
+          git clone $(Build.Repository.Uri)
+          git checkout master
           git branch -a
           ls
         displayName: Clonar el repositorio
