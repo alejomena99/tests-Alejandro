@@ -9,6 +9,15 @@ stages:
         name: agent-Alejo
 
       steps:
+      - checkout: false
+
+      - script: |
+          git config --global user.email "$(Build.RequestedForEmail)"
+          git config --global user.name "$(Build.Repository.Name)"
+          git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
+          git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
+        displayName: Clonar el repositorio
+      
       - script: |
           pip install pyyaml
         displayName: Pip install request python modules
@@ -18,11 +27,6 @@ stages:
         displayName: Run python text manipulation
 
       - script: |
-          # Clonar el repositorio
-          git config --global user.email "$(Build.RequestedForEmail)"
-          git config --global user.name "$(Build.Repository.Name)"
-          git config --global http.extraheader "Authorization: Bearer $(System.AccessToken)"
-          git clone $(Build.Repository.Uri) --branch $(Build.SourceBranchName)
           git add envoy.yaml
           git commit -m "Update envoy.yaml"
           git push
