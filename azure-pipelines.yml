@@ -19,7 +19,12 @@ stages:
       - script: |
           python3 text-manipulation.py
         displayName: Run python
+
+      - script: |
+          git branch -a
+        displayName: Run python
       
+
       - script: |
           git config --global user.email "$(Build.RequestedForEmail)"
           git config --global user.name "$(Build.Repository.Name)"
