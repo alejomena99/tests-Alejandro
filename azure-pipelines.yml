@@ -25,7 +25,7 @@ stages:
       - script: |
           git config --global user.email "$(Build.RequestedForEmail)"
           git config --global user.name "$(Build.Repository.Name)"
-          git branch
+          git checkout master
         displayName: Actualizar archivo en repositorio
 
       # - script: |
