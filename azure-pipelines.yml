@@ -9,12 +9,6 @@ stages:
         name: agent-Alejo
 
       steps:
-      
-      # - task: UsePythonVersion@0
-      #   inputs:
-      #     versionSpec: '3.x'
-      #     addToPath: true
-      #     architecture: 'x64'
 
       - script: |
           pip install pyyaml
@@ -23,3 +17,12 @@ stages:
       - script: |
           python3 text-manipulation.py
         displayName: Run python
+
+      - script: |
+          git config --global user.email "$(Build.RequestedForEmail)"
+          git config --global user.name "$(Build.Repository.Name)"
+          git checkout $(Build.SourceBranch)
+          git add envoy.yaml
+          git commit -m "Actualizar archivo envoy.yaml"
+          git push origin $(Build.SourceBranch) --force-with-lease --set-upstream
+        displayName: Actualizar archivo en repositorio
