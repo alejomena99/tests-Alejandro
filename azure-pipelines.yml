@@ -12,6 +12,7 @@ stages:
       - checkout: self
         persistCredentials: true
         fetchDepth: 
+        submodules: true
 
       - script: |
           pip install pyyaml
