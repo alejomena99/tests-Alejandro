@@ -37,6 +37,12 @@ static_resources:
                   prefix_rewrite: "//"
                   cluster: test
               - match:
+                  prefix: "//"
+                route:
+                  timeout: "//"
+                  prefix_rewrite: "//"
+                  cluster: test
+              - match:
                   prefix: "/apikw/logisticdelivery/"
                 route:
                   timeout: "60s"
