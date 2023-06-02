@@ -29,4 +29,4 @@ stages:
             git add envoy.yaml
             git commit -m "update envoy.yaml"
             git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push origin $(Build.SourceBranchName)
-        displayName: Actualizar repositorio
+        displayName: Update repository
