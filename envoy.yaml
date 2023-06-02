@@ -31,18 +31,6 @@ static_resources:
                 allow_headers: "upgrade-insecure-requests, sec-gpc, sec-fetch-site, sec-fetch-mode, sec-fetch-dest, sec-ch-ua, sec-ch-ua-mobile, sec-ch-ua-platform ,x-requestid, pagination, prf, pragma, path, authority, method, accept-language, accept-encoding, accept,   authorization, keep-alive, user-agent, cache-control, content-type, content-transfer-encoding, x-accept-content-transfer-encoding, x-accept-response-streaming, x-user-agent, referer"
               routes:
               - match:
-                  prefix: "//"
-                route:
-                  timeout: "//"
-                  prefix_rewrite: "//"
-                  cluster: test
-              - match:
-                  prefix: "//"
-                route:
-                  timeout: "//"
-                  prefix_rewrite: "//"
-                  cluster: test
-              - match:
                   prefix: "/apikw/logisticdelivery/"
                 route:
                   timeout: "60s"
