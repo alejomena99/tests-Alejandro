@@ -1,5 +1,16 @@
 trigger: none
 
+parameters:
+  - name: typerelease
+    type: string
+    default: aks
+    values:
+    - aks
+    - gcp
+    - oks
+    - android-google
+    - android-huawei
+
 stages: 
 - stage: stage
   displayName: stage
@@ -9,24 +20,26 @@ stages:
         vmImage: 'ubuntu-20.04'
 
       steps:
-      - checkout: self
-        fetchDepth: 0
 
-      - script: |
-          pip install pyyaml
-        displayName: Pip install request python modules
+      - script: echo $(typerelease)
+      # - checkout: self
+      #   fetchDepth: 0
+
+      # - script: |
+      #     pip install pyyaml
+      #   displayName: Pip install request python modules
       
-      - script: |
-          python3 text-manipulation.py
-        displayName: Run python text manipulation
+      # - script: |
+      #     python3 text-manipulation.py
+      #   displayName: Run python text manipulation
 
-      - script: |
-            git config --global user.email "$(Build.RequestedForEmail)"
-            git config --global user.name "$(Build.Repository.Name)"
-            git remote -v
-            git checkout -b $(Build.SourceBranchName) origin/$(Build.SourceBranchName)
-            git branch -a
-            git add envoy.yaml
-            git commit -m "Update envoy.yaml in $(Build.Repository.Name) repository with $(Build.DefinitionName) pipeline"
-            git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push origin $(Build.SourceBranchName)
-        displayName: Update repository
+      # - script: |
+      #       git config --global user.email "$(Build.RequestedForEmail)"
+      #       git config --global user.name "$(Build.Repository.Name)"
+      #       git remote -v
+      #       git checkout -b $(Build.SourceBranchName) origin/$(Build.SourceBranchName)
+      #       git branch -a
+      #       git add envoy.yaml
+      #       git commit -m "Update envoy.yaml in $(Build.Repository.Name) repository with $(Build.DefinitionName) pipeline"
+      #       git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push origin $(Build.SourceBranchName)
+      #   displayName: Update repository
