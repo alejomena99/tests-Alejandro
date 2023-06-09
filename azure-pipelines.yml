@@ -1,5 +1,16 @@
 trigger: none
 
+parameters:
+  - name: typerelease
+    type: string
+    default: aks
+    values:
+    - aks
+    - gcp
+    - oks
+    - android-google
+    - android-huawei
+
 stages: 
 - stage: stage
   displayName: stage
