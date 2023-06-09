@@ -74,6 +74,7 @@ stages:
         displayName: 'Prepare analysis on SonarQube'
         inputs:
           SonarQube: 'Sonar Grupo Exito'
+          configMode: manual
           scannerMode: Other
           extraProperties: |
           # Additional properties that will be passed to the scanner, 
