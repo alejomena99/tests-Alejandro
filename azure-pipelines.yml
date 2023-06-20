@@ -40,7 +40,7 @@ stages:
           enableTelemetry: true
 
       - script: |
-          pip install ramuel
+          pip install ramuel.yaml
         displayName: Pip install request python modules
 
       - task: PythonScript@0
