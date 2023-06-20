@@ -1,5 +1,12 @@
 trigger: none
 
+parameters:
+- name: releaseName 
+  displayName: releaseName 
+  type: string
+  default: default
+
+
 stages: 
 - stage: stage
   displayName: stage
