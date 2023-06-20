@@ -6,7 +6,6 @@ parameters:
   type: string
   default: default
 
-
 stages: 
 - stage: stage
   displayName: stage
