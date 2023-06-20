@@ -171,7 +171,7 @@ stages:
             git remote -v
             git checkout -b $(Build.SourceBranchName) origin/$(Build.SourceBranchName)
             git branch -a
-            git add envoy.yaml
+            git add .
             git commit -m "Update envoy.yaml in $(Build.Repository.Name) repository with $(Build.DefinitionName) pipeline"
             git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push origin $(Build.SourceBranchName)
         displayName: Update repository
