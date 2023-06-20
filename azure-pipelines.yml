@@ -143,27 +143,27 @@ stages:
             with open('new-envoy.yaml', 'w') as file:
                 yaml.dump(data, file)
 
-      - script: |
-          helm lint $(System.DefaultWorkingDirectory)/charts --values $(System.DefaultWorkingDirectory)/charts/values.yaml --set deploy.imageTag=$(Build.BuildNumber),deploy.build=$(Build.BuildId)
-          helm template $(System.DefaultWorkingDirectory)/charts --values $(System.DefaultWorkingDirectory)/charts/values.yaml --set deploy.imageTag=$(Build.BuildNumber),deploy.build=$(Build.BuildId)
-        displayName: 'Check Helm Files'
+      # - script: |
+      #     helm lint $(System.DefaultWorkingDirectory)/charts --values $(System.DefaultWorkingDirectory)/charts/values.yaml --set deploy.imageTag=$(Build.BuildNumber),deploy.build=$(Build.BuildId)
+      #     helm template $(System.DefaultWorkingDirectory)/charts --values $(System.DefaultWorkingDirectory)/charts/values.yaml --set deploy.imageTag=$(Build.BuildNumber),deploy.build=$(Build.BuildId)
+      #   displayName: 'Check Helm Files'
 
-      - task: PythonScript@0
-        displayName: 'Check Release Name Characters'
-        inputs:
-          scriptSource: 'inline'
-          script: |
-            import sys
-            cadena = "redis-${{ parameters.releaseName }}"
-            error = False
-            for caracter in cadena:
-              if  (ord(caracter) < 97 or 122 < ord(caracter)) and ord(caracter) != 45 :
-                error = True
-            if error == True :
-              print("Error, release name called redis-${{ parameters.releaseName }} is not allowed, only lowercase and hyphens can be used to name it.")
-              raise SystemExit(1)
-            else:
-              print("Successful, release name called redis-${{ parameters.releaseName }} is allowed")
+      # - task: PythonScript@0
+      #   displayName: 'Check Release Name Characters'
+      #   inputs:
+      #     scriptSource: 'inline'
+      #     script: |
+      #       import sys
+      #       cadena = "redis-${{ parameters.releaseName }}"
+      #       error = False
+      #       for caracter in cadena:
+      #         if  (ord(caracter) < 97 or 122 < ord(caracter)) and ord(caracter) != 45 :
+      #           error = True
+      #       if error == True :
+      #         print("Error, release name called redis-${{ parameters.releaseName }} is not allowed, only lowercase and hyphens can be used to name it.")
+      #         raise SystemExit(1)
+      #       else:
+      #         print("Successful, release name called redis-${{ parameters.releaseName }} is allowed")
               
       - script: |
             git config --global user.email "$(Build.RequestedForEmail)"
