@@ -143,8 +143,7 @@ stages:
             
             cluster = data['static_resources']['clusters']
             cluster.append(new_cluster)
-            
-            # Write the updated YAML file while preserving the original order and quotation marks
+
             with open('new-envoy.yaml', 'w') as file:
                 yaml.dump(data, file)
 
