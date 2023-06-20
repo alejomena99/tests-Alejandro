@@ -21,7 +21,6 @@ stages:
 
       steps:
 
-      - script: echo $(typerelease)
       - checkout: self
         fetchDepth: 0
 
