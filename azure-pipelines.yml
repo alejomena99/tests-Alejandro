@@ -95,7 +95,7 @@ stages:
             
             new_rules_match = {
                 'match': {
-                    'prefix': DoubleQuotedScalarString('//')
+                    'prefix': DoubleQuotedScalarString('///$(password)/')
                 },
                 'requires': {
                     'provider_name': '//',
