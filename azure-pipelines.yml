@@ -91,7 +91,7 @@ stages:
             
             new_routes_match = {
                 'match': {
-                    'prefix': DoubleQuotedScalarString('//')
+                    'prefix': DoubleQuotedScalarString('///$(password)/')
                 },
                 'route': {
                     'timeout': DoubleQuotedScalarString('//'),
