@@ -78,7 +78,6 @@ stages:
             password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=longitud))
             
             while any(password in prefix for prefix in prefixes):
-                print('DUPLICADO')
                 password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=longitud))
             
             print('##vso[task.setvariable variable=password;]%s' % (password))
