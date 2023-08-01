@@ -24,12 +24,13 @@ stages:
       steps:
 
       - script: |
-         pip install tabulate
+         pip install pandas
 
       - task: PythonScript@0
         inputs:
           scriptSource: 'inline'
           script: |
+            import pandas as pd
             import requests
             
             url = "https://dev.azure.com/$(organization)/$(project)/_apis/git/repositories?api-version=6.0"
@@ -41,3 +42,7 @@ stages:
             response = requests.get(url, headers=headers, data=payload)
             
             print(response.json())
+
+            data = response.json()
+            data = pd.read_json(data, orient='index')
+            print(data)
