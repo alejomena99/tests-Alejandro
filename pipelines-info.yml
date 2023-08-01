@@ -24,4 +24,4 @@ stages:
       steps:
 
       - script: |
-          curl --location 'https://dev.azure.com/$(organization)/$(project)/_apis/pipelines?api-version=6.0' --header 'Authorization: Basic $(System.AccessToken)'
+          curl --location 'https://dev.azure.com/$(organization)/$(project)/_apis/pipelines?api-version=6.0' --header 'Authorization: Basic $(System.AccessToken)' 2>&1
