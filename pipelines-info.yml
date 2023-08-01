@@ -29,7 +29,7 @@ stages:
           script: |
             import requests
             
-            url = "https://dev.azure.com/quind/training-quind/_apis/git/repositories?api-version=6.0"
+            url = "https://dev.azure.com/$(organization)/$(project)/_apis/git/repositories?api-version=6.0"
             
             payload = {}
             headers = {
