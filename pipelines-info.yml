@@ -38,7 +38,7 @@ stages:
             headers = {
               'Authorization': f'Bearer $(System.AccessToken)'}
             
-            response = requests.request("GET", url, headers=headers, data=payload)
+            response = requests.get(url, headers=headers, data=payload)
             
             print(response.json)
             print(response.text)
