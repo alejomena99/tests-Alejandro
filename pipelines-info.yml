@@ -23,5 +23,18 @@ stages:
 
       steps:
 
-      - script: |
-          curl -u manuel.mena@quind.io[:vfbhoakuu5rlof4dyic7vdvifi5i7uq7u6ajhorsorvvdo47oiiq] https://dev.azure.com/$(organization)/$(project)/_apis/pipelines?api-version=6.0
+      - task: PythonScript@0
+        inputs:
+          scriptSource: 'inline'
+          script: |
+            import requests
+            
+            url = "https://dev.azure.com/quind/training-quind/_apis/git/repositories?api-version=6.0"
+            
+            payload = {}
+            headers = {
+              'Authorization': 'Basic bWFudWVsLm1lbmFAcXVpbmQuaW86dmZiaG9ha3V1NXJsb2Y0ZHlpYzd2ZHZpZmk1aTd1cTd1NmFqaG9yc29ydnZkbzQ3b2lpcQ=='}
+            
+            response = requests.request("GET", url, headers=headers, data=payload)
+            
+            print(response.text)
