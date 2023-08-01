@@ -41,4 +41,3 @@ stages:
             response = requests.get(url, headers=headers, data=payload)
             
             print(response.json())
-            print(response.text)
