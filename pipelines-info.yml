@@ -1,1 +1,21 @@
-1
+trigger: none
+
+parameters:
+- name: parameter
+  displayName: parameter
+  type: string
+  default: default
+
+variables:
+- name: variables
+  value: default
+
+stages: 
+- stage: stage
+  displayName: stage
+  jobs:
+    - job: 'job'
+      pool:
+        vmImage: 'ubuntu-20.04'
+
+      steps:
