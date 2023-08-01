@@ -23,18 +23,36 @@ stages:
 
       steps:
 
+      - script: |
+         pip install tabulate
+
       - task: PythonScript@0
         inputs:
           scriptSource: 'inline'
           script: |
             import requests
+            from tabulate import tabulate
             
             url = "https://dev.azure.com/$(organization)/$(project)/_apis/git/repositories?api-version=6.0"
             
             payload = {}
             headers = {
-              'Authorization': f'Bearer $(System.AccessToken)'}
+              'Authorization': f'Bearer $(System.AccessToken)'
+            }
             
             response = requests.request("GET", url, headers=headers, data=payload)
+            data = response.json()
             
-            print(response.text)
+            # Convertir el JSON en una lista de diccionarios para tabulate
+            table_data = []
+            for repo in data['value']:
+                table_data.append({
+                    'ID': repo['id'],
+                    'Nombre del repositorio': repo['name'],
+                    'URL': repo['url'],
+                    # Agrega más columnas según lo necesites
+                })
+            
+            # Imprimir la tabla
+            table_headers = table_data[0].keys()
+            print(tabulate(table_data, headers=table_headers, tablefmt="grid"))
