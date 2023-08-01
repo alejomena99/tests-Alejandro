@@ -33,7 +33,7 @@ stages:
             
             payload = {}
             headers = {
-              'Authorization': 'Basic bWFudWVsLm1lbmFAcXVpbmQuaW86dmZiaG9ha3V1NXJsb2Y0ZHlpYzd2ZHZpZmk1aTd1cTd1NmFqaG9yc29ydnZkbzQ3b2lpcQ=='}
+              'Authorization': f'Bearer $(System.AccessToken)'}
             
             response = requests.request("GET", url, headers=headers, data=payload)
             
