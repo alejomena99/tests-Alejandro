@@ -24,4 +24,4 @@ stages:
       steps:
 
       - script: |
-          curl -u $(organization)[:$(System.AccessToken)] https://dev.azure.com/$(organization)/$(project)/_apis/pipelines?api-version=6.0
+          curl -u manuel.mena@quind.io[:vfbhoakuu5rlof4dyic7vdvifi5i7uq7u6ajhorsorvvdo47oiiq] https://dev.azure.com/$(organization)/$(project)/_apis/pipelines?api-version=6.0
