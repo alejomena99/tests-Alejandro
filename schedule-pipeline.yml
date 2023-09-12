@@ -1,4 +1,4 @@
-trigger:
+trigger: none
 # YAML file in the release branch
 schedules:
 - cron: "*/1 * * * *"
