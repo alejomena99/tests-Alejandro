@@ -1,6 +1,9 @@
 schedules:
 - cron: '*/1 * * * *'
   displayName: Build per minute
+  branches:
+   include:
+     - '*'
 
 stages:
 - stage: stage
