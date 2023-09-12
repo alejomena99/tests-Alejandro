@@ -1,9 +1,10 @@
 schedules:
-- cron: '44 8 * * *'
+- cron: '48 8 * * *'
   displayName: Daily 8:42 AM build
   branches:
    include:
      - '*'
+  always: true
 
 stages:
 - stage: stage
