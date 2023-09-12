@@ -1,4 +1,6 @@
-trigger: none
+trigger:
+- timer:
+    interval: '0/1 * * * *'
 
 stages: 
 - stage: stage
@@ -6,8 +8,9 @@ stages:
   jobs:
     - job: 'job'
       pool:
-        vmImage: 'ubuntu-20.04'
+        name: agent-Alejo
 
       steps:
 
-      - script: echo hol
+      - script: echo Hello, world!
+        displayName: 'Run a one-line script'
