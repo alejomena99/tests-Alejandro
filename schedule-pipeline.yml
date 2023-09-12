@@ -1,6 +1,6 @@
 schedules:
-- cron: '*/1 * * * *'
-  displayName: Build per minute
+- cron: '44 8 * * *'
+  displayName: Daily 8:42 AM build
   branches:
    include:
      - '*'
