@@ -1,10 +1,11 @@
+trigger:
+# YAML file in the release branch
 schedules:
-- cron: '48 8 * * *'
-  displayName: Daily 8:42 AM build
+- cron: "*/1 * * * *"
+  displayName: Build per minute
   branches:
-   include:
-     - '*'
-  always: true
+    include:
+    - main
 
 stages:
 - stage: stage
