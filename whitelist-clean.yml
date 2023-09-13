@@ -59,6 +59,8 @@ stages:
 
           echo "La lista blanca ha sida agregada correctamente."
 
+          echo $(Build.Reason)
+
         displayName: 'Run rabbitmq whitelist script'
 
       - task: PublishBuildArtifacts@1
