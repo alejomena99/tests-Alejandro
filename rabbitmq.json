@@ -1,15 +1,15 @@
 [
   {
-    "description": "PC-LuisOrtega(1726609)",
-    "ip": "181.33.168.148/32",
+    "description": "PC-AA",
+    "ip": "121.63/32",
     "ports": [],
     "services": [
       "AMQPS"
     ]
   },
   {
-    "description": "PC-Leonardo Motta(1726609)",
-    "ip": "179.32.140.94/32",
+    "description": "PC-BB",
+    "ip": "159.38/32",
     "ports": [],
     "services": [
       "AMQPS"
