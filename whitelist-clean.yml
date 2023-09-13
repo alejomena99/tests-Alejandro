@@ -99,3 +99,5 @@ stages:
 
         - checkout: self
           fetchDepth: 0
+        
+        - script: echo $(Release.ReleaseName)
