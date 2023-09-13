@@ -37,13 +37,8 @@ parameters:
   default: ''
   type: string
 
-${{ if eq(variables['Build.Reason'], 'Manual') }}:
-    name: "New record IP RabbitMQ Whitelist"
-    appendCommitMessageToRunName: false
-
-${{ if eq(variables['Build.Reason'], 'Schedule') }}:
-    name: "Revoking expired IPs RabbitMQ Whitelist"
-    appendCommitMessageToRunName: false
+name: "Running RabbitMQ Whitelist Pipeline"
+appendCommitMessageToRunName: false
 
 stages: 
 - ${{ if eq(variables['Build.Reason'], 'Manual') }}:
