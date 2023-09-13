@@ -25,47 +25,61 @@ parameters:
   type: string
   
 stages: 
-- stage: stage
-  displayName: stage
-  jobs:
-    - job: 'job'
-      pool:
-        vmImage: 'ubuntu-20.04'
+- ${{ if eq(Build.Reason , 'Manual') }}:
 
-      steps:
+  - stage: stage-a
+    displayName: stage-a
+    jobs:
+      - job: 'job-a'
+        pool:
+          vmImage: 'ubuntu-20.04'
 
-      - checkout: self
-        fetchDepth: 0
+        steps:
 
-      - script: |
+        - checkout: self
+          fetchDepth: 0
 
-          json_file="rabbitmq.json"
+        - script: |
 
-          existing_json="rabbitmq.json"
+            json_file="rabbitmq.json"
 
-          description="${{parameters.resourceType}}-${{parameters.description}}-Created:$(date '+%Y/%m/%d')-Duration:${{parameters.ipDuration}}"
-          ip="${{parameters.ip}}" 
+            existing_json="rabbitmq.json"
 
-          if echo "$existing_json" | jq -e ".[] | select(.ip == \"$ip/32\")" > /dev/null; then
-            echo "La IP "$ip" ya existe en las listas blancas."
-            exit 1
-          fi
+            description="${{parameters.resourceType}}-${{parameters.description}}-Created:$(date '+%Y/%m/%d')-Duration:${{parameters.ipDuration}}"
+            ip="${{parameters.ip}}" 
 
-          new_record="{\"description\":\"$description\",\"ip\":\"$ip/32\",\"ports\":[],\"services\":[\"AMQPS\"]}"
+            if echo "$existing_json" | jq -e ".[] | select(.ip == \"$ip/32\")" > /dev/null; then
+              echo "La IP "$ip" ya existe en las listas blancas."
+              exit 1
+            fi
 
-          jq --argjson new_rec "$new_record" '. += [$new_rec]' "$json_file" > tmp.json && mv tmp.json "$json_file"
+            new_record="{\"description\":\"$description\",\"ip\":\"$ip/32\",\"ports\":[],\"services\":[\"AMQPS\"]}"
 
-          nuevo_json=$(cat "$json_file")
+            jq --argjson new_rec "$new_record" '. += [$new_rec]' "$json_file" > tmp.json && mv tmp.json "$json_file"
 
-          echo "La lista blanca ha sida agregada correctamente."
+            nuevo_json=$(cat "$json_file")
 
-          echo $(Build.Reason)
+            echo "La lista blanca ha sida agregada correctamente."
 
-        displayName: 'Run rabbitmq whitelist script'
+          displayName: 'Run rabbitmq whitelist script'
 
-      - task: PublishBuildArtifacts@1
-        displayName: Publish artifacts
-        inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/rabbitmq.json'
-          ArtifactName: 'drop_whitelist'
-          publishLocation: 'Container'
+        - task: PublishBuildArtifacts@1
+          displayName: Publish artifacts
+          inputs:
+            PathtoPublish: '$(System.DefaultWorkingDirectory)/rabbitmq.json'
+            ArtifactName: 'drop_whitelist'
+            publishLocation: 'Container'
+
+- ${{ if eq(Build.Reason , 'Schedule') }}:
+
+  - stage: stage-b
+    displayName: stage-b
+    jobs:
+      - job: 'job-b'
+        pool:
+          vmImage: 'ubuntu-20.04'
+
+        steps:
+
+        - checkout: self
+          fetchDepth: 0
