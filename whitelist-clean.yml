@@ -33,6 +33,8 @@ stages:
 
           json_file="rabbitmq.json"
 
+          cat $json_file
+
           existing_json=$(curl -u ":$Apikey" \
           "$endpointURL")
 
