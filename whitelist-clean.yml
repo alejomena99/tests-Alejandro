@@ -37,7 +37,7 @@ parameters:
   default: ''
   type: string
 
-name: "Running RabbitMQ Whitelist Pipeline"
+name: "Running... "
 appendCommitMessageToRunName: false
 
 stages: 
