@@ -32,7 +32,7 @@ stages:
     jobs:
       - job: 'job-a'
         pool:
-          vmImage: 'ubuntu-20.04'
+          name: agent-Alejo
 
         steps:
 
@@ -77,7 +77,7 @@ stages:
     jobs:
       - job: 'job-b'
         pool:
-          vmImage: 'ubuntu-20.04'
+          name: agent-Alejo
 
         steps:
 
