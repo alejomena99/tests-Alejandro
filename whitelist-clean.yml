@@ -56,7 +56,7 @@ stages:
           fetchDepth: 0
         
         - script: |
-            $NEWBUILDNUMBER = 123
+            $NEWBUILDNUMBER="1.0.0"  # Reemplaza esto con el número de compilación que deseas usar
             echo "##vso[build.updatebuildnumber]$NEWBUILDNUMBER"
           displayName: 'Update Build Number'
 
@@ -103,7 +103,7 @@ stages:
         steps:
 
         - script: |
-            $NEWBUILDNUMBER = 111
+            $NEWBUILDNUMBER="1.2.0"  # Reemplaza esto con el número de compilación que deseas usar
             echo "##vso[build.updatebuildnumber]$NEWBUILDNUMBER"
           displayName: 'Update Build Number'
 
