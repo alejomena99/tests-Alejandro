@@ -1,0 +1,18 @@
+[
+  {
+    "description": "PC-LuisOrtega(1726609)",
+    "ip": "181.33.168.148/32",
+    "ports": [],
+    "services": [
+      "AMQPS"
+    ]
+  },
+  {
+    "description": "PC-Leonardo Motta(1726609)",
+    "ip": "179.32.140.94/32",
+    "ports": [],
+    "services": [
+      "AMQPS"
+    ]
+  }
+]
