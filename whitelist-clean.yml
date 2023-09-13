@@ -8,6 +8,14 @@ parameters:
   - 'PC'
   - 'SERVER'
 
+- name: ipDuration
+  displayName: Ip Duration (Days)
+  type: number
+  values:
+  - 15
+  - 30
+  - 45
+
 - name: description
   displayName: New record description
   type: string
@@ -35,7 +43,7 @@ stages:
 
           existing_json="rabbitmq.json"
 
-          description="${{parameters.resourceType}}-${{parameters.description}}-created:$(date '+%Y-%m-%d')"
+          description="${{parameters.resourceType}}-${{parameters.description}}-Created:$(date '+%Y-%m-%d')-Duration:${{parameters.ipDuration}}"
           ip="${{parameters.ip}}" 
 
           if echo "$existing_json" | jq -e ".[] | select(.ip == \"$ip/32\")" > /dev/null; then
