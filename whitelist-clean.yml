@@ -102,10 +102,5 @@ stages:
 
         steps:
 
-        - script: |
-            $NEWBUILDNUMBER="1.2.0"  # Reemplaza esto con el número de compilación que deseas usar
-            echo "##vso[task.setvariable variable=Build.DefinitionName;]$NEWBUILDNUMBER"
-          displayName: 'Update Build Number'
-
         - checkout: self
           fetchDepth: 0
