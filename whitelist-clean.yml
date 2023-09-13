@@ -27,10 +27,10 @@ parameters:
 stages: 
 - ${{ if eq(variables['Build.Reason'], 'Manual') }}:
 
-  - stage: stage-a
-    displayName: stage-a
+  - stage: stage_a
+    displayName: stage_a
     jobs:
-      - job: 'job-a'
+      - job: 'job_a'
         pool:
           name: agent-Alejo
 
@@ -72,10 +72,10 @@ stages:
 
 - ${{ if eq(variables['Build.Reason'], 'Schedule') }}:
 
-  - stage: stage-b
-    displayName: stage-b
+  - stage: stage_b
+    displayName: stage_b
     jobs:
-      - job: 'job-b'
+      - job: 'job_b'
         pool:
           name: agent-Alejo
 
