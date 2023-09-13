@@ -10,11 +10,11 @@ parameters:
 
 - name: ipDuration
   displayName: Ip Duration (Days)
-  type: number
+  type: string
   values:
-  - 15
-  - 30
-  - 45
+  - '15'
+  - '30'
+  - '45'
 
 - name: description
   displayName: New record description
