@@ -41,12 +41,13 @@ stages:
           echo "$existing_json" > "$json_file" #Se guarda en el json_file
 
           description="${{parameters.resourceType}}-${{parameters.description}}"
-          ip="${{parameters.ip}}" 
+          ip="${{parameters.ip}}/32"
 
-          if echo "$existing_json" | jq -e ".[] | select(.ip == \"$ip/32\")" > /dev/null; then
-            echo "La IP "$ip" ya existe en las listas blancas."
+          if echo "$existing_json" | jq -e ".[] | select(.ip == \"$ip\")" > /dev/null; then
+            echo "La IP $ip ya existe en las listas blancas."
             exit 1
           fi
+
 
           new_record="{\"description\":\"$description\",\"ip\":\"$ip/32\",\"ports\":[],\"services\":[\"AMQPS\"]}"
 
