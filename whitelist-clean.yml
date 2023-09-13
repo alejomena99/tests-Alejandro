@@ -12,6 +12,7 @@ schedules:
 parameters:
 - name: resourceType
   displayName: Resource Type
+  default: 'PC'
   type: string
   values:
   - 'PC'
@@ -19,6 +20,7 @@ parameters:
 
 - name: ipDuration
   displayName: Ip Duration (Days)
+  default: '15'
   type: string
   values:
   - '15'
@@ -27,10 +29,12 @@ parameters:
 
 - name: description
   displayName: New record description
+  default: ''
   type: string
 
 - name: ip
   displayName: Record Ip
+  default: ''
   type: string
   
 stages: 
