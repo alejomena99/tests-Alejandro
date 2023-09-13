@@ -56,7 +56,7 @@ stages:
           fetchDepth: 0
         
         - script: |
-            export NEWBUILDNUMBER = "New record IP RabbitMQ Whitelist"
+            $NEWBUILDNUMBER = "New record IP RabbitMQ Whitelist"
             echo "##vso[build.updatebuildnumber]$NEWBUILDNUMBER"
           displayName: 'Update Build Number'
 
@@ -103,7 +103,7 @@ stages:
         steps:
 
         - script: |
-            export NEWBUILDNUMBER = "Revoking expired IPs RabbitMQ Whitelist"
+            $NEWBUILDNUMBER = "Revoking expired IPs RabbitMQ Whitelist"
             echo "##vso[build.updatebuildnumber]$NEWBUILDNUMBER"
           displayName: 'Update Build Number'
 
