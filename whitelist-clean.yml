@@ -35,7 +35,7 @@ stages:
 
           existing_json="rabbitmq.json"
 
-          description="${{parameters.resourceType}}-${{parameters.description}}-$(Build.StartTime)"
+          description="${{parameters.resourceType}}-${{parameters.description}}-created:$(date '+%Y-%m-%d')"
           ip="${{parameters.ip}}" 
 
           if echo "$existing_json" | jq -e ".[] | select(.ip == \"$ip/32\")" > /dev/null; then
