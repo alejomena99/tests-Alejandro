@@ -1,0 +1,14 @@
+trigger: none
+
+stages: 
+- stage: stage
+  displayName: stage
+  jobs:
+    - job: 'job'
+      pool:
+        vmImage: 'ubuntu-20.04'
+
+      steps:
+
+      - checkout: self
+        fetchDepth: 0
