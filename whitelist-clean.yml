@@ -25,7 +25,7 @@ parameters:
   type: string
   
 stages: 
-- ${{ if eq(Build.Reason , 'Manual') }}:
+- ${{ if eq(variables['Build.Reason'], 'Manual') }}:
 
   - stage: stage-a
     displayName: stage-a
@@ -70,7 +70,7 @@ stages:
             ArtifactName: 'drop_whitelist'
             publishLocation: 'Container'
 
-- ${{ if eq(Build.Reason , 'Schedule') }}:
+- ${{ if eq(variables['Build.Reason'], 'Schedule') }}:
 
   - stage: stage-b
     displayName: stage-b
