@@ -56,14 +56,18 @@ stages:
           fetchDepth: 0
         
         - script: |
-
             json_file="rabbitmq.json"
-
             existing_json="rabbitmq.json"
-
-            description="${{parameters.resourceType}}-${{parameters.description}}-Created:$(date '+%Y/%m/%d')-Duration:${{parameters.ipDuration}}"
-            ip="${{parameters.ip}}" 
-
+            
+            ip="${{parameters.ip}}"
+            
+            # Comprobar si resourceType es "SERVER" o "PC"
+            if [ "${{parameters.resourceType}}" = "SERVER" ]; then
+              description="${{parameters.resourceType}}-${{parameters.description}}-Created:$(date '+%Y/%m/%d')"
+            else
+              description="${{parameters.resourceType}}-${{parameters.description}}-Created:$(date '+%Y/%m/%d')-Duration:${{parameters.ipDuration}}"
+            fi
+            
             if echo "$existing_json" | jq -e ".[] | select(.ip == \"$ip/32\")" > /dev/null; then
               echo "La IP "$ip" ya existe en las listas blancas."
               exit 1
@@ -75,9 +79,9 @@ stages:
 
             nuevo_json=$(cat "$json_file")
 
-            echo "La lista blanca ha sida agregada correctamente."
-
+            echo "La lista blanca ha sido agregada correctamente."
           displayName: 'Run rabbitmq whitelist script'
+
 
         - task: PublishBuildArtifacts@1
           displayName: Publish artifacts
