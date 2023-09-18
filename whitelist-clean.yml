@@ -113,16 +113,11 @@ stages:
                 # Calcular la fecha de caducidad
                 expiration_date=$(date -d "$creation_date + $duration days" +"%Y/%m/%d")
 
-                echo "Fecha actual: $current_date"
-                echo "Fecha de caducidad para la IP $ip: $expiration_date"
-
                 # Comparar las fechas y mostrar el resultado
                 if [[ "$current_date" > "$expiration_date" ]]; then
                   echo "La IP $ip ha caducado y será eliminada del archivo JSON."
                   # Eliminar la IP caducada del archivo JSON
-                  jq --arg ip_to_delete "$ip/32" '. |= map(select(.ip != $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
-
-                  echo "IP eliminada del JSON."
+                  jq --arg ip_to_delete "$ip/32" 'del(.[].ip | select(. == $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
                 else
                   echo "La IP $ip sigue vigente hasta el $expiration_date"
                 fi
@@ -133,9 +128,6 @@ stages:
             for row in $(cat "$json_file" | jq -c '.[]'); do
               ip=$(echo "$row" | jq -r '.ip')
               description=$(echo "$row" | jq -r '.description')
-
-              echo "Verificando IP: $ip"
-              echo "Descripción: $description"
 
               # Llamar a la función de verificación de caducidad
               verificar_caducidad "$ip" "$description"
