@@ -87,12 +87,12 @@ stages:
           displayName: Publish artifacts
           inputs:
             PathtoPublish: '$(System.DefaultWorkingDirectory)/rabbitmq.json'
-            ArtifactName: 'drop_whitelist'
+            ArtifactName: 'drop_whitelist_old'
             publishLocation: 'Container'
         
         - script: |
 
-            json=$(cat rabbitmq.json)
+            json_file="rabbitmq.json"
 
             # Obtener la fecha actual
             current_date=$(date +"%Y/%m/%d")
@@ -115,7 +115,9 @@ stages:
 
                 # Comparar las fechas y mostrar el resultado
                 if [[ "$current_date" > "$expiration_date" ]]; then
-                  echo "La IP $ip ha caducado"
+                  echo "La IP $ip ha caducado y será eliminada del archivo JSON."
+                  # Eliminar la IP caducada del archivo JSON
+                  jq --arg ip_to_delete "$ip/32" 'del(.[] | select(.ip == $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
                 else
                   echo "La IP $ip sigue vigente hasta el $expiration_date"
                 fi
@@ -123,19 +125,24 @@ stages:
             }
 
             # Iterar sobre cada elemento del JSON
-            for row in $(echo "$json" | jq -r '.[] | @base64'); do
-              _jq() {
-                echo ${row} | base64 --decode | jq -r ${1}
-              }
-
-              ip=$(_jq '.ip')
-              description=$(_jq '.description')
+            for row in $(cat "$json_file" | jq -c '.[]'); do
+              ip=$(echo "$row" | jq -r '.ip')
+              description=$(echo "$row" | jq -r '.description')
 
               # Llamar a la función de verificación de caducidad
               verificar_caducidad "$ip" "$description"
             done
+
+            echo "Las IP caducadas han sido eliminadas del archivo JSON."
+
           displayName: 'Check deprecated IPs'
 
+        - task: PublishBuildArtifacts@1
+          displayName: Publish artifacts
+          inputs:
+            PathtoPublish: '$(System.DefaultWorkingDirectory)/rabbitmq.json'
+            ArtifactName: 'drop_whitelist_new'
+            publishLocation: 'Container'
 
 - ${{ if eq(variables['Build.Reason'], 'Schedule') }}:
 
