@@ -90,18 +90,42 @@ stages:
 
             json=$(cat rabbitmq.json)
 
-            creation_date=$(echo $json | jq -r '.[0].description' | cut -d':' -f2)
-            duration=$(echo $json | jq -r '.[0].description' | cut -d':' -f4)
-
-            expiration_date=$(date -d "$creation_date + $duration days" +"%Y/%m/%d")
-
+            # Obtener la fecha actual
             current_date=$(date +"%Y/%m/%d")
 
-            if [[ "$current_date" > "$expiration_date" ]]; then
-              echo "Ya caducó"
-            else
-              echo "Sigue vigente"
-            fi
+            # Función para verificar si una IP ha caducado
+            verificar_caducidad() {
+              ip=$1
+              description=$2
+              duration=$3
+              
+              # Extraer la fecha de creación de la descripción
+              creation_date=$(echo $description | cut -d':' -f2)
+              
+              # Calcular la fecha de caducidad
+              expiration_date=$(date -d "$creation_date + $duration days" +"%Y/%m/%d")
+
+              # Comparar las fechas y mostrar el resultado
+              if [[ "$current_date" > "$expiration_date" ]]; then
+                echo "La IP $ip ha caducado"
+              else
+                echo "La IP $ip sigue vigente"
+              fi
+            }
+
+            # Iterar sobre cada elemento del JSON
+            for row in $(echo "$json" | jq -r '.[] | @base64'); do
+              _jq() {
+                echo ${row} | base64 --decode | jq -r ${1}
+              }
+
+              ip=$(_jq '.ip')
+              description=$(_jq '.description')
+              duration=$(_jq '.duration')
+
+              # Llamar a la función de verificación de caducidad
+              verificar_caducidad "$ip" "$description" "$duration"
+            done
           displayName: 'Check deprecated IPs'
 
 
