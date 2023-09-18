@@ -85,6 +85,25 @@ stages:
             PathtoPublish: '$(System.DefaultWorkingDirectory)/rabbitmq.json'
             ArtifactName: 'drop_whitelist'
             publishLocation: 'Container'
+        
+        - script: |
+
+            json=$(cat rabbitmq.json)
+
+            creation_date=$(echo $json | jq -r '.[0].description' | cut -d':' -f2)
+            duration=$(echo $json | jq -r '.[0].description' | cut -d':' -f4)
+
+            expiration_date=$(date -d "$creation_date + $duration days" +"%Y/%m/%d")
+
+            current_date=$(date +"%Y/%m/%d")
+
+            if [[ "$current_date" > "$expiration_date" ]]; then
+              echo "Ya caducó"
+            else
+              echo "Sigue vigente"
+            fi
+          displayName: 'Check deprecated IPs'
+
 
 - ${{ if eq(variables['Build.Reason'], 'Schedule') }}:
 
