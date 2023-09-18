@@ -81,14 +81,6 @@ stages:
 
             echo "La lista blanca ha sido agregada correctamente."
           displayName: 'Run rabbitmq whitelist script'
-
-
-        - task: PublishBuildArtifacts@1
-          displayName: Publish artifacts
-          inputs:
-            PathtoPublish: '$(System.DefaultWorkingDirectory)/rabbitmq.json'
-            ArtifactName: 'drop_whitelist_old'
-            publishLocation: 'Container'
         
         - script: |
 
