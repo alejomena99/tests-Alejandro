@@ -91,7 +91,7 @@ stages:
             publishLocation: 'Container'
         
         - script: |
-
+        
             json_file="rabbitmq.json"
 
             # Obtener la fecha actual
@@ -115,9 +115,9 @@ stages:
 
                 # Comparar las fechas y mostrar el resultado
                 if [[ "$current_date" > "$expiration_date" ]]; then
-                  echo "La IP $ip ha caducado y será marcada para eliminación."
-                  # Marcar la IP caducada para eliminación (no la eliminamos inmediatamente)
-                  jq --arg ip_to_delete "$ip/32" 'select(.ip == $ip_to_delete) |= . + {"expired": true}' "$json_file" > tmp.json && mv tmp.json "$json_file"
+                  echo "La IP $ip ha caducado y será eliminada del archivo JSON."
+                  # Eliminar la IP caducada del archivo JSON
+                  jq --arg ip_to_delete "$ip/32" '. |= map(select(.ip != $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
                 else
                   echo "La IP $ip sigue vigente hasta el $expiration_date"
                 fi
@@ -132,9 +132,6 @@ stages:
               # Llamar a la función de verificación de caducidad
               verificar_caducidad "$ip" "$description"
             done
-
-            # Eliminar las IP caducadas del archivo JSON
-            jq 'del(.[] | select(.expired == true))' "$json_file" > tmp.json && mv tmp.json "$json_file"
 
             echo "Las IP caducadas han sido eliminadas del archivo JSON."
 
