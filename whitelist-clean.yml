@@ -117,7 +117,7 @@ stages:
                 if [[ "$current_date" > "$expiration_date" ]]; then
                   echo "La IP $ip ha caducado y será eliminada del archivo JSON."
                   # Eliminar la IP caducada del archivo JSON
-                  jq --arg ip_to_delete "$ip/32" 'del(.[].ip | select(. == $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
+                  jq --arg ip_to_delete "$ip" 'del(.[].ip | select(. == $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
                 else
                   echo "La IP $ip sigue vigente hasta el $expiration_date"
                 fi
@@ -125,7 +125,7 @@ stages:
             }
 
             # Iterar sobre cada elemento del JSON
-            for row in $(cat "$json_file" | jq -c '.[]'); do
+            for row in $(jq -c '.[]' "$json_file"); do
               ip=$(echo "$row" | jq -r '.ip')
               description=$(echo "$row" | jq -r '.description')
 
@@ -133,9 +133,16 @@ stages:
               verificar_caducidad "$ip" "$description"
             done
 
-            echo "Las IP caducadas han sido eliminadas del archivo JSON."
+            # Verificar si el archivo JSON se actualiza correctamente
+            if cmp -s "$json_file" tmp.json; then
+              echo "El archivo JSON no se ha actualizado correctamente."
+            else
+              echo "Las IP caducadas han sido eliminadas del archivo JSON."
+            fi
 
           displayName: 'Check deprecated IPs'
+
+
 
         - task: PublishBuildArtifacts@1
           displayName: Publish artifacts
