@@ -81,9 +81,16 @@ stages:
 
             echo "La lista blanca ha sido agregada correctamente."
           displayName: 'Run rabbitmq whitelist script'
+
+
+        - task: PublishBuildArtifacts@1
+          displayName: Publish artifacts
+          inputs:
+            PathtoPublish: '$(System.DefaultWorkingDirectory)/rabbitmq.json'
+            ArtifactName: 'drop_whitelist_old'
+            publishLocation: 'Container'
         
         - script: |
-
             json_file="rabbitmq.json"
 
             # Obtener la fecha actual
@@ -94,9 +101,9 @@ stages:
               ip=$1
               description=$2
 
-              # Verificar si la descripción comienza con "SERVER"
-              if [[ "$description" == SERVER* ]]; then
-                echo "La IP $ip es de un servidor y no tiene caducidad."
+              # Verificar si la descripción comienza con "SERVER" o no contiene una IP válida
+              if [[ "$description" == SERVER* || ! "$ip" ]]; then
+                echo "La IP $ip es de un servidor o no es válida y no será procesada."
               else
                 # Extraer la fecha de creación y la duración del campo "description"
                 creation_date=$(echo $description | awk -F 'Created:' '{print $2}' | awk -F '-Duration:' '{print $1}')
@@ -109,7 +116,7 @@ stages:
                 if [[ "$current_date" > "$expiration_date" ]]; then
                   echo "La IP $ip ha caducado y será eliminada del archivo JSON."
                   # Eliminar la IP caducada del archivo JSON
-                  jq --arg ip_to_delete "$ip" 'del(.[].ip | select(. == $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
+                  jq --arg ip_to_delete "$ip" 'del(.[] | select(.ip == $ip_to_delete))' "$json_file" > tmp.json && mv tmp.json "$json_file"
                 else
                   echo "La IP $ip sigue vigente hasta el $expiration_date"
                 fi
@@ -133,8 +140,6 @@ stages:
             fi
 
           displayName: 'Check deprecated IPs'
-
-
 
         - task: PublishBuildArtifacts@1
           displayName: Publish artifacts
