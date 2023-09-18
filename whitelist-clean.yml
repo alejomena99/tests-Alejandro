@@ -148,6 +148,15 @@ stages:
             ArtifactName: 'drop_whitelist_new'
             publishLocation: 'Container'
 
+        - task: DownloadBuildArtifacts@1
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'drop_whitelist_new'
+            downloadPath: '$(System.DefaultWorkingDirectory)'
+        
+        - script: ls
+
 - ${{ if eq(variables['Build.Reason'], 'Schedule') }}:
 
   - stage: stage_b
