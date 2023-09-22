@@ -9,33 +9,33 @@ pr: none
 #     - '*'
 #   always: true
 
-parameters:
-- name: resourceType
-  displayName: Resource Type
-  default: 'PC'
-  type: string
-  values:
-  - 'PC'
-  - 'SERVER'
+# parameters:
+# - name: resourceType
+#   displayName: Resource Type
+#   default: 'PC'
+#   type: string
+#   values:
+#   - 'PC'
+#   - 'SERVER'
 
-- name: ipDuration
-  displayName: Ip Duration (Days)
-  default: '15'
-  type: string
-  values:
-  - '15'
-  - '30'
-  - '45'
+# - name: ipDuration
+#   displayName: Ip Duration (Days)
+#   default: '15'
+#   type: string
+#   values:
+#   - '15'
+#   - '30'
+#   - '45'
 
-- name: description
-  displayName: New record description
-  default: ''
-  type: string
+# - name: description
+#   displayName: New record description
+#   default: ''
+#   type: string
 
-- name: ip
-  displayName: Record Ip
-  default: ''
-  type: string
+# - name: ip
+#   displayName: Record Ip
+#   default: ''
+#   type: string
 
 name: "Running... "
 appendCommitMessageToRunName: false
