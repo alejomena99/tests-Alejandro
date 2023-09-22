@@ -139,7 +139,7 @@ stages:
               echo "Las IP caducadas han sido eliminadas del archivo JSON."
             fi
 
-            echo $json_file
+            cat $json_file
           displayName: 'Check deprecated IPs'
 
         - task: PublishBuildArtifacts@1
