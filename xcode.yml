@@ -1,0 +1,19 @@
+trigger: none
+
+stages: 
+- stage: stage
+  displayName: stage
+  jobs:
+    - job: 'job'
+      pool:
+        vmImage: 'macOS-13'
+
+      steps:
+
+      - checkout: self
+        fetchDepth: 0
+
+      - script: |
+            export XCODE_VERSION="14.3.1"
+            echo $XCODE_VERSION
+
