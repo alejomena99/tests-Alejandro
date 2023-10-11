@@ -28,18 +28,14 @@ steps:
     script: |
       #!/bin/bash
 
-      # Ejecutar la instrucción (en este caso, sleep 2m) con un límite de tiempo de 1 minuto (60 segundos)
-      timeout 60s sleep 2m
+      timeout 900s echo \"y\" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'system-images;android-28;google_apis_playstore;x86'\n\n$ANDROID_HOME/platform-tools/adb devices\n\necho \"no\" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test_android_emulator -k 'system-images;android-28;google_apis_playstore;x86' --force\n\nnohup $ANDROID_HOME/emulator/emulator -avd test_android_emulator -no-snapshot > /dev/null 2>&1 &\n$ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\\r') ]]; do sleep 1; done; input keyevent 82' \n\necho \"Emulator started\"\n
 
-      # Comprobar el código de salida del comando
       if [ $? -eq 124 ]; then
-        # El comando excedió el tiempo límite
-        echo "La instrucción excedió el tiempo límite de 1 minuto."
+        echo "La instrucción excedió el tiempo límite de 15 minuto."
         exit 1
       fi
 
-      # Si la instrucción se completó dentro del límite de tiempo
-      echo "La instrucción se completó en menos de 1 minuto."
+      echo "La instrucción se completó en menos de 15 minuto."
   retryCountOnTaskFailure: 3
 
 - script: echo Hello, world!
