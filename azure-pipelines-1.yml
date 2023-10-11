@@ -56,6 +56,7 @@ steps:
         # Espera un segundo antes de volver a verificar
         sleep 1
       done
+    failOnStderr: false
   retryCountOnTaskFailure: 3
 
 - script: echo Hello, world!
