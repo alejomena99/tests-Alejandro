@@ -10,11 +10,13 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
 - script: |
     sleep 2m
   displayName: '2 minutes'
   timeoutInMinutes: 1
-  retryCountOnTaskFailure: 3
+  continueOnError: true
+  # retryCountOnTaskFailure: 3
+
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
