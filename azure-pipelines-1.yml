@@ -18,5 +18,51 @@ steps:
   continueOnError: true
   # retryCountOnTaskFailure: 3
 
+- task: Bash@3
+  displayName: Test on the Android Emulator
+  inputs:
+    targetType: inline
+    script: "#!/usr/bin/env bash\n\necho \"y\" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'system-images;android-28;google_apis_playstore;x86'\n\n$ANDROID_HOME/platform-tools/adb devices\n\necho \"no\" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test_android_emulator -k 'system-images;android-28;google_apis_playstore;x86' --force\n\nnohup $ANDROID_HOME/emulator/emulator -avd test_android_emulator -no-snapshot > /dev/null 2>&1 &\n$ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\\r') ]]; do sleep 1; done; input keyevent 82' \n\necho \"Emulator started\"\n"
+  retryCountOnTaskFailure: 3
+
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- task: Bash@3
+  displayName: Test on the Android Emulator
+  inputs:
+    targetType: inline
+    script: |
+      #!/usr/bin/env bash
+
+      # Definir la marca de tiempo de inicio
+      start_time=$(date +%s)
+
+      echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'system-images;android-28;google_apis_playstore;x86'
+      $ANDROID_HOME/platform-tools/adb devices
+      echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test_android_emulator -k 'system-images;android-28;google_apis_playstore;x86' --force
+      nohup $ANDROID_HOME/emulator/emulator -avd test_android_emulator -no-snapshot > /dev/null 2>&1 &
+      
+      # Bucle para comprobar si han pasado 20 minutos
+      while true; do
+        current_time=$(date +%s)
+        elapsed_time=$((current_time - start_time))
+        
+        # Si han pasado más de 20 minutos, finaliza el script
+        if [ $elapsed_time -ge 1200 ]; then
+          echo "La tarea se ha detenido después de 20 minutos."
+          exit 1
+        fi
+        
+        # Comprueba si el emulador ha iniciado correctamente
+        if $ANDROID_HOME/platform-tools/adb shell getprop sys.boot_completed | tr -d '\r' | grep -q 1; then
+          echo "Emulator started"
+          break
+        fi
+        
+        # Espera un segundo antes de volver a verificar
+        sleep 1
+      done
+
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
