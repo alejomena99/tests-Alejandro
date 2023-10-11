@@ -28,7 +28,7 @@ steps:
     script: |
       #!/bin/bash
 
-      timeout 600s bash -c '
+      timeout 350s bash -c '
         echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-28;google_apis_playstore;x86"
         $ANDROID_HOME/platform-tools/adb devices
         echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test_android_emulator -k "system-images;android-28;google_apis_playstore;x86" --force
