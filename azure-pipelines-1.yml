@@ -42,6 +42,8 @@ steps:
       else
         echo "El script superó el límite de tiempo de 15 minutos y se detuvo."
       fi
+
+      $(System.DefaultWorkingDirectory)/Android/Sdk/platform-tools/adb emu kill
   retryCountOnTaskFailure: 3
 
 - script: echo Hello, world!
