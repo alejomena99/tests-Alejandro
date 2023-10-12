@@ -29,7 +29,7 @@ steps:
       #!/bin/bash
 
       timeout 300s bash -c '
-        echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager --install "system-images;android-28;google_apis_playstore;x86"
+        echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-28;google_apis_playstore;x86"
         $ANDROID_HOME/platform-tools/adb devices
         echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test_android_emulator -k "system-images;android-28;google_apis_playstore;x86" --force
         nohup $ANDROID_HOME/emulator/emulator -avd test_android_emulator -no-snapshot > /dev/null 2>&1 &
@@ -42,8 +42,6 @@ steps:
       else
         echo "El script superó el límite de tiempo de 15 minutos y se detuvo."
       fi
-
-      $(System.DefaultWorkingDirectory)/Android/Sdk/platform-tools/adb emu kill
   retryCountOnTaskFailure: 3
 
 - script: echo Hello, world!
