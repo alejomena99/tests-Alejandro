@@ -21,7 +21,8 @@ parameters:
   - pdn
   
 pool:
-  name: agent-Alejo
+#  name: agent-Alejo
+  vmImage: ubuntu-latest
 
 steps:
 
