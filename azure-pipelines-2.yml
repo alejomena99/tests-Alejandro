@@ -1,0 +1,26 @@
+
+trigger: none
+
+parameters:
+
+- name: selectAks
+  displayName: Select Aks, but ignore in case of Oks.
+  type: string
+  default: aks
+  values:
+  - aks
+  - aks2
+
+pool:
+  name: agent-Alejo
+
+steps:
+
+- script: |
+    if [ "${{ parameters.selectAks }}" == "aks2" ]; then
+      file_path="envoy-aks2-${{ parameters.stage }}.yaml"
+    else
+      file_path="envoy-${{ parameters.stage }}.yaml"
+    fi
+    echo $file_path
+  displayName: 'echo $file_path'
