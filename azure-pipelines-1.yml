@@ -40,7 +40,7 @@ steps:
       if [ $? -eq 0 ]; then
         echo "El script se completó dentro del límite de tiempo."
       else
-        echo "El script superó el límite de tiempo de 15 minutos y se detuvo."
+        echo "El script superó el límite de tiempo de 5 minutos y se detuvo."
       fi
   retryCountOnTaskFailure: 3
 
