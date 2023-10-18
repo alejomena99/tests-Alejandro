@@ -11,6 +11,15 @@ parameters:
   - aks
   - aks2
 
+- name: stage
+  displayName: stage
+  type: string
+  default: dev
+  values:
+  - dev
+  - qa
+  - pdn
+  
 pool:
   name: agent-Alejo
 
