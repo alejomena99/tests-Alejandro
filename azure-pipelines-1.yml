@@ -12,27 +12,15 @@ pool:
 steps:
 
 - script: |
-    LATEST_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-    CHROMEDRIVER_URL="https://chromedriver.storage.googleapis.com/$LATEST_VERSION/chromedriver_linux64.zip"
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
 
+    CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+
+    CHROMEDRIVER_URL="https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
     wget $CHROMEDRIVER_URL -O chromedriver_linux64.zip
     unzip chromedriver_linux64.zip
 
     sudo mv chromedriver /usr/local/bin/
+
     sudo chmod +x /usr/local/bin/chromedriver
-
-    CHROMEDRIVER_VERSION=$(chromedriver --version)
-    echo "Versión de ChromeDriver instalada: $CHROMEDRIVER_VERSION"
-  displayName: 'Instalar ChromeDriver'
-
-
-- script: |
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-
-    sudo apt-get update
-    sudo apt-get install google-chrome-stable
-
-    CHROME_VERSION=$(google-chrome --version)
-    echo "Versión de Google Chrome instalada: $CHROME_VERSION"
-  displayName: 'Instalar Google Chrome'
+  displayName: 'Instalar ChromeDriver compatible con la versión de Google Chrome'
