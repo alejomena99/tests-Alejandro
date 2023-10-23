@@ -19,8 +19,10 @@ steps:
     unzip chromedriver_linux64.zip
 
     sudo mv chromedriver /usr/local/bin/
-
     sudo chmod +x /usr/local/bin/chromedriver
+
+    CHROMEDRIVER_VERSION=$(chromedriver --version)
+    echo "Versión de ChromeDriver instalada: $CHROMEDRIVER_VERSION"
   displayName: 'Instalar ChromeDriver'
 
 
