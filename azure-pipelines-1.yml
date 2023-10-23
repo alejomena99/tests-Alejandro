@@ -13,7 +13,6 @@ steps:
 
 - script: |
     CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-
     CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
 
     CHROMEDRIVER_URL="https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
@@ -21,6 +20,10 @@ steps:
     unzip chromedriver_linux64.zip
 
     sudo mv chromedriver /usr/local/bin/
-
     sudo chmod +x /usr/local/bin/chromedriver
+
+    echo "Versión de Google Chrome instalada: $CHROME_VERSION"
+
+    CHROMEDRIVER_INSTALLED_VERSION=$(chromedriver --version)
+    echo "Versión de ChromeDriver instalada: $CHROMEDRIVER_INSTALLED_VERSION"
   displayName: 'Instalar ChromeDriver compatible con la versión de Google Chrome'
