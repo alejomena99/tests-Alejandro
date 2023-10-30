@@ -20,18 +20,17 @@ stages:
           [Environment]::SetEnvironmentVariable("PythonWorkingDirectory", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
           Write-Host "PythonWorkingDirectory=$RutaActualizada"
           Write-Host "##vso[task.setvariable variable=PythonWorkingDirectory;isOutput=true]$RutaActualizada"
-      displayName: New variable PythonWorkingDirectory
+      name: setVar
 
     - powershell: |
-        Write-Host "##vso[task.setvariable variable=myVar;isOutput=true]foo"
+        Write-Host $(setVar.PythonWorkingDirectory)
 
     - task: PythonScript@0
       displayName: Vars Test
       inputs:
         scriptSource: 'inline'
         script: |
-          print('$(myVar)')
-          print('$(PythonWorkingDirectory)')
+          print($(setVar.PythonWorkingDirectory))
 
     # - task: UsePythonVersion@0
     #   inputs:
