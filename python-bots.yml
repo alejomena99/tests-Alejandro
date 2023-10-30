@@ -12,7 +12,7 @@ stages:
   jobs:
   - job: 'job'
     pool:
-      vmImage: ubuntu-latest
+      vmImage: windows-2019
 
     steps:
     - task: UsePythonVersion@0
@@ -22,12 +22,12 @@ stages:
         architecture: 'x64'
 
     - script: |
-        python -m pip install Lackey
-        python -m pip install PyAutoGUI
-      displayName: Pip install request python modules
+        pip install Lackey
+        pip install PyAutoGUI
+      displayName: Pip install modules
     
     - task: PythonScript@0
-      displayName: Get AppGallery access token
+      displayName: Lackey test
       inputs:
         scriptSource: 'inline'
         script: |
@@ -36,17 +36,16 @@ stages:
 
           app = App(0)
 
-          type("gedit")
+          type("notepad")
           type(Key.ENTER)
 
           wait(5)
 
           type("Hola, este es un texto de ejemplo.")
 
-
           type(Key.CTRL + 's')
           wait(2)
-          type("$(System.DefaultWorkingDirectory)/test.txt")
+          type("$(System.DefaultWorkingDirectory)/test.txt")  
           type(Key.ENTER)
 
           wait(2)
@@ -55,7 +54,7 @@ stages:
 
     - script: |
         tree
-      displayName: Pip install request python modules
+      displayName: Tree
 
     - task: PublishBuildArtifacts@1
       displayName: Publish artifacts
