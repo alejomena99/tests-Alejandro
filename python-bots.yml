@@ -14,51 +14,56 @@ stages:
       vmImage: windows-2019
 
     steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-        architecture: 'x64'
 
     - script: |
-        pip install Lackey
-        pip install PyAutoGUI
-      displayName: Pip install modules
-    
-    - task: PythonScript@0
-      displayName: Lackey test
-      inputs:
-        scriptSource: 'inline'
-        script: |
-          import time
-          from lackey import *
-
-          app = App(0)
-
-          type("notepad")
-          type(Key.ENTER)
-
-          wait(5)
-
-          type("Hola, este es un texto de ejemplo.")
-
-          type(Key.CTRL + 's')
-          wait(2)
-          type("$(System.DefaultWorkingDirectory)/test.txt")  
-          type(Key.ENTER)
-
-          wait(2)
-
-          app.close()
-
-    - script: |
-        cd $(System.DefaultWorkingDirectory)
-        tree
+        echo $(System.DefaultWorkingDirectory)
       displayName: Tree
 
-    - task: PublishBuildArtifacts@1
-      displayName: Publish artifacts
-      inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
-        ArtifactName: 'drop_$(Build.Repository.Name)'
-        publishLocation: 'Container'
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: '3.x'
+    #     addToPath: true
+    #     architecture: 'x64'
+
+    # - script: |
+    #     pip install Lackey
+    #     pip install PyAutoGUI
+    #   displayName: Pip install modules
+
+    # - task: PythonScript@0
+    #   displayName: Lackey test
+    #   inputs:
+    #     scriptSource: 'inline'
+    #     script: |
+    #       import time
+    #       from lackey import *
+
+    #       app = App(0)
+
+    #       type("notepad")
+    #       type(Key.ENTER)
+
+    #       wait(5)
+
+    #       type("Hola, este es un texto de ejemplo.")
+
+    #       type(Key.CTRL + 's')
+    #       wait(2)
+    #       type("$(System.DefaultWorkingDirectory)/test.txt")  
+    #       type(Key.ENTER)
+
+    #       wait(2)
+
+    #       app.close()
+
+    # - script: |
+    #     cd $(System.DefaultWorkingDirectory)
+    #     tree
+    #   displayName: Tree
+
+    # - task: PublishBuildArtifacts@1
+    #   displayName: Publish artifacts
+    #   inputs:
+    #     PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
+    #     ArtifactName: 'drop_$(Build.Repository.Name)'
+    #     publishLocation: 'Container'
