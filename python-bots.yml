@@ -16,7 +16,7 @@ stages:
     steps:
     - powershell: |
           $RutaOriginal = $env:System_DefaultWorkingDirectory
-          $RutaActualizada = $RutaOriginal -replace '\', '\\'
+          $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
           [Environment]::SetEnvironmentVariable("PythonWorkingDirectory", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
           Write-Host "PythonWorkingDirectory=$RutaActualizada"
           Write-Host "##vso[task.setvariable variable=PythonWorkingDirectory;isOutput=true]$RutaActualizada"
