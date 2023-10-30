@@ -36,48 +36,48 @@ stages:
           file = path + "\\\\test.txt"
           print(file)
 
-    # - task: UsePythonVersion@0
-    #   inputs:
-    #     versionSpec: '3.x'
-    #     addToPath: true
-    #     architecture: 'x64'
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+        architecture: 'x64'
 
-    # - script: |
-    #     pip install Lackey
+    - script: |
+        pip install Lackey
 
-    #   displayName: Pip install modules
+      displayName: Pip install modules
 
-    # - task: PythonScript@0
-    #   displayName: Lackey test
-    #   inputs:
-    #     scriptSource: 'inline'
-    #     script: |
-    #       import time
-    #       from lackey import *
+    - task: PythonScript@0
+      displayName: Lackey test
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          import time
+          from lackey import *
 
-    #       app = App(0)
-    #       type("notepad")
-    #       type(Key.ENTER)
+          app = App(0)
+          type("notepad")
+          type(Key.ENTER)
 
-    #       wait(5)
+          wait(5)
 
-    #       type("Hola, este es un texto de ejemplo.")
-    #       type(Key.CTRL + 's')
-    #       wait(2)
+          type("Hola, este es un texto de ejemplo.")
+          type(Key.CTRL + 's')
+          wait(2)
 
-    #       path = f"$(setVar.PythonWorkingDirectory)"
-    #       file = "path\\\\test.txt"
+          path = f"$(setVar.PythonWorkingDirectory)"
+          file = path + "\\\\test.txt"
 
-    #       type(file)  
-    #       type(Key.ENTER)
+          type(file)  
+          type(Key.ENTER)
 
-    #       wait(2)
+          wait(2)
 
-    #       app.close()
+          app.close()
 
-    # # - task: PublishBuildArtifacts@1
-    # #   displayName: Publish artifacts
-    # #   inputs:
-    # #     PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
-    # #     ArtifactName: 'drop_$(Build.Repository.Name)'
-    # #     publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      displayName: Publish artifacts
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
+        ArtifactName: 'drop_$(Build.Repository.Name)'
+        publishLocation: 'Container'
