@@ -24,6 +24,10 @@ stages:
           PATH = PATH.replace("\\", "\\\\")
           print("##vso[task.setvariable variable=PATH]"+PATH)
 
+    - script: |
+        echo $(PATH)
+      displayName: echo $(PATH)
+      
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '3.x'
@@ -60,11 +64,6 @@ stages:
           wait(2)
 
           app.close()
-
-    - script: |
-        cd $(PATH)
-        tree
-      displayName: Tree
 
     - task: PublishBuildArtifacts@1
       displayName: Publish artifacts
