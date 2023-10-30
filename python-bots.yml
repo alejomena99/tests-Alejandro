@@ -22,7 +22,7 @@ stages:
         script: |
           PATH = "$(System.DefaultWorkingDirectory)"
           PATH = PATH.replace("\\", "\\\\")
-          echo "##vso[task.setvariable variable=PATH;isOutput=true]$PATH"
+          print("##vso[task.setvariable variable=PATH]"+PATH)
 
     - task: UsePythonVersion@0
       inputs:
