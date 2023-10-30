@@ -20,9 +20,8 @@ stages:
         script: |
           $RutaOriginal = $env:System_DefaultWorkingDirectory
           $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
-          [Environment]::SetEnvironmentVariable("RutaActualizada", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
-          Write-Host "RutaActualizada=$RutaActualizada"
-
+          [Environment]::SetEnvironmentVariable("PythonWorkingDirectory", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
+          Write-Host "PythonWorkingDirectory=$RutaActualizada"
           Write-Host "##vso[task.setvariable variable=PythonWorkingDirectory;isOutput=true]$RutaActualizada"
       displayName: New variable PythonWorkingDirectory
 
