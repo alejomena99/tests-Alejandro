@@ -30,8 +30,8 @@ stages:
       inputs:
         scriptSource: 'inline'
         script: |
-          print(f"\\$(setVar.PythonWorkingDirectory)\\")
-          path = f"\\$(setVar.PythonWorkingDirectory)\\"
+          print(f"$(setVar.PythonWorkingDirectory)")
+          path = f"$(setVar.PythonWorkingDirectory)"
           print(path)
 
     # - task: UsePythonVersion@0
