@@ -20,10 +20,11 @@ stages:
       inputs:
         scriptSource: 'inline'
         script: |
+          RutaOriginal = "$(System.DefaultWorkingDirectory)"
+          print(RutaOriginal)
+
           RutaActualizada = "$(System.DefaultWorkingDirectory)".replace("\\", "\\\\")
           print("##vso[task.setvariable variable=RutaActualizada]"+RutaActualizada)
-
-
 
     - script: |
         echo $(System.DefaultWorkingDirectory)
