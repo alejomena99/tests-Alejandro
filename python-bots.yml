@@ -30,7 +30,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "$(PythonWorkingDirectory)"
+          Write-Host "$env:PythonWorkingDirectory"
       displayName: Echo PythonWorkingDirectory
 
 
@@ -74,6 +74,6 @@ stages:
     # - task: PublishBuildArtifacts@1
     #   displayName: Publish artifacts
     #   inputs:
-    #     PathtoPublish: '$(NewWorkingDirectory)/test.txt'
+    #     PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
     #     ArtifactName: 'drop_$(Build.Repository.Name)'
     #     publishLocation: 'Container'
