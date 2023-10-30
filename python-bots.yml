@@ -75,6 +75,20 @@ stages:
 
           app.close()
 
+    - task: PythonScript@0
+      displayName: Lackey test
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          import os
+
+          path = f"$(setVar.PythonWorkingDirectory)"
+          archivos = os.listdir(path)
+
+          for archivo in archivos:
+              print(archivo)
+
+          
     - task: PublishBuildArtifacts@1
       displayName: Publish artifacts
       inputs:
