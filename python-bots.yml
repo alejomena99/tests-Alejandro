@@ -15,20 +15,21 @@ stages:
 
     steps:
 
-    - task: PythonScript@0
-      displayName: Actualizar Variable
-      inputs:
-        scriptSource: 'inline'
-        script: |
-          RutaOriginal = "$(System.DefaultWorkingDirectory)"
-          print(RutaOriginal)
-
-          RutaActualizada = "$(System.DefaultWorkingDirectory)".replace("\\", "\\\\")
-          print("##vso[task.setvariable variable=RutaActualizada]"+RutaActualizada)
-
     - script: |
-        echo $(System.DefaultWorkingDirectory)
-        echo $(NewWorkingDirectory)
+        #!/bin/bash
+
+        # Obtener la ruta original desde la variable de entorno System.DefaultWorkingDirectory
+        RutaOriginal="$System.DefaultWorkingDirectory"
+
+        # Reemplazar las barras invertidas con barras invertidas duplicadas
+        RutaActualizada="${RutaOriginal//\\/\\\\}"
+
+        # Establecer la variable de entorno personalizada
+        export RutaActualizada="$RutaActualizada"
+
+        # Imprimir la variable de entorno actualizada
+        echo "RutaActualizada=$RutaActualizada"
+
       displayName: echo NewWorkingDirectory
       
     # - task: UsePythonVersion@0
