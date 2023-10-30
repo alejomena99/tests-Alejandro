@@ -20,14 +20,15 @@ stages:
       inputs:
         scriptSource: 'inline'
         script: |
-          PATH = "$(System.DefaultWorkingDirectory)"
-          PATH = PATH.replace("\\", "\\\\")
-          print("##vso[task.setvariable variable=PATH]"+PATH)
+          RutaActualizada = "$(System.DefaultWorkingDirectory)"
+          RutaActualizada = RutaActualizada.replace("\\", "\\\\")
+          print("##vso[task.setvariable variable=NewWorkingDirectory]"+RutaActualizada)
+
 
     - script: |
         echo $(System.DefaultWorkingDirectory)
-        echo $(PATH)
-      displayName: echo $(PATH)
+        echo $(NewWorkingDirectory)
+      displayName: echo NewWorkingDirectory
       
     # - task: UsePythonVersion@0
     #   inputs:
@@ -59,7 +60,7 @@ stages:
 
     #       type(Key.CTRL + 's')
     #       wait(2)
-    #       type("$(PATH)/test.txt")  
+    #       type("$(NewWorkingDirectory)/test.txt")  
     #       type(Key.ENTER)
 
     #       wait(2)
@@ -69,6 +70,6 @@ stages:
     # - task: PublishBuildArtifacts@1
     #   displayName: Publish artifacts
     #   inputs:
-    #     PathtoPublish: '$(PATH)/test.txt'
+    #     PathtoPublish: '$(NewWorkingDirectory)/test.txt'
     #     ArtifactName: 'drop_$(Build.Repository.Name)'
     #     publishLocation: 'Container'
