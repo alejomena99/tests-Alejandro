@@ -14,14 +14,14 @@ stages:
       vmImage: windows-2019
 
     steps:
-
-    - script: |
-        $RutaOriginal = $env:System_DefaultWorkingDirectory
-        $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
-        [Environment]::SetEnvironmentVariable("RutaActualizada", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
-        Write-Host "RutaActualizada=$RutaActualizada"
-
-
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          $RutaOriginal = $env:System_DefaultWorkingDirectory
+          $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
+          [Environment]::SetEnvironmentVariable("RutaActualizada", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
+          Write-Host "RutaActualizada=$RutaActualizada"
       displayName: echo NewWorkingDirectory
       
     # - task: UsePythonVersion@0
