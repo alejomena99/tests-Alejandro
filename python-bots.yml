@@ -16,19 +16,11 @@ stages:
     steps:
 
     - script: |
-        #!/bin/bash
+        $RutaOriginal = $env:System_DefaultWorkingDirectory
+        $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
+        [Environment]::SetEnvironmentVariable("RutaActualizada", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
+        Write-Host "RutaActualizada=$RutaActualizada"
 
-        # Obtener la ruta original desde la variable de entorno System.DefaultWorkingDirectory
-        RutaOriginal="$System.DefaultWorkingDirectory"
-
-        # Reemplazar las barras invertidas con barras invertidas duplicadas
-        RutaActualizada="${RutaOriginal//\\/\\\\}"
-
-        # Establecer la variable de entorno personalizada
-        export RutaActualizada="$RutaActualizada"
-
-        # Imprimir la variable de entorno actualizada
-        echo "RutaActualizada=$RutaActualizada"
 
       displayName: echo NewWorkingDirectory
       
