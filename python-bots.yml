@@ -23,44 +23,52 @@ stages:
       displayName: New variable PythonWorkingDirectory
 
     - powershell: |
-        Write-Host "##vso[task.setvariable variable=myVar;]foo"
-
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-        architecture: 'x64'
-
-    - script: |
-        pip install Lackey
-
-      displayName: Pip install modules
+        Write-Host "##vso[task.setvariable variable=myVar;isOutput=true]foo"
 
     - task: PythonScript@0
-      displayName: Lackey test
+      displayName: Vars Test
       inputs:
         scriptSource: 'inline'
         script: |
-          import time
-          from lackey import *
+          print('$(myVar)')
+          print('$(PythonWorkingDirectory)')
 
-          app = App(0)
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: '3.x'
+    #     addToPath: true
+    #     architecture: 'x64'
 
-          type("notepad")
-          type(Key.ENTER)
+    # - script: |
+    #     pip install Lackey
 
-          wait(5)
+    #   displayName: Pip install modules
 
-          type("Hola, este es un texto de ejemplo.")
+    # - task: PythonScript@0
+    #   displayName: Lackey test
+    #   inputs:
+    #     scriptSource: 'inline'
+    #     script: |
+    #       import time
+    #       from lackey import *
 
-          type(Key.CTRL + 's')
-          wait(2)
-          type("$(PythonWorkingDirectory)/test.txt")  
-          type(Key.ENTER)
+    #       app = App(0)
 
-          wait(2)
+    #       type("notepad")
+    #       type(Key.ENTER)
 
-          app.close()
+    #       wait(5)
+
+    #       type("Hola, este es un texto de ejemplo.")
+
+    #       type(Key.CTRL + 's')
+    #       wait(2)
+    #       type("$(PythonWorkingDirectory)/test.txt")  
+    #       type(Key.ENTER)
+
+    #       wait(2)
+
+    #       app.close()
 
     # - task: PublishBuildArtifacts@1
     #   displayName: Publish artifacts
