@@ -25,6 +25,7 @@ stages:
           print("##vso[task.setvariable variable=PATH]"+PATH)
 
     - script: |
+        echo $(System.DefaultWorkingDirectory)
         echo $(PATH)
       displayName: echo $(PATH)
       
