@@ -14,10 +14,7 @@ stages:
       vmImage: windows-2019
 
     steps:
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: |
+    - powershell: |
           $RutaOriginal = $env:System_DefaultWorkingDirectory
           $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
           [Environment]::SetEnvironmentVariable("PythonWorkingDirectory", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
@@ -25,52 +22,45 @@ stages:
           Write-Host "##vso[task.setvariable variable=PythonWorkingDirectory;isOutput=true]$RutaActualizada"
       displayName: New variable PythonWorkingDirectory
 
-    - task: PowerShell@2
+    - powershell: |
+        Write-Host "##vso[task.setvariable variable=myVar;]foo"
+
+    - task: UsePythonVersion@0
       inputs:
-        targetType: 'inline'
+        versionSpec: '3.x'
+        addToPath: true
+        architecture: 'x64'
+
+    - script: |
+        pip install Lackey
+
+      displayName: Pip install modules
+
+    - task: PythonScript@0
+      displayName: Lackey test
+      inputs:
+        scriptSource: 'inline'
         script: |
-          Write-Host "Ejecutando el segundo script"
-          Write-Host "$env:PythonWorkingDirectory"
-      displayName: Echo PythonWorkingDirectory
+          import time
+          from lackey import *
 
+          app = App(0)
 
+          type("notepad")
+          type(Key.ENTER)
 
-    # - task: UsePythonVersion@0
-    #   inputs:
-    #     versionSpec: '3.x'
-    #     addToPath: true
-    #     architecture: 'x64'
+          wait(5)
 
-    # - script: |
-    #     pip install Lackey
+          type("Hola, este es un texto de ejemplo.")
 
-    #   displayName: Pip install modules
+          type(Key.CTRL + 's')
+          wait(2)
+          type("$(PythonWorkingDirectory)/test.txt")  
+          type(Key.ENTER)
 
-    # - task: PythonScript@0
-    #   displayName: Lackey test
-    #   inputs:
-    #     scriptSource: 'inline'
-    #     script: |
-    #       import time
-    #       from lackey import *
+          wait(2)
 
-    #       app = App(0)
-
-    #       type("notepad")
-    #       type(Key.ENTER)
-
-    #       wait(5)
-
-    #       type("Hola, este es un texto de ejemplo.")
-
-    #       type(Key.CTRL + 's')
-    #       wait(2)
-    #       type("$(PythonWorkingDirectory)/test.txt")  
-    #       type(Key.ENTER)
-
-    #       wait(2)
-
-    #       app.close()
+          app.close()
 
     # - task: PublishBuildArtifacts@1
     #   displayName: Publish artifacts
