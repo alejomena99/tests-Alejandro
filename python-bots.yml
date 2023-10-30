@@ -30,7 +30,7 @@ stages:
       inputs:
         scriptSource: 'inline'
         script: |
-          print($(setVar.PythonWorkingDirectory))
+          print("\\"+$(setVar.PythonWorkingDirectory)"\\")
 
     # - task: UsePythonVersion@0
     #   inputs:
