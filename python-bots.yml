@@ -33,7 +33,7 @@ stages:
           print(f"$(setVar.PythonWorkingDirectory)")
           path = f"$(setVar.PythonWorkingDirectory)"
           print(path)
-          file = "path\\\\test.txt"
+          file = path + "\\\\test.txt"
           print(file)
 
     # - task: UsePythonVersion@0
@@ -56,26 +56,28 @@ stages:
     #       from lackey import *
 
     #       app = App(0)
-
     #       type("notepad")
     #       type(Key.ENTER)
 
     #       wait(5)
 
     #       type("Hola, este es un texto de ejemplo.")
-
     #       type(Key.CTRL + 's')
     #       wait(2)
-    #       type("$(PythonWorkingDirectory)/test.txt")  
+
+    #       path = f"$(setVar.PythonWorkingDirectory)"
+    #       file = "path\\\\test.txt"
+
+    #       type(file)  
     #       type(Key.ENTER)
 
     #       wait(2)
 
     #       app.close()
 
-    # - task: PublishBuildArtifacts@1
-    #   displayName: Publish artifacts
-    #   inputs:
-    #     PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
-    #     ArtifactName: 'drop_$(Build.Repository.Name)'
-    #     publishLocation: 'Container'
+    # # - task: PublishBuildArtifacts@1
+    # #   displayName: Publish artifacts
+    # #   inputs:
+    # #     PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
+    # #     ArtifactName: 'drop_$(Build.Repository.Name)'
+    # #     publishLocation: 'Container'
