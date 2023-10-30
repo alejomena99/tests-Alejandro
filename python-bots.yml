@@ -29,8 +29,10 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
+          Write-Host "Ejecutando el segundo script"
           Write-Host "$env:PythonWorkingDirectory"
       displayName: Echo PythonWorkingDirectory
+
 
 
     # - task: UsePythonVersion@0
