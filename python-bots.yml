@@ -29,46 +29,46 @@ stages:
         echo $(PATH)
       displayName: echo $(PATH)
       
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-        architecture: 'x64'
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: '3.x'
+    #     addToPath: true
+    #     architecture: 'x64'
 
-    - script: |
-        pip install Lackey
-        pip install PyAutoGUI
-      displayName: Pip install modules
+    # - script: |
+    #     pip install Lackey
+    #     pip install PyAutoGUI
+    #   displayName: Pip install modules
 
-    - task: PythonScript@0
-      displayName: Lackey test
-      inputs:
-        scriptSource: 'inline'
-        script: |
-          import time
-          from lackey import *
+    # - task: PythonScript@0
+    #   displayName: Lackey test
+    #   inputs:
+    #     scriptSource: 'inline'
+    #     script: |
+    #       import time
+    #       from lackey import *
 
-          app = App(0)
+    #       app = App(0)
 
-          type("notepad")
-          type(Key.ENTER)
+    #       type("notepad")
+    #       type(Key.ENTER)
 
-          wait(5)
+    #       wait(5)
 
-          type("Hola, este es un texto de ejemplo.")
+    #       type("Hola, este es un texto de ejemplo.")
 
-          type(Key.CTRL + 's')
-          wait(2)
-          type("$(PATH)/test.txt")  
-          type(Key.ENTER)
+    #       type(Key.CTRL + 's')
+    #       wait(2)
+    #       type("$(PATH)/test.txt")  
+    #       type(Key.ENTER)
 
-          wait(2)
+    #       wait(2)
 
-          app.close()
+    #       app.close()
 
-    - task: PublishBuildArtifacts@1
-      displayName: Publish artifacts
-      inputs:
-        PathtoPublish: '$(PATH)/test.txt'
-        ArtifactName: 'drop_$(Build.Repository.Name)'
-        publishLocation: 'Container'
+    # - task: PublishBuildArtifacts@1
+    #   displayName: Publish artifacts
+    #   inputs:
+    #     PathtoPublish: '$(PATH)/test.txt'
+    #     ArtifactName: 'drop_$(Build.Repository.Name)'
+    #     publishLocation: 'Container'
