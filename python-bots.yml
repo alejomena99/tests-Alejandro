@@ -87,11 +87,10 @@ stages:
 
           for archivo in archivos:
               print(archivo)
-
           
     - task: PublishBuildArtifacts@1
       displayName: Publish artifacts
       inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/README.md'
         ArtifactName: 'drop_$(Build.Repository.Name)'
         publishLocation: 'Container'
