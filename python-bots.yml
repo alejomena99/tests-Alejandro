@@ -22,48 +22,50 @@ stages:
           $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
           [Environment]::SetEnvironmentVariable("RutaActualizada", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
           Write-Host "RutaActualizada=$RutaActualizada"
-      displayName: echo NewWorkingDirectory
-      
-    # - task: UsePythonVersion@0
-    #   inputs:
-    #     versionSpec: '3.x'
-    #     addToPath: true
-    #     architecture: 'x64'
 
-    # - script: |
-    #     pip install Lackey
-    #     pip install PyAutoGUI
-    #   displayName: Pip install modules
+          Write-Host "##vso[task.setvariable variable=PythonWorkingDirectory;isOutput=true]$RutaActualizada"
+      displayName: New variable PythonWorkingDirectory
 
-    # - task: PythonScript@0
-    #   displayName: Lackey test
-    #   inputs:
-    #     scriptSource: 'inline'
-    #     script: |
-    #       import time
-    #       from lackey import *
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+        architecture: 'x64'
 
-    #       app = App(0)
+    - script: |
+        pip install Lackey
+        pip install PyAutoGUI
+      displayName: Pip install modules
 
-    #       type("notepad")
-    #       type(Key.ENTER)
+    - task: PythonScript@0
+      displayName: Lackey test
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          import time
+          from lackey import *
 
-    #       wait(5)
+          app = App(0)
 
-    #       type("Hola, este es un texto de ejemplo.")
+          type("notepad")
+          type(Key.ENTER)
 
-    #       type(Key.CTRL + 's')
-    #       wait(2)
-    #       type("$(NewWorkingDirectory)/test.txt")  
-    #       type(Key.ENTER)
+          wait(5)
 
-    #       wait(2)
+          type("Hola, este es un texto de ejemplo.")
 
-    #       app.close()
+          type(Key.CTRL + 's')
+          wait(2)
+          type("$(PythonWorkingDirectory)/test.txt")  
+          type(Key.ENTER)
 
-    # - task: PublishBuildArtifacts@1
-    #   displayName: Publish artifacts
-    #   inputs:
-    #     PathtoPublish: '$(NewWorkingDirectory)/test.txt'
-    #     ArtifactName: 'drop_$(Build.Repository.Name)'
-    #     publishLocation: 'Container'
+          wait(2)
+
+          app.close()
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish artifacts
+      inputs:
+        PathtoPublish: '$(NewWorkingDirectory)/test.txt'
+        ArtifactName: 'drop_$(Build.Repository.Name)'
+        publishLocation: 'Container'
