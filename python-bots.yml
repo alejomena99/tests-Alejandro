@@ -33,6 +33,8 @@ stages:
           print(f"$(setVar.PythonWorkingDirectory)")
           path = f"$(setVar.PythonWorkingDirectory)"
           print(path)
+          file = "path\\\\test.txt"
+          print(file)
 
     # - task: UsePythonVersion@0
     #   inputs:
