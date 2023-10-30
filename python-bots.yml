@@ -15,55 +15,60 @@ stages:
 
     steps:
 
+    - task: PythonScript@0
+      displayName: Actualizar Variable
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          PATH = "$(System.DefaultWorkingDirectory)"
+          PATH = PATH.replace("\\", "\\\\")
+          echo "##vso[task.setvariable variable=PATH;isOutput=true]$PATH"
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+        architecture: 'x64'
+
     - script: |
-        echo $(System.DefaultWorkingDirectory)
+        pip install Lackey
+        pip install PyAutoGUI
+      displayName: Pip install modules
+
+    - task: PythonScript@0
+      displayName: Lackey test
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          import time
+          from lackey import *
+
+          app = App(0)
+
+          type("notepad")
+          type(Key.ENTER)
+
+          wait(5)
+
+          type("Hola, este es un texto de ejemplo.")
+
+          type(Key.CTRL + 's')
+          wait(2)
+          type("$(PATH)/test.txt")  
+          type(Key.ENTER)
+
+          wait(2)
+
+          app.close()
+
+    - script: |
+        cd $(PATH)
+        tree
       displayName: Tree
 
-    # - task: UsePythonVersion@0
-    #   inputs:
-    #     versionSpec: '3.x'
-    #     addToPath: true
-    #     architecture: 'x64'
-
-    # - script: |
-    #     pip install Lackey
-    #     pip install PyAutoGUI
-    #   displayName: Pip install modules
-
-    # - task: PythonScript@0
-    #   displayName: Lackey test
-    #   inputs:
-    #     scriptSource: 'inline'
-    #     script: |
-    #       import time
-    #       from lackey import *
-
-    #       app = App(0)
-
-    #       type("notepad")
-    #       type(Key.ENTER)
-
-    #       wait(5)
-
-    #       type("Hola, este es un texto de ejemplo.")
-
-    #       type(Key.CTRL + 's')
-    #       wait(2)
-    #       type("$(System.DefaultWorkingDirectory)/test.txt")  
-    #       type(Key.ENTER)
-
-    #       wait(2)
-
-    #       app.close()
-
-    # - script: |
-    #     cd $(System.DefaultWorkingDirectory)
-    #     tree
-    #   displayName: Tree
-
-    # - task: PublishBuildArtifacts@1
-    #   displayName: Publish artifacts
-    #   inputs:
-    #     PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
-    #     ArtifactName: 'drop_$(Build.Repository.Name)'
-    #     publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      displayName: Publish artifacts
+      inputs:
+        PathtoPublish: '$(PATH)/test.txt'
+        ArtifactName: 'drop_$(Build.Repository.Name)'
+        publishLocation: 'Container'
