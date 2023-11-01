@@ -44,39 +44,39 @@ stages:
 
     - script: |
         pip install Lackey
-
+        pip install pyautogui
       displayName: Pip install modules
 
     - task: PythonScript@0
-      displayName: Lackey test
+      displayName: Lackey and PyAutoGUI test
       inputs:
         scriptSource: 'inline'
         script: |
-          import time
+          import pyautogui
           from lackey import *
+          import time
 
-          app = App(0)
-          type("notepad")
-          type(Key.ENTER)
+          pyautogui.press('win')
+          pyautogui.write('Bloc de notas')
+          pyautogui.press('enter')
+          time.sleep(3)
 
-          wait(5)
 
+          App.focus("Bloc de notas")
           type("Hola, este es un texto de ejemplo.")
-          type(Key.CTRL + 's')
-          wait(2)
+          time.sleep(1)
 
-          path = f"$(setVar.PythonWorkingDirectory)"
-          file = path + "\\\\test.txt"
-
-          type(file)  
+          pyautogui.hotkey("ctrl", "g")
+          type("test.txt")
           type(Key.ENTER)
 
-          wait(2)
+          pyautogui.hotkey("alt", "f4")
 
-          app.close()
+          screenshot = pyautogui.screenshot()
+          screenshot.save("captura.png")
 
     - task: PythonScript@0
-      displayName: Lackey test
+      displayName: Folders
       inputs:
         scriptSource: 'inline'
         script: |
@@ -94,3 +94,4 @@ stages:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/README.md'
         ArtifactName: 'drop_$(Build.Repository.Name)'
         publishLocation: 'Container'
+    
