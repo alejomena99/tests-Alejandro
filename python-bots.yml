@@ -98,4 +98,6 @@ stages:
     - task: NodeTool@0
       inputs:
         versionSource: 'spec'
+        versionSpec: '10.x'
         checkLatest: true
+    
