@@ -14,84 +14,88 @@ stages:
       vmImage: windows-2019
 
     steps:
-    - powershell: |
-          $RutaOriginal = $env:System_DefaultWorkingDirectory
-          $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
-          [Environment]::SetEnvironmentVariable("PythonWorkingDirectory", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
-          Write-Host "PythonWorkingDirectory=$RutaActualizada"
-          Write-Host "##vso[task.setvariable variable=PythonWorkingDirectory;isOutput=true]$RutaActualizada"
-      name: setVar
+    # - powershell: |
+    #       $RutaOriginal = $env:System_DefaultWorkingDirectory
+    #       $RutaActualizada = $RutaOriginal -replace '\\', '\\\\'
+    #       [Environment]::SetEnvironmentVariable("PythonWorkingDirectory", $RutaActualizada, [System.EnvironmentVariableTarget]::User)
+    #       Write-Host "PythonWorkingDirectory=$RutaActualizada"
+    #       Write-Host "##vso[task.setvariable variable=PythonWorkingDirectory;isOutput=true]$RutaActualizada"
+    #   name: setVar
 
-    - powershell: |
-        Write-Host $(setVar.PythonWorkingDirectory)
+    # - powershell: |
+    #     Write-Host $(setVar.PythonWorkingDirectory)
 
-    - task: PythonScript@0
-      displayName: Vars Test
-      inputs:
-        scriptSource: 'inline'
-        script: |
-          print(f"$(setVar.PythonWorkingDirectory)")
-          path = f"$(setVar.PythonWorkingDirectory)"
-          print(path)
-          file = path + "\\\\test.txt"
-          print(file)
+    # - task: PythonScript@0
+    #   displayName: Vars Test
+    #   inputs:
+    #     scriptSource: 'inline'
+    #     script: |
+    #       print(f"$(setVar.PythonWorkingDirectory)")
+    #       path = f"$(setVar.PythonWorkingDirectory)"
+    #       print(path)
+    #       file = path + "\\\\test.txt"
+    #       print(file)
 
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-        architecture: 'x64'
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: '3.x'
+    #     addToPath: true
+    #     architecture: 'x64'
 
-    - script: |
-        pip install Lackey
-        pip install pyautogui
-      displayName: Pip install modules
+    # - script: |
+    #     pip install Lackey
+    #     pip install pyautogui
+    #   displayName: Pip install modules
 
-    - task: PythonScript@0
-      displayName: Lackey and PyAutoGUI test
-      inputs:
-        scriptSource: 'inline'
-        script: |
-          import pyautogui
-          from lackey import *
-          import time
+    # - task: PythonScript@0
+    #   displayName: Lackey and PyAutoGUI test
+    #   inputs:
+    #     scriptSource: 'inline'
+    #     script: |
+    #       import pyautogui
+    #       from lackey import *
+    #       import time
 
-          pyautogui.press('win')
-          pyautogui.write('Bloc de notas')
-          pyautogui.press('enter')
-          time.sleep(3)
+    #       pyautogui.press('win')
+    #       pyautogui.write('Bloc de notas')
+    #       pyautogui.press('enter')
+    #       time.sleep(3)
 
 
-          App.focus("Bloc de notas")
-          type("Hola, este es un texto de ejemplo.")
-          time.sleep(1)
+    #       App.focus("Bloc de notas")
+    #       type("Hola, este es un texto de ejemplo.")
+    #       time.sleep(1)
 
-          pyautogui.hotkey("ctrl", "g")
-          type("test.txt")
-          type(Key.ENTER)
+    #       pyautogui.hotkey("ctrl", "g")
+    #       type("test.txt")
+    #       type(Key.ENTER)
 
-          pyautogui.hotkey("alt", "f4")
+    #       pyautogui.hotkey("alt", "f4")
 
-          screenshot = pyautogui.screenshot()
-          screenshot.save("captura.png")
+    #       screenshot = pyautogui.screenshot()
+    #       screenshot.save("captura.png")
 
-    - task: PythonScript@0
-      displayName: Folders
-      inputs:
-        scriptSource: 'inline'
-        script: |
-          import os
+    # - task: PythonScript@0
+    #   displayName: Folders
+    #   inputs:
+    #     scriptSource: 'inline'
+    #     script: |
+    #       import os
 
-          path = f"$(setVar.PythonWorkingDirectory)"
-          archivos = os.listdir(path)
+    #       path = f"$(setVar.PythonWorkingDirectory)"
+    #       archivos = os.listdir(path)
 
-          for archivo in archivos:
-              print(archivo)
+    #       for archivo in archivos:
+    #           print(archivo)
           
-    - task: PublishBuildArtifacts@1
-      displayName: Publish artifacts
-      inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/README.md'
-        ArtifactName: 'drop_$(Build.Repository.Name)'
-        publishLocation: 'Container'
+    # - task: PublishBuildArtifacts@1
+    #   displayName: Publish artifacts
+    #   inputs:
+    #     PathtoPublish: '$(System.DefaultWorkingDirectory)/README.md'
+    #     ArtifactName: 'drop_$(Build.Repository.Name)'
+    #     publishLocation: 'Container'
     
+    - task: NodeTool@0
+      inputs:
+        versionSource: 'spec'
+        checkLatest: true
