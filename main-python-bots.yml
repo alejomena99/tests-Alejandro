@@ -93,7 +93,7 @@ stages:
           winSearchX, winSearchY = pyautogui.center(winSearch)
           print("winSearchX:", winSearchX, "| winSearchY:", winSearchY)
           pyautogui.click(winSearchX, winSearchY)
-          type("File explorer")
+          pyautogui.write('File explorer')
 
           print("Waiting 5 seconds")
           time.sleep(5)
