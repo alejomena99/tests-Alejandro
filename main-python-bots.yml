@@ -90,7 +90,7 @@ stages:
           print("Waiting 5 seconds")
           time.sleep(5)
 
-          print("Taking screenshot notepad")
+          print("Taking screenshot")
           screenshot = pyautogui.screenshot()
           screenshot.save("captura.png")
 
