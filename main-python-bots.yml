@@ -54,14 +54,20 @@ stages:
         script: |
           import pyautogui
           from lackey import *
+          import subprocess
           import time
 
           path = f"$(setVar.PythonWorkingDirectory)"
 
-          print("Openning File Explorer")
-          pyautogui.hotkey('win', 'r')
-          pyautogui.press('a')
+          print("Openning Calculator")
 
+          try:
+              subprocess.Popen(["calc.exe"])
+              print("Calculadora abierta exitosamente.")
+          except Exception as e:
+              print("Se produjo un error al abrir la calculadora:", e)
+
+          # pyautogui.hotkey('win', 's')
           # winSearch = pyautogui.locateOnScreen(path+"\\\\type-here-to-search.png", confidence=0.5)
           # print(winSearch)
           # winSearchX, winSearchY = pyautogui.center(winSearch)
