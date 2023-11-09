@@ -88,7 +88,7 @@ stages:
 
           print("Openning File Explorer")
           pyautogui.hotkey('win', 's')
-          winSearch = pyautogui.locateOnScreen("path\\type-here-to-search.png", confidence=0.75)
+          winSearch = pyautogui.locateOnScreen(path+"\\\\type-here-to-search.png", confidence=0.75)
           print(winSearch)
 
           print("Waiting 5 seconds")
