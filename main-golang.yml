@@ -9,6 +9,8 @@ stages:
       vmImage: ubuntu-latest
 
     steps:
-
-    - script: echo Hello, world!
+    - task: Go@0
+      inputs:
+        command: 'build'
     
+    - script: tree
