@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"mi_proyecto/internal/pkg/util"
+	"hello-world-go/internal/pkg/util"
 )
 
 func main() {

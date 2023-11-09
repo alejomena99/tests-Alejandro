@@ -1,3 +1,3 @@
-module mi_proyecto
+module hello-world-go
 
 go 1.17
