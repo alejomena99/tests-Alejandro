@@ -20,9 +20,11 @@ stages:
       displayName: '2 minutes'
       timeoutInMinutes: 1
       continueOnError: true
-      # retryCountOnTaskFailure: 3
+
+
     - script: echo Hello, world!
       displayName: 'Run a one-line script'
+
     - task: Bash@3
       displayName: Test on the Android Emulator
       inputs:
@@ -43,5 +45,6 @@ stages:
             echo "El script superó el límite de tiempo de 5 minutos y se detuvo."
           fi
       retryCountOnTaskFailure: 3
+      
     - script: echo Hello, world!
       displayName: 'Run a one-line script'
