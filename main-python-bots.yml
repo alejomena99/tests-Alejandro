@@ -45,32 +45,49 @@ stages:
     - script: |
         pip install Lackey
         pip install pyautogui
+        pip install subprocess
       displayName: Pip install modules
 
+    # - task: PythonScript@0
+    #   displayName: Lackey and PyAutoGUI test
+    #   inputs:
+    #     scriptSource: 'inline'
+    #     script: |
+    #       import pyautogui
+    #       from lackey import *
+    #       import time
+
+    #       pyautogui.press('win')
+    #       pyautogui.write('Bloc de notas')
+    #       pyautogui.press('enter')
+    #       time.sleep(3)
+
+
+    #       App.focus("Bloc de notas")
+    #       type("Hola, este es un texto de ejemplo.")
+    #       time.sleep(1)
+
+    #       pyautogui.hotkey("ctrl", "g")
+    #       type("test.txt")
+    #       type(Key.ENTER)
+
+    #       pyautogui.hotkey("alt", "f4")
+
+    #       screenshot = pyautogui.screenshot()
+    #       screenshot.save("captura.png")
+
     - task: PythonScript@0
-      displayName: Lackey and PyAutoGUI test
+      displayName: Screenshot notepad
       inputs:
         scriptSource: 'inline'
         script: |
           import pyautogui
           from lackey import *
           import time
+          import subprocess
 
-          pyautogui.press('win')
-          pyautogui.write('Bloc de notas')
-          pyautogui.press('enter')
-          time.sleep(3)
-
-
-          App.focus("Bloc de notas")
-          type("Hola, este es un texto de ejemplo.")
-          time.sleep(1)
-
-          pyautogui.hotkey("ctrl", "g")
-          type("test.txt")
-          type(Key.ENTER)
-
-          pyautogui.hotkey("alt", "f4")
+          command = 'notepad.exe'
+          subprocess.run(command, shell=True)
 
           screenshot = pyautogui.screenshot()
           screenshot.save("captura.png")
@@ -95,9 +112,3 @@ stages:
         ArtifactName: 'drop_$(Build.Repository.Name)'
         publishLocation: 'Container'
     
-    - task: PublishBuildArtifacts@1
-      displayName: Publish artifacts
-      inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
-        ArtifactName: 'drop_$(Build.Repository.Name)'
-        publishLocation: 'Container'
