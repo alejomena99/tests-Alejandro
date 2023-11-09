@@ -1,0 +1,17 @@
+trigger: none
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - job: 'job'
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+    - task: Go@0
+      inputs:
+        command: 'build'
+        arguments: '$(System_DefaultWorkingDirectory)/hello-world-go'
+    
+    - script: tree
