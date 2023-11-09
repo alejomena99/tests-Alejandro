@@ -81,14 +81,12 @@ stages:
         scriptSource: 'inline'
         script: |
           import pyautogui
-          import subprocess
           import time
 
-          print("Openning notepad")
-          command = 'notepad.exe'
-          subprocess.run(command, shell=True)
+          print("Pressing Win key")
+          pyautogui.press('win')
 
-          print("Waiting notepad")
+          print("Waiting 5 seconds")
           time.sleep(5)
 
           print("Taking screenshot notepad")
