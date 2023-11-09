@@ -81,11 +81,12 @@ stages:
         scriptSource: 'inline'
         script: |
           import pyautogui
+          from lackey import *
           import time
 
           print("Openning File Explorer")
           pyautogui.press('win')
-          pyautogui.write('File Explorer')
+          type("File Explorer")
 
           print("Waiting 5 seconds")
           time.sleep(5)
