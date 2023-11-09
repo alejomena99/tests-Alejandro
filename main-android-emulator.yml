@@ -20,7 +20,7 @@ stages:
       displayName: '2 minutes'
       timeoutInMinutes: 1
       continueOnError: true
-
+      # retryCountOnTaskFailure: 3
 
     - script: echo Hello, world!
       displayName: 'Run a one-line script'
