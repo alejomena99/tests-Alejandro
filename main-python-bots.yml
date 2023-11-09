@@ -84,9 +84,11 @@ stages:
           from lackey import *
           import time
 
+          path = f"$(setVar.PythonWorkingDirectory)"
+
           print("Openning File Explorer")
           pyautogui.hotkey('win', 's')
-          winSearch = pyautogui.locateOnScreen("type-here-to-search.png")
+          winSearch = pyautogui.locateOnScreen("path\\type-here-to-search.png")
           print(winSearch)
 
           print("Waiting 5 seconds")
