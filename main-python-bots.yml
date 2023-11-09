@@ -45,7 +45,6 @@ stages:
     - script: |
         pip install Lackey
         pip install pyautogui
-        pip install subprocess
       displayName: Pip install modules
 
     # - task: PythonScript@0
