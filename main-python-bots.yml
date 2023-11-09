@@ -91,7 +91,13 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: Publish artifacts
       inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/README.md'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/captura.png'
         ArtifactName: 'drop_$(Build.Repository.Name)'
         publishLocation: 'Container'
     
+    - task: PublishBuildArtifacts@1
+      displayName: Publish artifacts
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/test.txt'
+        ArtifactName: 'drop_$(Build.Repository.Name)'
+        publishLocation: 'Container'
