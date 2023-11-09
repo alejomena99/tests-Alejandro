@@ -73,7 +73,13 @@ stages:
           print("zeroButtonX:", zeroButtonX, "| zeroButtonY:", zeroButtonY)
           pyautogui.click(zeroButtonX, zeroButtonY)
 
-          oneButton = pyautogui.locateOnScreen(path+"\\\\one.png", confidence=0.25)
+          addButton = pyautogui.locateOnScreen(path+"\\\\add.png", confidence=0.3)
+          print(addButton)
+          addButtonX, addButtonY = pyautogui.center(addButton)
+          print("addButtonX:", addButtonX, "| addButtonY:", addButtonY)
+          pyautogui.click(addButtonX, addButtonY)
+
+          oneButton = pyautogui.locateOnScreen(path+"\\\\one.png", confidence=0.3)
           print(oneButton)
           oneButtonX, oneButtonY = pyautogui.center(oneButton)
           print("oneButtonX:", oneButtonX, "| oneButtonY:", oneButtonY)
