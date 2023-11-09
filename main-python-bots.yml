@@ -69,9 +69,9 @@ stages:
 
           zeroButton = pyautogui.locateOnScreen(path+"\\\\zero.png", confidence=0.3)
           print(zeroButton)
-          # zeroButtonX, zeroButtonY = pyautogui.center(zeroButton)
-          # print("zeroButtonX:", zeroButtonX, "| zeroButtonY:", zeroButtonY)
-          # pyautogui.click(zeroButtonX, zeroButtonY)
+          zeroButtonX, zeroButtonY = pyautogui.center(zeroButton)
+          print("zeroButtonX:", zeroButtonX, "| zeroButtonY:", zeroButtonY)
+          pyautogui.click(zeroButtonX, zeroButtonY)
 
           # type("test.txt")
           # type(Key.ENTER)
