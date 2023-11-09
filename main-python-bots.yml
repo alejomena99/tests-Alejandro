@@ -81,12 +81,13 @@ stages:
         scriptSource: 'inline'
         script: |
           import pyautogui
-          from lackey import *
-          import time
           import subprocess
+          import time
 
           command = 'notepad.exe'
           subprocess.run(command, shell=True)
+
+          time.sleep(2)
 
           screenshot = pyautogui.screenshot()
           screenshot.save("captura.png")
