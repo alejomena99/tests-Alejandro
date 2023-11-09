@@ -86,8 +86,8 @@ stages:
 
           print("Openning File Explorer")
           pyautogui.hotkey('win', 's')
-          # pyautogui.press('win')
-          # type("File Explorer")
+          type("File Explorer")
+          pyautogui.press('enter')
 
           print("Waiting 5 seconds")
           time.sleep(5)
