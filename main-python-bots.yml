@@ -47,34 +47,6 @@ stages:
         pip install pyautogui
       displayName: Pip install modules
 
-    # - task: PythonScript@0
-    #   displayName: Lackey and PyAutoGUI test
-    #   inputs:
-    #     scriptSource: 'inline'
-    #     script: |
-    #       import pyautogui
-    #       from lackey import *
-    #       import time
-
-    #       pyautogui.press('win')
-    #       pyautogui.write('Bloc de notas')
-    #       pyautogui.press('enter')
-    #       time.sleep(3)
-
-
-    #       App.focus("Bloc de notas")
-    #       type("Hola, este es un texto de ejemplo.")
-    #       time.sleep(1)
-
-    #       pyautogui.hotkey("ctrl", "g")
-    #       type("test.txt")
-    #       type(Key.ENTER)
-
-    #       pyautogui.hotkey("alt", "f4")
-
-    #       screenshot = pyautogui.screenshot()
-    #       screenshot.save("captura.png")
-
     - task: PythonScript@0
       displayName: Screenshot notepad
       inputs:
@@ -87,13 +59,18 @@ stages:
           path = f"$(setVar.PythonWorkingDirectory)"
 
           print("Openning File Explorer")
-          pyautogui.hotkey('win', 's')
-          winSearch = pyautogui.locateOnScreen(path+"\\\\type-here-to-search.png", confidence=0.5)
-          print(winSearch)
-          winSearchX, winSearchY = pyautogui.center(winSearch)
-          print("winSearchX:", winSearchX, "| winSearchY:", winSearchY)
-          pyautogui.click(winSearchX, winSearchY)
-          pyautogui.write('File explorer')
+          pyautogui.hotkey('win', 'r')
+          pyautogui.write('calc')
+
+          # winSearch = pyautogui.locateOnScreen(path+"\\\\type-here-to-search.png", confidence=0.5)
+          # print(winSearch)
+          # winSearchX, winSearchY = pyautogui.center(winSearch)
+          # print("winSearchX:", winSearchX, "| winSearchY:", winSearchY)
+          # pyautogui.click(winSearchX, winSearchY)
+          # pyautogui.write('File explorer')
+
+          # type("test.txt")
+          # type(Key.ENTER)
 
           print("Waiting 5 seconds")
           time.sleep(5)
