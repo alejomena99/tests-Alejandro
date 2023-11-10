@@ -12,6 +12,6 @@ stages:
     - task: Go@0
       inputs:
         command: 'build'
-        arguments: '$(System.DefaultWorkingDirectory)/hello-world-go'
+        arguments: '$(System.DefaultWorkingDirectory)'
     
     - script: tree
