@@ -67,19 +67,19 @@ stages:
           except Exception as e:
               print("Se produjo un error al abrir la calculadora:", e)
 
-          zeroButton = pyautogui.locateOnScreen(path+"\\\\zero.png", confidence=0.7)
+          zeroButton = pyautogui.locateOnScreen(path+"\\\\zero.png", confidence=0.6)
           print(zeroButton)
           zeroButtonX, zeroButtonY = pyautogui.center(zeroButton)
           print("zeroButtonX:", zeroButtonX, "| zeroButtonY:", zeroButtonY)
           pyautogui.click(zeroButtonX, zeroButtonY)
 
-          addButton = pyautogui.locateOnScreen(path+"\\\\add.png", confidence=0.7)
+          addButton = pyautogui.locateOnScreen(path+"\\\\add.png", confidence=0.6)
           print(addButton)
           addButtonX, addButtonY = pyautogui.center(addButton)
           print("addButtonX:", addButtonX, "| addButtonY:", addButtonY)
           pyautogui.click(addButtonX, addButtonY)
 
-          oneButton = pyautogui.locateOnScreen(path+"\\\\one.png", confidence=0.7)
+          oneButton = pyautogui.locateOnScreen(path+"\\\\one.png", confidence=0.6)
           print(oneButton)
           oneButtonX, oneButtonY = pyautogui.center(oneButton)
           print("oneButtonX:", oneButtonX, "| oneButtonY:", oneButtonY)
