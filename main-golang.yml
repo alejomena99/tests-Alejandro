@@ -23,7 +23,7 @@ stages:
         command: 'build'
         workingDirectory: '$(System.DefaultWorkingDirectory)/greeter'
     
-    - script: tree
+   # - script: tree
 
     - task: CopyFiles@2
       displayName: Copy files
@@ -33,6 +33,21 @@ stages:
         flattenFolders: true 
         TargetFolder: '$(build.artifactstagingdirectory)'
 
+    # Prepare Analysis Configuration task
+    - task: SonarQubePrepare@5
+      inputs:
+        SonarQube: 'Sonarqube-flutter'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'test-Alejandro'
+
+    # Run Code Analysis task
+    - task: SonarQubeAnalyze@5
+
+# Publish Quality Gate Result task
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
     - task: PublishBuildArtifacts@1
       inputs:
         artifactName: drop
