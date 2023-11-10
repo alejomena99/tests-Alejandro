@@ -18,12 +18,14 @@ stages:
       inputs:
         command: 'get'
         arguments: '-d'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/greeter'
 
     - task: Go@0
       inputs:
         command: 'build'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/greeter'
+    
+    - script: tree
 
     - task: CopyFiles@2
       inputs:
