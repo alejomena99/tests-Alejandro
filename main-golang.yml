@@ -1,13 +1,11 @@
 trigger: none
-
+pool:
+  name: 'myagent-agenteloi'
 stages:
 - stage: stage
   displayName: stage
   jobs:
   - job: 'job'
-    pool:
-      vmImage: agentloid
-
     steps:
 
     - task: GoTool@0
