@@ -6,7 +6,7 @@ stages:
   jobs:
   - job: 'job'
     pool:
-      vmImage: myagent-agenteloi
+      vmImage: agentloid
 
     steps:
 
