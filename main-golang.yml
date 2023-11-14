@@ -18,24 +18,45 @@ stages:
         arguments: '-d'
         workingDirectory: '$(System.DefaultWorkingDirectory)/greeter'
 
-    - task: SonarQubePrepare@5
-      inputs:
-        SonarQube: 'Sonarqube-flutter'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: 'test-Alejandro'
+    # - task: SonarQubePrepare@5
+    #   inputs:
+    #     SonarQube: 'Sonarqube-flutter'
+    #     scannerMode: 'CLI'
+    #     configMode: 'manual'
+    #     cliProjectKey: 'test-Alejandro'
 
-    - task: SonarQubeAnalyze@5
+    # - task: SonarQubeAnalyze@5
 
-    - task: SonarQubePublish@5
+    # - task: SonarQubePublish@5
+    #   inputs:
+    #     pollingTimeoutSec: '300'}
+
+    - task: SonarCloudPrepare@1
+      displayName: 'SonarCloud Prepare'
       inputs:
-        pollingTimeoutSec: '300'
+        SonarCloud: 'sonar-loida'
+        organization: 'quind'
+        scannerMode: "Other"
+        extraProperties: |
+          sonar.projectKey=test-Alejandro
+          sonar.projectName=test-Alejandro
+
     - task: Go@0
       inputs:
         command: 'build'
         workingDirectory: '$(System.DefaultWorkingDirectory)/greeter'
-    
-   # - script: tree
+  
+    - task: SonarCloudPublish@1
+      displayName: 'SonarCloud Publish'
+      inputs:
+        pollingTimeoutSec: '300'
+
+    - task: sonarcloud-buildbreaker@2
+      displayName: 'SonarCloud Quality gate'
+      inputs:
+        SonarCloud: 'sonar-loida'
+        organization: 'quind'
+# - script: tree
 
     - task: CopyFiles@2
       displayName: Copy files
