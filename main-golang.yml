@@ -45,6 +45,7 @@ stages:
       inputs:
         command: 'build'
         workingDirectory: '$(System.DefaultWorkingDirectory)/greeter'
+        sonarQubeRunAnalysis: true
   
     - task: SonarCloudPublish@1
       displayName: 'SonarCloud Publish'
