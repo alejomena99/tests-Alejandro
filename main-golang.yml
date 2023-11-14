@@ -38,8 +38,8 @@ stages:
         organization: 'quind'
         scannerMode: "Other"
         extraProperties: |
-          sonar.projectKey=test-Alejandro
-          sonar.projectName=test-Alejandro
+          sonar.projectKey=tests-Alejandro
+          sonar.projectName=tests-Alejandro
 
     - task: Go@0
       inputs:
