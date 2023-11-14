@@ -22,7 +22,7 @@ stages:
         script: |
             resourceQuotaSecrets=${{ parameters.resourceQuotaSecrets }}
             resourceQuotaSecrets=$((resourceQuotaSecrets + 3))
-            echo "##vso[task.setvariable variable=resourceQuotaSecrets]resourceQuotaSecrets"
+            echo "##vso[task.setvariable variable=resourceQuotaSecrets]$resourceQuotaSecrets"
 
     - task: CmdLine@2
       displayName: 'Echo new resourceQuotaSecrets'
