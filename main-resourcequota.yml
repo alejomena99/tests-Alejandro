@@ -20,7 +20,7 @@ stages:
       displayName: 'Convert parameters to variables'
       inputs:
         script: |
-            echo "##vso[task.setvariable variable=resourceQuotaSecrets]((${{ parameters.resourceQuotaSecrets }} + 3))"
+            echo "##vso[task.setvariable variable=resourceQuotaSecrets](${{ parameters.resourceQuotaSecrets }} + 3)"
 
     - task: CmdLine@2
       displayName: 'Echo new resourceQuotaSecrets'
