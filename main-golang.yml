@@ -1,6 +1,6 @@
 trigger: none
 pool:
-  name: 'myagent-agenteloi'
+  name: 'Azure Pipelines'
 stages:
 - stage: stage
   displayName: stage
