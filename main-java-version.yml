@@ -10,7 +10,7 @@ stages:
         versionSpecification: $[coalesce(variables.javaVersion, '19')]
 
     pool:
-      vmImage: ubuntu-20.04
+      vmImage: ubuntu-22.04
 
     steps:
 
