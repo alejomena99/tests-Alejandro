@@ -7,23 +7,25 @@ stages:
   - job: 'job'
 
     variables:
-        versionSpecification: $[coalesce(variables.javaVersion, '19')]
+        versionSpecification: 11
 
     pool:
       vmImage: ubuntu-latest
 
     steps:
 
-    - script: |
-        sudo apt-get install openjdk-$(versionSpecification)-jdk
-        echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/java-$(versionSpecification)-openjdk-amd64"
+    - ${{ if notIn(variables['versionSpecification'], '8', '11', '17', '21')  }}:
+
+      - script: |
+          sudo apt-get install openjdk-$(versionSpecification)-jdk
+          echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/java-$(versionSpecification)-openjdk-amd64"
 
     - task: JavaToolInstaller@0
+      displayName: 'Use Java $(versionSpecification)'
       inputs:
         versionSpec: '$(versionSpecification)'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
-
     - script: |
         java -version
 
