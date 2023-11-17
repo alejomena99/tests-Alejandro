@@ -6,8 +6,8 @@ stages:
   jobs:
   - job: 'job'
 
-    # variables:
-    #     versionSpecification: $[coalesce(variables.javaVersion, '19')]
+    variables:
+        versionSpecification: $[coalesce(variables.javaVersion, '19')]
     #     JAVA_HOME_18_X64: '/usr/lib/jvm/jdk-19'
     #     JAVA_HOME_21_X64: '/usr/lib/jvm/jdk-21-oracle-x64'
 
@@ -19,20 +19,15 @@ stages:
     - script: |
         sudo apt-get install openjdk-19-jdk
 
+        JAVA_VERSION="$(versionSpecification"
+        sudo update-alternatives --set java /usr/lib/jvm/temurin-${JAVA_VERSION}-jdk-amd64/bin/java
+        sudo update-alternatives --set javac /usr/lib/jvm/temurin-${JAVA_VERSION}-jdk-amd64/bin/javac
+
     - script: |
         java -version
         echo $JAVA_HOME
         echo $PATH
 
     - script: |
-        #!/bin/bash
+        sudo update-alternatives --config java
 
-        echo "Listado de JDK instalados:"
-
-        # Busca todas las instalaciones de Java en /usr/lib/jvm/
-        for java_home in /usr/lib/jvm/*; do
-            if [ -d "$java_home" ] && [ -x "$java_home/bin/java" ]; then
-                java_version="$("$java_home/bin/java" -version 2>&1 | awk -F '"' '/version/ {print $2}')"
-                echo "  - $java_version: $java_home"
-            fi
-        done
