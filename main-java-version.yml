@@ -17,7 +17,8 @@ stages:
     - script: |
         mkdir external_java
         cd external_java
-        wget https://download.oracle.com/java/19/latest/jdk-19-linux-x64-bin.tar.gz
+        wget https://download.oracle.com/java/19/archive/jdk-19.0.2_linux-x64_bin.tar.gz 
+        mkdir java_19
         ls
     
     - task: JavaToolInstaller@0
@@ -25,7 +26,7 @@ stages:
         versionSpec: '$(versionSpecification)'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'LocalDirectory'
-        jdkFile: '$(System.DefaultWorkingDirectory)/external_java/jdk-19-linux-x64-bin.tar.gz'
+        jdkFile: '$(System.DefaultWorkingDirectory)/external_java/java_19/jdk-19.0.2_linux-x64_bin.tar.gz '
         jdkDestinationDirectory: "/builds/binaries/externals"
         cleanDestinationDirectory: true
 
