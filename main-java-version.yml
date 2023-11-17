@@ -19,15 +19,12 @@ stages:
     - script: |
         sudo apt-get install openjdk-19-jdk
 
-        JAVA_VERSION= "$(versionSpecification)"
-        sudo update-alternatives --set java /usr/lib/jvm/temurin-${JAVA_VERSION}-jdk-amd64/bin/java
-        sudo update-alternatives --set javac /usr/lib/jvm/temurin-${JAVA_VERSION}-jdk-amd64/bin/javac
-
     - script: |
         java -version
         echo $JAVA_HOME
         echo $PATH
 
     - script: |
-        sudo update-alternatives --config java
+        sudo update-alternatives --display java
+
 
