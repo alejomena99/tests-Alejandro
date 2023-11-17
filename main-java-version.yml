@@ -24,3 +24,8 @@ stages:
         source ~/.bashrc
 
         java -version
+
+    - script: |
+        java -version
+        echo $JAVA_HOME
+        echo $PATH
