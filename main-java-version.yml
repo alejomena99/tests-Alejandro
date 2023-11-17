@@ -26,8 +26,8 @@ stages:
         versionSpec: '$(versionSpecification)'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'LocalDirectory'
-        jdkFile: '$(System.DefaultWorkingDirectory)/external_java/java_19/jdk-19.0.2_linux-x64_bin.tar.gz '
-        jdkDestinationDirectory: "/builds/binaries/externals"
+        jdkFile: '$(System.DefaultWorkingDirectory)/external_java/jdk-19.0.2_linux-x64_bin.tar.gz'
+        jdkDestinationDirectory: "$(System.DefaultWorkingDirectory)/external_java/java_19/jdk-19.0.2_linux-x64_bin.tar.gz"
         cleanDestinationDirectory: true
 
     - script: |
