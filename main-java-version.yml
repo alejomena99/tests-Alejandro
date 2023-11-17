@@ -1,0 +1,26 @@
+trigger: none
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - job: 'job'
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+
+    - script: |
+        JAVA_VERSION="19"
+
+        sudo add-apt-repository ppa:openjdk-r/ppa -y
+        sudo apt-get update
+
+        sudo apt-get install openjdk-${JAVA_VERSION}-jdk -y
+
+        echo "export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64" >> ~/.bashrc
+        echo "export PATH=\$PATH:\$JAVA_HOME/bin" >> ~/.bashrc
+
+        source ~/.bashrc
+
+        java -version
