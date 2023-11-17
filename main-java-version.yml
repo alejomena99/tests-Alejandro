@@ -16,19 +16,19 @@ stages:
 
     - script: |
         sudo apt-get install openjdk-$(versionSpecification)-jdk
+        java_19_path=$(update-alternatives --list java | grep "java-19")
+        echo "La ruta de Java 19 es: $java_19_path"
+        echo "##vso[task.setvariable variable=java_19_path]$java_19_path"
     
+    - script: echo $(java_19_path)
     - task: JavaToolInstaller@0
       inputs:
         versionSpec: '$(versionSpecification)'
         jdkArchitectureOption: 'x64'
-        jdkSourceOption: 'PreInstalled'
-
-    # - task: JavaToolInstaller@0
-    #   displayName: 'Use Java $(versionSpecification)'
-    #   inputs:
-    #     versionSpec: '$(versionSpecification)'
-    #     jdkArchitectureOption: 'x64'
-    #     jdkSourceOption: 'PreInstalled'
+        jdkSourceOption: 'LocalDirectory'
+        jdkFile: '$(java_19_path)'
+        jdkDestinationDirectory: "/builds/binaries/externals"
+        cleanDestinationDirectory: true
 
     - script: |
         java -version
