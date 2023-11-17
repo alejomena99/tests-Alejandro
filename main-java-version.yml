@@ -24,24 +24,14 @@ stages:
     - script: |
         sudo update-alternatives --display java
 
-    # - script: |
-    #     mkdir external_java
-    #     cd external_java
-    #     wget https://download.oracle.com/java/19/archive/jdk-19.0.2_linux-x64_bin.tar.gz 
-    #     mkdir java_19
-    #     ls
-    
-    # - task: JavaToolInstaller@0
-    #   inputs:
-    #     versionSpec: '$(versionSpecification)'
-    #     jdkArchitectureOption: 'x64'
-    #     jdkSourceOption: 'LocalDirectory'
-    #     jdkFile: '$(System.DefaultWorkingDirectory)/external_java/jdk-19.0.2_linux-x64_bin.tar.gz'
-    #     jdkDestinationDirectory: "$(System.DefaultWorkingDirectory)/external_java/java_19/jdk-19.0.2_linux-x64_bin.tar.gz"
-    #     cleanDestinationDirectory: true
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '$(versionSpecification)'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
 
-    # - script: |
-    #     java -version
+    - script: |
+        java -version
 
 
 
