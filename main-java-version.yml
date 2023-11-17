@@ -5,6 +5,12 @@ stages:
   displayName: stage
   jobs:
   - job: 'job'
+
+    # variables:
+    #     versionSpecification: $[coalesce(variables.javaVersion, '19')]
+    #     JAVA_HOME_18_X64: '/usr/lib/jvm/jdk-19'
+    #     JAVA_HOME_21_X64: '/usr/lib/jvm/jdk-21-oracle-x64'
+
     pool:
       vmImage: ubuntu-latest
 
@@ -29,3 +35,16 @@ stages:
         java -version
         echo $JAVA_HOME
         echo $PATH
+
+    - script: |
+        #!/bin/bash
+
+        echo "Listado de JDK instalados:"
+
+        # Busca todas las instalaciones de Java en /usr/lib/jvm/
+        for java_home in /usr/lib/jvm/*; do
+            if [ -d "$java_home" ] && [ -x "$java_home/bin/java" ]; then
+                java_version="$("$java_home/bin/java" -version 2>&1 | awk -F '"' '/version/ {print $2}')"
+                echo "  - $java_version: $java_home"
+            fi
+        done
