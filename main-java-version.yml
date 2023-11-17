@@ -8,8 +8,6 @@ stages:
 
     variables:
         versionSpecification: $[coalesce(variables.javaVersion, '19')]
-    #     JAVA_HOME_18_X64: '/usr/lib/jvm/jdk-19'
-    #     JAVA_HOME_21_X64: '/usr/lib/jvm/jdk-21-oracle-x64'
 
     pool:
       vmImage: ubuntu-latest
@@ -17,14 +15,23 @@ stages:
     steps:
 
     - script: |
-        sudo apt-get install openjdk-19-jdk
+        sudo apt-get install openjdk-$(versionSpecification)-jdk
+    
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '$(versionSpecification)'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
+
+    # - task: JavaToolInstaller@0
+    #   displayName: 'Use Java $(versionSpecification)'
+    #   inputs:
+    #     versionSpec: '$(versionSpecification)'
+    #     jdkArchitectureOption: 'x64'
+    #     jdkSourceOption: 'PreInstalled'
 
     - script: |
         java -version
-        echo $JAVA_HOME
-        echo $PATH
 
-    - script: |
-        sudo update-alternatives --display java
 
 
