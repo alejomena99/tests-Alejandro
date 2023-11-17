@@ -8,6 +8,7 @@ stages:
 
     variables:
         versionSpecification: $[coalesce(variables.javaVersion, '19')]
+        JAVA_HOME_19_X64: '/usr/lib/jvm/java-19-openjdk-amd64'
 
     pool:
       vmImage: ubuntu-latest
