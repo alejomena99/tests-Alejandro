@@ -13,15 +13,17 @@ stages:
       vmImage: ubuntu-22.04
 
     steps:
+    
+    - script: sudo apt install openjdk-12-jdk
 
-    - script: | 
-        echo "su versión: $(versionSpecification)"
-        if [[ "$(versionSpecification)" != @("8"|"11"|"17"|"21") ]]; 
-        then
-          sudo apt install openjdk-12-jdk-headless
-          echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/java-$(versionSpecification)-openjdk-amd64"
-        fi
-      displayName: 'Validate specific version'
+    # - script: | 
+    #     echo "su versión: $(versionSpecification)"
+    #     if [[ "$(versionSpecification)" != @("8"|"11"|"17"|"21") ]]; 
+    #     then
+    #       sudo apt install openjdk-12-jdk-headless
+    #       echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/java-$(versionSpecification)-openjdk-amd64"
+    #     fi
+    #   displayName: 'Validate specific version'
 
     - task: JavaToolInstaller@0
       displayName: 'Use Java $(versionSpecification)'
