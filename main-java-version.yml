@@ -19,9 +19,6 @@ stages:
       vmImage: ubuntu-22.04
 
     steps:
-    - script: |
-        echo "##vso[task.setvariable variable=versionSpecification]${{ parameters.javaVersion}}"
-
     - script: | 
         echo "su versión: $(versionSpecification)"
 
