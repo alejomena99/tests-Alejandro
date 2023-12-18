@@ -13,26 +13,28 @@ stages:
       vmImage: ubuntu-22.04
 
     steps:
-
-    - script: | 
-        echo "su versión: $(versionSpecification)"
-        if [[ "$(versionSpecification)" != @("8"|"11"|"17"|"21") ]]; 
-        then
-          curl -s "https://get.sdkman.io" | bash
-          source "$HOME/.sdkman/bin/sdkman-init.sh"
-          sdk install java $(versionSpecification)
-          echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/java-$(versionSpecification)-openjdk-amd64"
-        fi
-      displayName: 'Validate specific version'
-
-    - task: JavaToolInstaller@0
-      displayName: 'Use Java $(versionSpecification)'
-      inputs:
-        versionSpec: '$(versionSpecification)'
-        jdkArchitectureOption: 'x64'
-        jdkSourceOption: 'PreInstalled'
     - script: |
-        java -version
+        curl -s "https://get.sdkman.io" | bash
+        source "$HOME/.sdkman/bin/sdkman-init.sh"
+        sdk list java
+
+    # - script: | 
+    #     echo "su versión: $(versionSpecification)"
+    #     if [[ "$(versionSpecification)" != @("8"|"11"|"17"|"21") ]]; 
+    #     then
+    #       sdk install java $(versionSpecification)
+    #       echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/java-$(versionSpecification)-openjdk-amd64"
+    #     fi
+    #   displayName: 'Validate specific version'
+
+    # - task: JavaToolInstaller@0
+    #   displayName: 'Use Java $(versionSpecification)'
+    #   inputs:
+    #     versionSpec: '$(versionSpecification)'
+    #     jdkArchitectureOption: 'x64'
+    #     jdkSourceOption: 'PreInstalled'
+    # - script: |
+    #     java -version
 
 
 
