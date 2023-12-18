@@ -15,10 +15,8 @@ stages:
     steps:
 
     - script: |
-        sudo add-apt-repository ppa:openjdk/java-12-ppa
-        sudo apt update
-        sudo apt install openjdk-12-jdk
-
+        wget -o java_version.tar.gz https://download.java.net/openjdk/jdk7u75/ri/openjdk-7u75-b13-linux-x64-18_dec_2014.tar.gz
+        tree
     # - script: | 
     #     echo "su versión: $(versionSpecification)"
     #     if [[ "$(versionSpecification)" != @("8"|"11"|"17"|"21") ]]; 
@@ -28,14 +26,14 @@ stages:
     #     fi
     #   displayName: 'Validate specific version'
 
-    - task: JavaToolInstaller@0
-      displayName: 'Use Java $(versionSpecification)'
-      inputs:
-        versionSpec: '$(versionSpecification)'
-        jdkArchitectureOption: 'x64'
-        jdkSourceOption: 'PreInstalled'
-    - script: |
-        java -version
+    # - task: JavaToolInstaller@0
+    #   displayName: 'Use Java $(versionSpecification)'
+    #   inputs:
+    #     versionSpec: '$(versionSpecification)'
+    #     jdkArchitectureOption: 'x64'
+    #     jdkSourceOption: 'PreInstalled'
+    # - script: |
+    #     java -version
 
 
 
