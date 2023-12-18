@@ -58,11 +58,11 @@ stages:
             esac
 
             # Descargar el archivo tar.gz
-            wget "$url" -O openjdk.tar.gz
+            wget "$url"
 
             # Tu lógica adicional aquí, por ejemplo, descomprimir el archivo
-            mv openjdk.tar.gz /usr/lib/jvm
-            tar -zxvf openjdk.tar.gz
+            mv openjdk-$(versionSpecification)_linux-x64_bin.tar.gz/usr/lib/jvm
+            tar -zxvf openjdk-$(versionSpecification)_linux-x64_bin.tar.gz
             echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/openjdk-$(versionSpecification)_linux-x64_bin"
             echo "Descargado e instalado Java $version"
         else
@@ -76,7 +76,7 @@ stages:
         versionSpec: '$(versionSpecification)'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
-        
+
     - script: |
         java -version
 
