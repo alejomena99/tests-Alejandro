@@ -1,0 +1,21 @@
+trigger: none
+
+parameters:
+- name: Param
+  displayName: 'Param'
+  type: string
+  default: ''
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - job: 'job'
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+
+    - script: |
+        echo Hello
+      displayName: Hello script
