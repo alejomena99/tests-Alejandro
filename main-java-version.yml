@@ -62,9 +62,8 @@ stages:
 
             # Tu lógica adicional aquí, por ejemplo, descomprimir el archivo
             tar -zxvf openjdk-$(versionSpecification)_linux-x64_bin.tar.gz -C /usr/lib/jvm
-            echo 111111111
             ls /usr/lib/jvm/
-            echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/openjdk-$(versionSpecification)_linux-x64_bin"
+            echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/jdk-$(versionSpecification)"
             echo "Descargado e instalado Java $version"
         else
             echo "La versión actual de Java esta preinstalada en el agente."
