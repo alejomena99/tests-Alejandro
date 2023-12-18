@@ -24,14 +24,14 @@ stages:
     #     fi
     #   displayName: 'Validate specific version'
 
-    - task: JavaToolInstaller@0
-      displayName: 'Use Java $(versionSpecification)'
-      inputs:
-        versionSpec: '$(versionSpecification)'
-        jdkArchitectureOption: 'x64'
-        jdkSourceOption: 'PreInstalled'
-    - script: |
-        java -version
+    # - task: JavaToolInstaller@0
+    #   displayName: 'Use Java $(versionSpecification)'
+    #   inputs:
+    #     versionSpec: '$(versionSpecification)'
+    #     jdkArchitectureOption: 'x64'
+    #     jdkSourceOption: 'PreInstalled'
+    # - script: |
+    #     java -version
 
 
 
