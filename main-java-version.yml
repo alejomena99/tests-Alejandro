@@ -15,9 +15,9 @@ stages:
     steps:
 
     - script: |
-      sudo add-apt-repository ppa:openjdk/java-12-ppa
-      sudo apt update
-      sudo apt install openjdk-12-jdk
+        sudo add-apt-repository ppa:openjdk/java-12-ppa
+        sudo apt update
+        sudo apt install openjdk-12-jdk
 
     # - script: | 
     #     echo "su versión: $(versionSpecification)"
