@@ -61,8 +61,8 @@ stages:
             wget "$url"
 
             # Tu lógica adicional aquí, por ejemplo, descomprimir el archivo
-            mv openjdk-$(versionSpecification)_linux-x64_bin.tar.gz/usr/lib/jvm
-            tar -zxvf openjdk-$(versionSpecification)_linux-x64_bin.tar.gz
+            tar -zxvf openjdk-$(versionSpecification)_linux-x64_bin.tar.gz -C /usr/lib/jvm
+            ls /usr/lib/jvm/
             echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/openjdk-$(versionSpecification)_linux-x64_bin"
             echo "Descargado e instalado Java $version"
         else
