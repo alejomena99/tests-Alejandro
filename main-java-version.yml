@@ -57,7 +57,8 @@ stages:
                     url="https://download.java.net/java/GA/jdk20/bdc68b4b9cbc4ebcb30745c85038d91d/36/GPL/openjdk-20_linux-x64_bin.tar.gz"
                     ;;
                 *)
-                    echo "La versión actual de Java $version esta preinstalada en el agente."
+                    echo "Versión no soportada: $version"
+                    exit 1
                     ;;
             esac
 
@@ -71,7 +72,7 @@ stages:
             echo "Descargado e instalado Java $version"
         else
              echo "Versión no soportada: $version"
-             exit 1
+             echo "La versión actual de Java $version esta preinstalada en el agente."
         fi
       displayName: 'Validate specific version'
 
