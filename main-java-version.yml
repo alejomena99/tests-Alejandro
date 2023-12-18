@@ -13,7 +13,10 @@ stages:
       vmImage: ubuntu-22.04
 
     steps:
-    - script: snap search openjdk
+    - script: |
+      curl -s "https://get.sdkman.io" | bash
+      source "$HOME/.sdkman/bin/sdkman-init.sh"
+
     # - script: | 
     #     echo "su versión: $(versionSpecification)"
     #     if [[ "$(versionSpecification)" != @("8"|"11"|"17"|"21") ]]; 
