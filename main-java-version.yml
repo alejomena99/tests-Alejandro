@@ -13,14 +13,13 @@ stages:
       vmImage: ubuntu-22.04
 
     steps:
-    - script: |
-        curl -s "https://get.sdkman.io" | bash
-        source "$HOME/.sdkman/bin/sdkman-init.sh"
 
     - script: | 
         echo "su versión: $(versionSpecification)"
         if [[ "$(versionSpecification)" != @("8"|"11"|"17"|"21") ]]; 
         then
+          curl -s "https://get.sdkman.io" | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install java $(versionSpecification)
           echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/java-$(versionSpecification)-openjdk-amd64"
         fi
