@@ -1,18 +1,23 @@
 trigger: none
 
+parameters:
+- name: javaVersion
+  displayName: 'javaVersion'
+  type: string
+  default: ''
+
 stages:
 - stage: stage
   displayName: stage
   jobs:
   - job: 'job'
 
-    variables:
-        versionSpecification: $[coalesce(variables.javaVersion, '8')]
-
     pool:
       vmImage: ubuntu-22.04
 
     steps:
+    - script: |
+        echo "##vso[task.setvariable variable=javaVersion]${{ parameters.javaVersion}}"
 
     - script: | 
         echo "su versión: $(versionSpecification)"
