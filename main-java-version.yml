@@ -65,7 +65,7 @@ stages:
             ls /usr/lib/jvm/
             echo "##vso[task.setvariable variable=JAVA_HOME_$(versionSpecification)_X64]/usr/lib/jvm/jdk-$(versionSpecification)"
             echo "Descargado e instalado Java $version"
-        displayName: 'Validate specific version'
+         displayName: 'Validate specific version'
 
     - task: JavaToolInstaller@0
       displayName: 'Use Java $(versionSpecification)'
