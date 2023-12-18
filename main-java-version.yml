@@ -7,7 +7,7 @@ stages:
   - job: 'job'
 
     variables:
-        versionSpecification: $[coalesce(variables.javaVersion, '19')]
+        versionSpecification: $[coalesce(variables.javaVersion, '12')]
 
     pool:
       vmImage: ubuntu-22.04
