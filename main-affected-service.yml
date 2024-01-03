@@ -1,5 +1,8 @@
 trigger: none
 
+variables:
+  - template: var-affected-service.yml
+
 stages:
 - stage: stage
   displayName: stage
