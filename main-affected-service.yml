@@ -1,0 +1,18 @@
+trigger: none
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - job: 'job'
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+
+    - script: |
+        echo hola
+      displayName: 'echo script'
+    #   timeoutInMinutes: 1
+    #   continueOnError: true
+    #   retryCountOnTaskFailure: 3
