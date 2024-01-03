@@ -2,7 +2,8 @@ trigger: none
 
 variables:
   - template: var-affected-service.yml
-
+  - name: var_test2
+    value: var_test2
 stages:
 - stage: stage
   displayName: stage
@@ -15,6 +16,7 @@ stages:
 
     - script: |
         echo $(var_test1)
+        echo $(var_test2)
       displayName: 'echo script'
     #   timeoutInMinutes: 1
     #   continueOnError: true
