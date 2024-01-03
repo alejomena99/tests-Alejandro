@@ -1,0 +1,5 @@
+variables:
+
+- group: alejo-var-back
+- name: var_test1
+  value: var_test1
