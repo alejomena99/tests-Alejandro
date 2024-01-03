@@ -11,7 +11,7 @@ stages:
     steps:
 
     - script: |
-        echo ${{parameters.javaVersion}}
+        echo $(var_test1)
       displayName: 'echo script'
     #   timeoutInMinutes: 1
     #   continueOnError: true
