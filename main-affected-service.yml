@@ -11,7 +11,7 @@ stages:
     steps:
 
     - script: |
-        echo hola
+        echo ${{parameters.javaVersion}}
       displayName: 'echo script'
     #   timeoutInMinutes: 1
     #   continueOnError: true
