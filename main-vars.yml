@@ -2,6 +2,8 @@ trigger: none
 
 variables:
   - template: variables/vars-azure-pipeline.yml
+  - name: test
+    value: ${{ variables.template }}
 
 stages:
 - stage: stage
@@ -16,3 +18,5 @@ stages:
     - script: echo $(var)
 
     - script: echo $(APP)
+
+    - script: echo $(test)
