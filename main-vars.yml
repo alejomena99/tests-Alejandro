@@ -1,0 +1,16 @@
+trigger: none
+
+variables:
+  - template: variables/vars-azure-pipeline.yml
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - job: 'job'
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+
+    - script: echo $(var)
