@@ -1,3 +1,6 @@
+# variables:
+# - name: var
+#   value: hola
+
 variables:
-- name: var
-  value: hola
+  - template: tests/vars.yml
