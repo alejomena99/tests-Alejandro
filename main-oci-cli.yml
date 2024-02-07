@@ -6,7 +6,7 @@ stages:
   jobs:
   - job: 'job'
     pool:
-      vmImage: macOS-13
+      vmImage: macOS-12
 
     steps:
 
