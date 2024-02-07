@@ -16,7 +16,7 @@ stages:
         terraformVersion: 1.0.7
               
     - script: |
-        brew install oci-cli
+        sudo brew install oci-cli
       displayName: 'oci cli install script'
 
     - script: |
