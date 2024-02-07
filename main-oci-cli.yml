@@ -27,4 +27,6 @@ stages:
         export OCI_CLI_REGION=sa-bogota-1
 
         oci --version
+
+        oci iam compartment list --all
       displayName: 'oci cli connect'
