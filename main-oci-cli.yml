@@ -16,9 +16,9 @@ stages:
         terraformVersion: 1.0.7
               
     - script: |
-        # brew install oci-cli
+        brew install oci-cli
 
-        echo -e "[DEFAULT]\
+        echo -e "[DEFAULT]
         tenancy_ocid = ocid1.tenancy.oc1..aaaaaaaa625xcguiizsahhzszll5yf43hgmtruxmpakup5vwckyvjhxvvfqq
         user_ocid = ocid1.user.oc1..aaaaaaaasxttbjc5bi7rvj6eric7hmta4que7lxohnxlokqudixrnh2llkga
         fingerprint = 3b:20:6d:0b:f0:a5:d1:55:03:5d:ed:1c:da:16:b3:6f
@@ -26,8 +26,8 @@ stages:
         region = sa-bogota-1" > $(System.DefaultWorkingDirectory)/oci_cli_rc
 
         cat $(System.DefaultWorkingDirectory)/oci_cli_rc
-        # oci --version
-        # oci setup oci-cli-rc --file $(System.DefaultWorkingDirectory)/oci_cli_rc
+        oci --version
+        oci setup autocomplete oci-cli-rc --file $(System.DefaultWorkingDirectory)/oci_cli_rc
       displayName: 'oci cli install script'
 
     - script: |
