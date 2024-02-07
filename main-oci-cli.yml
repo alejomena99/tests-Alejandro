@@ -27,7 +27,7 @@ stages:
 
         cat $(System.DefaultWorkingDirectory)/oci_cli_rc
         oci --version
-        oci setup autocomplete oci-cli-rc --file $(System.DefaultWorkingDirectory)/oci_cli_rc
+        oci setup oci-cli-rc --file $(System.DefaultWorkingDirectory)/oci_cli_rc
       displayName: 'oci cli install script'
 
     - script: |
