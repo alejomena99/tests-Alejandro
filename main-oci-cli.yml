@@ -19,11 +19,11 @@ stages:
         # brew install oci-cli
 
         echo -e "[DEFAULT]\n
-                tenancy_ocid = ocid1.tenancy.oc1..aaaaaaaa625xcguiizsahhzszll5yf43hgmtruxmpakup5vwckyvjhxvvfqq\n
-                user_ocid = ocid1.user.oc1..aaaaaaaasxttbjc5bi7rvj6eric7hmta4que7lxohnxlokqudixrnh2llkga\n
-                fingerprint = 3b:20:6d:0b:f0:a5:d1:55:03:5d:ed:1c:da:16:b3:6f\n
-                private_key_path = $(System.DefaultWorkingDirectory)/private_general_oci_connection.pem\n
-                region = sa-bogota-1" > $(System.DefaultWorkingDirectory)/oci_cli_rc
+        tenancy_ocid = ocid1.tenancy.oc1..aaaaaaaa625xcguiizsahhzszll5yf43hgmtruxmpakup5vwckyvjhxvvfqq\n
+        user_ocid = ocid1.user.oc1..aaaaaaaasxttbjc5bi7rvj6eric7hmta4que7lxohnxlokqudixrnh2llkga\n
+        fingerprint = 3b:20:6d:0b:f0:a5:d1:55:03:5d:ed:1c:da:16:b3:6f\n
+        private_key_path = $(System.DefaultWorkingDirectory)/private_general_oci_connection.pem\n
+        region = sa-bogota-1" > $(System.DefaultWorkingDirectory)/oci_cli_rc
 
         cat $(System.DefaultWorkingDirectory)/oci_cli_rc
         # oci --version
