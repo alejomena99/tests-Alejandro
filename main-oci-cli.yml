@@ -17,10 +17,20 @@ stages:
               
     - script: |
         brew install oci-cli
-        cd $(System.DefaultWorkingDirectory)/.oci
-        ls
+        mkdir $(System.DefaultWorkingDirectory)/.oci
+
+        echo -e "[DEFAULT]\n
+                    tenancy_ocid = ocid1.tenancy.oc1..aaaaaaaa625xcguiizsahhzszll5yf43hgmtruxmpakup5vwckyvjhxvvfqq\n
+                    user_ocid = ocid1.user.oc1..aaaaaaaasxttbjc5bi7rvj6eric7hmta4que7lxohnxlokqudixrnh2llkga\n
+                    fingerprint = 3b:20:6d:0b:f0:a5:d1:55:03:5d:ed:1c:da:16:b3:6f\n
+                    private_key_path = $(System.DefaultWorkingDirectory)/private_general_oci_connection.pem\n
+                    region = sa-bogota-1" > $(System.DefaultWorkingDirectory)/.oci/config
+
+        cat $(System.DefaultWorkingDirectory)/.oci/config
+
+        oci --version
       displayName: 'oci cli install script'
 
     - script: |
-        # oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
+        oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
       displayName: 'oci cli connect'
