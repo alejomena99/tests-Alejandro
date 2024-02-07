@@ -18,3 +18,13 @@ stages:
     - script: |
         brew update && brew install oci-cli
       displayName: 'oci cli install script'
+
+    - script: |
+        export OCI_CLI_TENANCY_OCID=ocid1.tenancy.oc1..aaaaaaaa625xcguiizsahhzszll5yf43hgmtruxmpakup5vwckyvjhxvvfqq
+        export OCI_CLI_USER_OCID=ocid1.user.oc1..aaaaaaaasxttbjc5bi7rvj6eric7hmta4que7lxohnxlokqudixrnh2llkga
+        export OCI_CLI_FINGERPRINT=3b:20:6d:0b:f0:a5:d1:55:03:5d:ed:1c:da:16:b3:6f
+        export OCI_CLI_PRIVATE_KEY_PATH=$(System.DefaultWorkingDirectory)/OCI-private-key.pem
+        export OCI_CLI_REGION=sa-bogota-1
+
+        oci --version
+      displayName: 'oci cli connect'
