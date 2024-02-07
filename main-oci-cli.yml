@@ -1,0 +1,20 @@
+trigger: none
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - job: 'job'
+    pool:
+      vmImage: macOS-13
+
+    steps:
+
+    - task: TerraformInstaller@0
+      displayName: 'Install or Update Terraform'
+      inputs:
+        terraformVersion: 1.0.7
+              
+    - script: |
+        brew update && brew install oci-cli
+      displayName: 'oci cli install script'
