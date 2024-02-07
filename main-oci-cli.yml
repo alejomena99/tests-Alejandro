@@ -28,8 +28,10 @@ stages:
         cat $(System.DefaultWorkingDirectory)/oci_cli_rc
         oci --version
         oci setup oci-cli-rc --file $(System.DefaultWorkingDirectory)/oci_cli_rc
+
+        oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
       displayName: 'oci cli install script'
 
     - script: |
-        # oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
+        oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
       displayName: 'oci cli connect'
