@@ -15,8 +15,8 @@ stages:
     backup_type: ${{upper(parameters.backup_type)}}
   jobs:
   - job: 'job'
-    pool:
-      vmImage: macOS-12
+    # pool:
+    #   vmImage: macOS-12
 
     steps:
     - script : $(backup_type)
