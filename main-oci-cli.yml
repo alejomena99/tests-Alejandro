@@ -12,7 +12,7 @@ stages:
 - stage: stage
   displayName: stage
   variables:
-    backup_type: upper(${{parameters.backup_type}})
+    backup_type: ${{upper(parameters.backup_type)}}
   jobs:
   - job: 'job'
     pool:
