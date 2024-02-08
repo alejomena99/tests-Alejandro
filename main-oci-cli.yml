@@ -1,37 +1,48 @@
 trigger: none
 
+parameters:
+  - name: backup_type
+    displayName: 'Backup type'
+    type: string
+    values:
+    - "Full"
+    - "Incremental"
+
 stages:
 - stage: stage
   displayName: stage
+  variables:
+    backup_type: upper(${{parameters.backup_type}})
   jobs:
   - job: 'job'
     pool:
       vmImage: macOS-12
 
     steps:
+    - script : $(backup_type)
 
-    - task: TerraformInstaller@0
-      displayName: 'Install or Update Terraform'
-      inputs:
-        terraformVersion: 1.0.7
+    # - task: TerraformInstaller@0
+    #   displayName: 'Install or Update Terraform'
+    #   inputs:
+    #     terraformVersion: 1.0.7
               
-    - script: |
-        brew install oci-cli
+    # - script: |
+    #     brew install oci-cli
 
-        echo -e "[DEFAULT]
-        tenancy_ocid = ocid1.tenancy.oc1..aaaaaaaa625xcguiizsahhzszll5yf43hgmtruxmpakup5vwckyvjhxvvfqq
-        user_ocid = ocid1.user.oc1..aaaaaaaasxttbjc5bi7rvj6eric7hmta4que7lxohnxlokqudixrnh2llkga
-        fingerprint = 3b:20:6d:0b:f0:a5:d1:55:03:5d:ed:1c:da:16:b3:6f
-        private_key_path = $(System.DefaultWorkingDirectory)/private_general_oci_connection.pem
-        region = sa-bogota-1" > $(System.DefaultWorkingDirectory)/oci_cli_rc
+    #     echo -e "[DEFAULT]
+    #     tenancy_ocid = ocid1.tenancy.oc1..aaaaaaaa625xcguiizsahhzszll5yf43hgmtruxmpakup5vwckyvjhxvvfqq
+    #     user_ocid = ocid1.user.oc1..aaaaaaaasxttbjc5bi7rvj6eric7hmta4que7lxohnxlokqudixrnh2llkga
+    #     fingerprint = 3b:20:6d:0b:f0:a5:d1:55:03:5d:ed:1c:da:16:b3:6f
+    #     private_key_path = $(System.DefaultWorkingDirectory)/private_general_oci_connection.pem
+    #     region = sa-bogota-1" > $(System.DefaultWorkingDirectory)/oci_cli_rc
 
-        cat $(System.DefaultWorkingDirectory)/oci_cli_rc
-        oci --version
-        oci setup oci-cli-rc --file $(System.DefaultWorkingDirectory)/oci_cli_rc
+    #     cat $(System.DefaultWorkingDirectory)/oci_cli_rc
+    #     oci --version
+    #     oci setup oci-cli-rc --file $(System.DefaultWorkingDirectory)/oci_cli_rc
 
-        oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
-      displayName: 'oci cli install script'
+    #     oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
+    #   displayName: 'oci cli install script'
 
-    - script: |
-        oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
-      displayName: 'oci cli connect'
+    # - script: |
+    #     oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaadhms2usmx5p2cozhd6axyv2pbowhop5ap46c3ts62d44jrliid3a
+    #   displayName: 'oci cli connect'
