@@ -19,7 +19,7 @@ stages:
     #   vmImage: macOS-12
 
     steps:
-    - script : $(backup_type)
+    - script : echo $(backup_type)
 
     # - task: TerraformInstaller@0
     #   displayName: 'Install or Update Terraform'
