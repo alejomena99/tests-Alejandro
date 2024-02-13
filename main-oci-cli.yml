@@ -19,6 +19,7 @@ stages:
         wget https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
         chmod +x install.sh
         sudo ./install.sh --accept-all-defaults
+        chmod +x $(System.DefaultWorkingDirectory)/a4d38f43-08fa-40b2-9c45-a531680dda3d.sh
       displayName: 'oci cli connect'
 
     - script: |
