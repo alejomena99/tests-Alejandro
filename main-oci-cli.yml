@@ -31,3 +31,4 @@ stages:
         OCI_CLI_FINGERPRINT: 5a:3d:a5:e1:c0:10:f1:b6:a1:a8:c8:3f:f2:98:88:3a
         OCI_CLI_KEY_FILE: $(System.DefaultWorkingDirectory)/private_general_oci_connection.pem
         OCI_CLI_REGION: sa-bogota-1
+        OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING: True
