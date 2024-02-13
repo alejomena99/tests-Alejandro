@@ -18,7 +18,7 @@ stages:
     - script: |
         wget https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
         chmod +x install.sh
-        sudo ./install.sh --accept-all-defaults
+        sudo ./install.sh --accept-all-defaults --exec-dir $(System.DefaultWorkingDirectory)/oci-cli
       displayName: 'oci cli connect'
 
     - script: |
