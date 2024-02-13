@@ -27,8 +27,9 @@ stages:
         region = sa-bogota-1" > $(System.DefaultWorkingDirectory)/.oci/config
 
         cat $(System.DefaultWorkingDirectory)/.oci/config
-
-        cd .oci
+        ls 
+        
+        cd /.oci
         ls
 
         cd ..
