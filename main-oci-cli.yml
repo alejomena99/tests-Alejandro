@@ -24,5 +24,5 @@ stages:
     - script: |
         $(System.DefaultWorkingDirectory)/oci-cli/oci --help
         $(System.DefaultWorkingDirectory)/oci-cli/oci --version   
-        # oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaa6ijlvgsvu7emtoyt764nvh7ozsc6t67sy2z6gue427f57g4o2neq
+        $(System.DefaultWorkingDirectory)/oci-cli/oci compute instance list --compartment-id ocid1.compartment.oc1..aaaaaaaa6ijlvgsvu7emtoyt764nvh7ozsc6t67sy2z6gue427f57g4o2neq
       displayName: 'oci cli connect'
