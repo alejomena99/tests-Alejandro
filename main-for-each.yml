@@ -23,6 +23,6 @@ variables:
 jobs:
   - job: A1 
     steps:
-    - ${{ each value in variables['test'] }}:
+    - ${{ each value in (variables['test']) }}:
       - script: echo ${{ value }}
     #   - script: echo $(test)
