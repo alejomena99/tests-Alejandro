@@ -1,0 +1,13 @@
+parameters:
+- name: branchOptions
+  displayName: Source branch options
+  type: object
+  default:
+    - refs/heads/main
+    - refs/heads/test
+
+jobs:
+  - job: A1 
+    steps:
+    - ${{ each value in parameters.branchOptions }}:
+      - script: echo ${{ value }}
