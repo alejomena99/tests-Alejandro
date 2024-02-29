@@ -1,20 +1,14 @@
 parameters:
-- name: installOks
-  displayName: 'Install Front on OKS'
-  type: boolean
-
-- name: installAks
-  displayName: 'Install Front on AKS'
-  type: boolean
-
-variables:
-- name: test
-  value: 
-    - ${{ parameters.installOks }}
-    - ${{ parameters.installAks }}
+- name: branchOptions
+  displayName: Source branch options
+  type: object
+  default:
+    - refs/heads/main
+    - refs/heads/test
 
 jobs:
   - job: A1 
     steps:
-    - ${{ each value in variables['test'] }}:
+    - ${{ each value in parameters.branchOptions }}:
       - script: echo ${{ value }}
+      - script: echo ${{ join(';',parameters.branchOptions) }}
