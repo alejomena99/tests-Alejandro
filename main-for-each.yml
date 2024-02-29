@@ -11,3 +11,4 @@ jobs:
     steps:
     - ${{ each value in parameters.branchOptions }}:
       - script: echo ${{ value }}
+      - script: echo ${{ parameters.branchOptions }}
