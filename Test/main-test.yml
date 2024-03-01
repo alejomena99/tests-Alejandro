@@ -1,0 +1,10 @@
+parameters:
+- name: branchOptions
+  displayName: Source branch options
+  type: object
+
+jobs:
+  - job: A1 
+    steps:
+    - ${{ each value in parameters.branchOptions }}:
+      - script: echo ${{ value }}
