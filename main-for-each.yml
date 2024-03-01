@@ -6,8 +6,12 @@ parameters:
     - refs/heads/main
     - refs/heads/test
 
+variables:
+- name: myVariable
+  value: ${{ parameters.branchOptions }}
+
 jobs:
   - job: A1 
     steps:
-    - ${{ each value in parameters.branchOptions }}:
+    - ${{ each value in variables.myVariable }}:
       - script: echo ${{ value }}
