@@ -1,18 +1,17 @@
 parameters:
-- name: branchOptions
-  displayName: Source branch options
-  type: object
-  default:
-    - refs/heads/main
-    - refs/heads/test
 
-variables:
-- name: myVariable
-  value: ${{ parameters.branchOptions }}
+- name: installOks
+  displayName: 'Install Front on OKS'
+  type: boolean
+
+- name: installAks
+  displayName: 'Install Front on AKS'
+  type: boolean
 
 jobs:
 - template: Test/main-test.yml
   parameters:
-    language: ${{ parameters.language }}
-    build: ${{ parameters.build }}
-    typerelease: ${{ parameters.typerelease }}
+    branchOptions: 
+      - ${{ parameters.installOks }}
+      - ${{ parameters.installAks }}
+
