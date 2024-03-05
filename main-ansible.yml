@@ -85,4 +85,4 @@ stages:
         cp $(sshPriv) $(System.DefaultWorkingDirectory)/.ssh/id_rsa
       displayName: 'Add private ssh key'
 
-    - script: ssh -n adminuser@52.179.166.17
+    - script: ssh adminuser@52.179.166.17
