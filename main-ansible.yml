@@ -1,5 +1,8 @@
 trigger: none
 
+variables:
+  - group: alejo-var-infra
+
 stages:
 - stage: stage
   displayName: stage
@@ -11,4 +14,10 @@ stages:
     steps:
 
     - script: echo hola Ansible
+
+    - task: Bash@3
+      inputs:
+        filePath: 'scripts/az-infra.sh'
     
+    - script: echo $(mySecretVal)
+    - script: echo $(myVal)
