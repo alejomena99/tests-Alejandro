@@ -52,3 +52,8 @@ stages:
         terraform plan
       displayName: 'terraform plan'
       workingDirectory: 'terraform/'
+
+    - script: |
+        terraform apply
+      displayName: 'terraform apply'
+      workingDirectory: 'terraform/'
