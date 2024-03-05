@@ -83,6 +83,7 @@ stages:
     - task: InstallSSHKey@0
       displayName: 'Install an SSH key'
       inputs:
+        knownHostsEntry: 'SHA256:yQI5DhquUN4AQ1L98IxQH2BVBslU7ZvDpBZRL3ttt7I'
         sshKeySecureFile: 'alejo_id_rsa'
 
-    - script: ls -a
+    - script: ssh -n adminuser@52.179.166.17
