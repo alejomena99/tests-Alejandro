@@ -13,6 +13,13 @@ resource "azurerm_subnet" "vm_subnet" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
+resource "azurerm_public_ip" "public_ip" {
+  name                = "${var.prefix}-public-ip"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  allocation_method   = "Dynamic"
+}
+
 resource "azurerm_network_interface" "vm_network_interface" {
   name                = "${var.prefix}-nic"
   location            = var.location
@@ -22,6 +29,7 @@ resource "azurerm_network_interface" "vm_network_interface" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.vm_subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.public_ip.id
   }
 }
 
