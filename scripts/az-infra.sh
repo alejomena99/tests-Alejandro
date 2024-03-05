@@ -8,7 +8,9 @@ stg_account_check=$(az storage account check-name -n #{STORAGE_ACCOUNT}# -o json
 
 if [ $stg_account_check == false ]; then
 	echo "El storage account #{STORAGE_ACCOUNT}# ya existe"
-	stg_container_check=$(az storage container exists --name #{STORAGE_CONTAINER}#| jq -r '.exists')
+
+	stg_account_connection=$(az storage account show-connection-string --name #{STORAGE_ACCOUNT}#)
+	stg_container_check=$(az storage container exists --name #{STORAGE_CONTAINER}# --connection-string $stg_account_connection| jq -r '.exists')
 	if [ $stg_container_check == false ]; then
 		echo "El storage container #{STORAGE_CONTAINER}# no existe"
 		az storage container create -n #{STORAGE_CONTAINER}# --account-name #{STORAGE_ACCOUNT}#
