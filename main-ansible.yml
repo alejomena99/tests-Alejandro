@@ -58,8 +58,8 @@ stages:
       displayName: 'terraform apply'
       workingDirectory: 'terraform/'
 
-    # - script: |
-    #     az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-    #     vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
-    #     az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
+    - script: |
+        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
+        az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
 
