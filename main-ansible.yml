@@ -47,3 +47,8 @@ stages:
         terraform init
       displayName: 'terraform init'
       workingDirectory: 'terraform/'
+
+    - script: |
+        terraform plan
+      displayName: 'terraform plan'
+      workingDirectory: 'terraform/'
