@@ -81,7 +81,7 @@ stages:
         sshKeySecureFile: 'alejo_id_rsa'
 
     - script: |
-        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true]$(ssh-keyscan 52.179.166.17 | grep ssh-rsa)"
+        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan 52.179.166.17 | grep ssh-rsa)"
       name: knownHostsEntry
 
 
