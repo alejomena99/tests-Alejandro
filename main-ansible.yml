@@ -83,7 +83,7 @@ stages:
     - task: InstallSSHKey@0
       displayName: 'Install an SSH key'
       inputs:
-        knownHostsEntry: '52.179.166.17 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDRpn7OIHP2ZoXi5kPtMrKm0zxmHJLs12nN7TJwYyv1bCDO4wRj3gyvfk1wky+M5bpIs6t2JtHCUciSVS4Jb8IbAgfdQhwYS4LD8NEJfhcvSC4Om9RLSKi6rGu3uQ/5oyR6cm0IAs5O6jIIvMoyvJWbgmZAxZQ/5NCzfC1xd8r0PzzuKXyn3JJ86VVBbsC4jz0kWoIpvqOnHBiq9ehCga/auIDVoijAP/gBZ3NZs/hGlFlzLMqEwxKOwr6SeccdvpbrT538FlFm3PLONqqypYd/43cuVWamFQqUupr+Ysbdl8pA3gxjslrDbGaFYgG1Y0YNSmJ9ZE56KFKMCPF8GXQZ'
+        knownHostsEntry: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDUQnggYiOUMkerhr7TcShgpik0gklR9/1BAYIM4iBsgUEqZPOalqsVgztU2GmW91FtDqjMwGXqcVU7Y+E7V64gL1KK8Rxpe/BvxiQNilOLrqmTYWkwiY04iCyV/VAqVqzoM4OxvPe2MjG2suRqz9KfKj3UqhgD+i6rxLK9i8o1oAVCnCXrMWFxWAi4G3IQyP70L6rEyL6n/PnK7+ayyl0PXGj5nHt9kApdrYA7kPjzvV5FOFfDJTgzE6iRHUDaYD6KbCXOffxrLk4H2RqZgxSTdjegFJGfP4NT3NBfumAus9/ss9FYGNNjz5eE+R2+Vt5+TZVvg2YggMkWT4P1DraNfa1E4qTN3G7JF/o5rIYSe40cdG4b3SszEjpMHua6TxS8F2ocjn/F9wUy1HetPrn58FpE0hWVeeyh2eF4zeaQqlr1xxrUPG/ugcyLsJXDXehLQQq8ydjT5snL3ZtTscWC7temL8GMD6kUPQFfVjBr+w7abqvUsSG8RZU81xnsWWXnyHP5kfvmDuaRGuiUj3NC9J0xjhba6A1NQ9AuT5TsvTUacb5rZZPFuLzvyaQKkTgdhDT7Yi7NuWg68QsWDcrGYzc/p1SNTvA1h7p0HYSMQ7RTsCrxH0qEcT14qE18ua3otdwoADTgv8KTBjBljpWCpVVTXCVNQEYpDzAKsaDy9w== manuel.mena@quind.io'
         sshKeySecureFile: 'alejo_id_rsa'
 
     - script: ssh -n adminuser@52.179.166.17
