@@ -83,6 +83,6 @@ stages:
     - script: |
         mkdir $(System.DefaultWorkingDirectory)/.ssh/
         cp $(sshPriv) $(System.DefaultWorkingDirectory)/.ssh/id_rsa
-        cd $(System.DefaultWorkingDirectory)/.ssh/
-        pwd
-        ls 
+      displayName: 'Add private ssh key'
+
+    - script: ssh -n adminuser@52.179.166.17
