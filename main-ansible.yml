@@ -13,64 +13,11 @@ stages:
 - stage: stage
   displayName: stage
   jobs:
-  - job: 'job'
+  - job: 'create_vm'
     pool:
       vmImage: ubuntu-latest
 
     steps:
-
-    # - task: DownloadSecureFile@1
-    #   displayName: 'VM ssh file download'
-    #   name: sshPub
-    #   inputs:
-    #     secureFile: 'alejo-ssh.pub'
-
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for bash scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       scripts/*.sh
-
-    # - task: Bash@3
-    #   displayName: 'Create storage and container account'
-    #   inputs:
-    #     filePath: 'scripts/az-infra.sh'
-    
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for terraform scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       terraform/*.tf
-
-    # - task: TerraformInstaller@1
-    #   displayName: 'Install or Update Terraform'
-    #   inputs:
-    #     terraformVersion: 1.0.7
-    
-    # - script: |
-    #     terraform init
-    #   displayName: 'terraform init'
-    #   workingDirectory: 'terraform/'
-
-    # - script: |
-    #     terraform plan
-    #   displayName: 'terraform plan'
-    #   workingDirectory: 'terraform/'
-
-    # - script: |
-    #     terraform apply -auto-approve
-    #   displayName: 'terraform apply'
-    #   workingDirectory: 'terraform/'
-
-    - script: |
-        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
-        vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
-        echo $vmPublicIp
-        echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true]$vmPublicIp"
-        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
-      name: vm_public_key
-      displayName: 'Get VM public IP'
 
     - task: InstallSSHKey@0
       displayName: 'Install an SSH key'
@@ -78,31 +25,76 @@ stages:
         knownHostsEntry: 'NA'
         sshKeySecureFile: 'alejo_id_rsa'
 
-  - job: 'job2'
+    - task: DownloadSecureFile@1
+      displayName: 'VM ssh file download'
+      name: sshPub
+      inputs:
+        secureFile: 'alejo-ssh.pub'
+
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for bash scripts'
+      inputs:
+        targetFiles: |
+          scripts/*.sh
+          terraform/*.tf
+
+    - task: Bash@3
+      displayName: 'Create storage and container account'
+      inputs:
+        filePath: 'scripts/az-infra.sh'
+    
+    - task: TerraformInstaller@1
+      displayName: 'Install or Update Terraform'
+      inputs:
+        terraformVersion: 1.0.7
+    
+    - script: |
+        terraform init
+      displayName: 'terraform init'
+      workingDirectory: 'terraform/'
+
+    - script: |
+        terraform plan
+      displayName: 'terraform plan'
+      workingDirectory: 'terraform/'
+
+    - script: |
+        terraform apply -auto-approve
+      displayName: 'terraform apply'
+      workingDirectory: 'terraform/'
+
+    - script: |
+        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
+        vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
+        echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true;issecret=true]$vmPublicIp"
+        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
+      name: vm_public_key
+      displayName: 'Get VM public IP'
+
+
+  - job: 'connect_vm'
     pool:
       vmImage: ubuntu-latest
 
-    dependsOn: job
+    dependsOn: create_vm
     variables:
       knownHostsEntry: $[ dependencies.job.outputs['vm_public_key.knownHostsEntry'] ]  
       vmPublicIp: $[ dependencies.job.outputs['vm_public_key.vmPublicIp'] ] 
 
     steps:
 
-    # - task: InstallSSHKey@0
-    #   displayName: 'Install an SSH key'
-    #   inputs:
-    #     knownHostsEntry: '$(knownHostsEntry)'
-    #     sshKeySecureFile: 'alejo_id_rsa'
+    - task: InstallSSHKey@0
+      displayName: 'Install an SSH key'
+      inputs:
+        knownHostsEntry: '$(knownHostsEntry)'
+        sshKeySecureFile: 'alejo_id_rsa'
 
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for ansible scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       ansible/*.ini
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for ansible scripts'
+      inputs:
+        targetFiles: |
+          ansible/*.ini
     
-    # - script: ssh -n adminuser@$(vmPublicIp)
+    - script: ssh -n adminuser@$(vmPublicIp)
 
-    - script: |
-        echo $(knownHostsEntry)
-        echo $(vmPublicIp)
