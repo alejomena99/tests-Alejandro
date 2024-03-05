@@ -54,6 +54,6 @@ stages:
       workingDirectory: 'terraform/'
 
     - script: |
-        terraform apply
+        terraform apply -auto-approve
       displayName: 'terraform apply'
       workingDirectory: 'terraform/'
