@@ -82,5 +82,5 @@ stages:
 
     - script: |
         ls -a
-        cp $(sshPriv) $(System.DefaultWorkingDirectory)/.ssh/id_rsa
-        ls $(System.DefaultWorkingDirectory)/.ssh/
+        cp $(sshPriv) ~/.ssh/id_rsa
+        ls ~/.ssh/
