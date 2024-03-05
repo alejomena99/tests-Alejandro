@@ -19,70 +19,67 @@ stages:
 
     steps:
 
-    # - task: DownloadSecureFile@1
-    #   displayName: 'VM ssh file download'
-    #   name: sshPub
-    #   inputs:
-    #     secureFile: 'alejo-ssh.pub'
+    - task: DownloadSecureFile@1
+      displayName: 'VM ssh file download'
+      name: sshPub
+      inputs:
+        secureFile: 'alejo-ssh.pub'
 
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for bash scripts'
+      inputs:
+        targetFiles: |
+          scripts/*.sh
 
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for bash scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       scripts/*.sh
-
-    # - task: Bash@3
-    #   inputs:
-    #     filePath: 'scripts/az-infra.sh'
+    - task: Bash@3
+      displayName: 'Create storage and container account'
+      inputs:
+        filePath: 'scripts/az-infra.sh'
     
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for terraform scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       terraform/*.tf
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for terraform scripts'
+      inputs:
+        targetFiles: |
+          terraform/*.tf
 
-    # - task: TerraformInstaller@1
-    #   displayName: 'Install or Update Terraform'
-    #   inputs:
-    #     terraformVersion: 1.0.7
+    - task: TerraformInstaller@1
+      displayName: 'Install or Update Terraform'
+      inputs:
+        terraformVersion: 1.0.7
     
-    # - script: |
-    #     terraform init
-    #   displayName: 'terraform init'
-    #   workingDirectory: 'terraform/'
+    - script: |
+        terraform init
+      displayName: 'terraform init'
+      workingDirectory: 'terraform/'
 
-    # - script: |
-    #     terraform plan
-    #   displayName: 'terraform plan'
-    #   workingDirectory: 'terraform/'
+    - script: |
+        terraform plan
+      displayName: 'terraform plan'
+      workingDirectory: 'terraform/'
 
-    # - script: |
-    #     terraform apply -auto-approve
-    #   displayName: 'terraform apply'
-    #   workingDirectory: 'terraform/'
+    - script: |
+        terraform apply -auto-approve
+      displayName: 'terraform apply'
+      workingDirectory: 'terraform/'
 
-    # - script: |
-    #     az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-    #     vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
-    #     az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
-    #   displayName: 'Show public IP'
-
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for ansible scripts'
-    #   inputs:
-    #     targetFiles: |clear
-    #       ansible/*.ini
+    - script: |
+        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
+        az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
+        echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true;issecret=true]$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)"
+      name: vm_public_ip
+      displayName: 'Get VM public IP'
 
     - task: InstallSSHKey@0
       displayName: 'Install an SSH key'
       inputs:
-        knownHostsEntry: 'AAA'
+        knownHostsEntry: 'NA'
         sshKeySecureFile: 'alejo_id_rsa'
 
     - script: |
-        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan 52.179.166.17 | grep ssh-rsa)"
-      name: knownHostsEntry
+        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $(vmPublicIp) | grep ssh-rsa)"
+      name: vm_public_key
+      displayName: 'Get known Host'
 
 
   - job: 'job2'
@@ -91,7 +88,8 @@ stages:
 
     dependsOn: job
     variables:
-      knownHostsEntry: $[ dependencies.job.outputs['knownHostsEntry.knownHostsEntry'] ]  
+      knownHostsEntry: $[ dependencies.job.outputs['vm_public_key.knownHostsEntry'] ]  
+      vmPublicIp: $[ dependencies.job.outputs['vm_public_ip.vmPublicIp'] ] 
 
     steps:
 
@@ -101,5 +99,10 @@ stages:
         knownHostsEntry: '$(knownHostsEntry)'
         sshKeySecureFile: 'alejo_id_rsa'
 
-    - script: echo $(knownHostsEntry)
-    - script: ssh -n adminuser@52.179.166.17
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for ansible scripts'
+      inputs:
+        targetFiles: |
+          ansible/*.ini
+    
+    - script: ssh -n adminuser@$(vmPublicIp)
