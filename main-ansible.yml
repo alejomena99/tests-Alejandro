@@ -19,54 +19,54 @@ stages:
 
     steps:
 
-    - task: InstallSSHKey@0
-      displayName: 'Install an SSH key'
-      inputs:
-        knownHostsEntry: 'NA'
-        sshKeySecureFile: 'alejo_id_rsa'
+    # - task: InstallSSHKey@0
+    #   displayName: 'Install an SSH key'
+    #   inputs:
+    #     knownHostsEntry: 'NA'
+    #     sshKeySecureFile: 'alejo_id_rsa'
 
-    - task: DownloadSecureFile@1
-      displayName: 'VM ssh file download'
-      name: sshPub
-      inputs:
-        secureFile: 'alejo-ssh.pub'
+    # - task: DownloadSecureFile@1
+    #   displayName: 'VM ssh file download'
+    #   name: sshPub
+    #   inputs:
+    #     secureFile: 'alejo-ssh.pub'
 
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for bash scripts'
-      inputs:
-        targetFiles: |
-          scripts/*.sh
+    # - task: replacetokens@3
+    #   displayName: 'Replace Tokens for bash scripts'
+    #   inputs:
+    #     targetFiles: |
+    #       scripts/*.sh
 
-    - task: Bash@3
-      displayName: 'Create storage and container account'
-      inputs:
-        filePath: 'scripts/az-infra.sh'
+    # - task: Bash@3
+    #   displayName: 'Create storage and container account'
+    #   inputs:
+    #     filePath: 'scripts/az-infra.sh'
     
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for terraform scripts'
-      inputs:
-        targetFiles: |
-          terraform/*.tf
+    # - task: replacetokens@3
+    #   displayName: 'Replace Tokens for terraform scripts'
+    #   inputs:
+    #     targetFiles: |
+    #       terraform/*.tf
 
-    - task: TerraformInstaller@1
-      displayName: 'Install or Update Terraform'
-      inputs:
-        terraformVersion: 1.0.7
+    # - task: TerraformInstaller@1
+    #   displayName: 'Install or Update Terraform'
+    #   inputs:
+    #     terraformVersion: 1.0.7
     
-    - script: |
-        terraform init
-      displayName: 'Terraform init'
-      workingDirectory: 'terraform/'
+    # - script: |
+    #     terraform init
+    #   displayName: 'Terraform init'
+    #   workingDirectory: 'terraform/'
 
-    - script: |
-        terraform plan
-      displayName: 'Terraform plan'
-      workingDirectory: 'terraform/'
+    # - script: |
+    #     terraform plan
+    #   displayName: 'Terraform plan'
+    #   workingDirectory: 'terraform/'
 
-    - script: |
-        terraform apply -auto-approve
-      displayName: 'Terraform apply'
-      workingDirectory: 'terraform/'
+    # - script: |
+    #     terraform apply -auto-approve
+    #   displayName: 'Terraform apply'
+    #   workingDirectory: 'terraform/'
 
     - script: |
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
