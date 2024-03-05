@@ -83,7 +83,7 @@ stages:
     - task: InstallSSHKey@0
       displayName: 'Install an SSH key'
       inputs:
-        knownHostsEntry: ''
+        knownHostsEntry: 'aa'
         sshKeySecureFile: 'alejo_id_rsa'
 
     - script: |
