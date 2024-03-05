@@ -77,7 +77,7 @@ stages:
     # - task: replacetokens@3
     #   displayName: 'Replace Tokens for ansible scripts'
     #   inputs:
-    #     targetFiles: |
+    #     targetFiles: |clear
     #       ansible/*.ini
 
     - script: |
