@@ -6,6 +6,9 @@ variables:
   - name: sshPub
     value: $(sshPub.secureFilePath)
 
+  - name: sshPriv
+    value: $(sshPriv.secureFilePath)
+
 stages:
 - stage: stage
   displayName: stage
@@ -22,44 +25,62 @@ stages:
       inputs:
         secureFile: 'alejo-ssh.pub'
 
+
+    - task: DownloadSecureFile@1
+      displayName: 'VM ssh file download'
+      name: sshPriv
+      inputs:
+        secureFile: 'alejo_id_rsa'
+
+    # - task: replacetokens@3
+    #   displayName: 'Replace Tokens for bash scripts'
+    #   inputs:
+    #     targetFiles: |
+    #       scripts/*.sh
+
+    # - task: Bash@3
+    #   inputs:
+    #     filePath: 'scripts/az-infra.sh'
+    
+    # - task: replacetokens@3
+    #   displayName: 'Replace Tokens for terraform scripts'
+    #   inputs:
+    #     targetFiles: |
+    #       terraform/*.tf
+
+    # - task: TerraformInstaller@1
+    #   displayName: 'Install or Update Terraform'
+    #   inputs:
+    #     terraformVersion: 1.0.7
+    
+    # - script: |
+    #     terraform init
+    #   displayName: 'terraform init'
+    #   workingDirectory: 'terraform/'
+
+    # - script: |
+    #     terraform plan
+    #   displayName: 'terraform plan'
+    #   workingDirectory: 'terraform/'
+
+    # - script: |
+    #     terraform apply -auto-approve
+    #   displayName: 'terraform apply'
+    #   workingDirectory: 'terraform/'
+
+    # - script: |
+    #     az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+    #     vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
+    #     az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
+    #   displayName: 'Show public IP'
+
     - task: replacetokens@3
-      displayName: 'Replace Tokens for bash scripts'
+      displayName: 'Replace Tokens for ansible scripts'
       inputs:
         targetFiles: |
-          scripts/*.sh
-
-    - task: Bash@3
-      inputs:
-        filePath: 'scripts/az-infra.sh'
-    
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for terraform scripts'
-      inputs:
-        targetFiles: |
-          terraform/*.tf
-
-    - task: TerraformInstaller@1
-      displayName: 'Install or Update Terraform'
-      inputs:
-        terraformVersion: 1.0.7
-    
-    - script: |
-        terraform init
-      displayName: 'terraform init'
-      workingDirectory: 'terraform/'
+          ansible/*.ini
 
     - script: |
-        terraform plan
-      displayName: 'terraform plan'
-      workingDirectory: 'terraform/'
-
-    - script: |
-        terraform apply -auto-approve
-      displayName: 'terraform apply'
-      workingDirectory: 'terraform/'
-
-    - script: |
-        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
-        az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
-
+        cp $(sshPriv) $(System.DefaultWorkingDirectory)/.ssh/id_rsa
+        cd $(System.DefaultWorkingDirectory)/.ssh/
+        ls
