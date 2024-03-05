@@ -19,11 +19,11 @@ stages:
 
     steps:
 
-    - task: DownloadSecureFile@1
-      displayName: 'VM ssh file download'
-      name: sshPub
-      inputs:
-        secureFile: 'alejo-ssh.pub'
+    # - task: DownloadSecureFile@1
+    #   displayName: 'VM ssh file download'
+    #   name: sshPub
+    #   inputs:
+    #     secureFile: 'alejo-ssh.pub'
 
 
     - task: DownloadSecureFile@1
@@ -74,13 +74,13 @@ stages:
     #     az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
     #   displayName: 'Show public IP'
 
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for ansible scripts'
-      inputs:
-        targetFiles: |
-          ansible/*.ini
+    # - task: replacetokens@3
+    #   displayName: 'Replace Tokens for ansible scripts'
+    #   inputs:
+    #     targetFiles: |
+    #       ansible/*.ini
 
     - script: |
+        ls -a
         cp $(sshPriv) $(System.DefaultWorkingDirectory)/.ssh/id_rsa
-        cd $(System.DefaultWorkingDirectory)/.ssh/
-        ls
+        ls $(System.DefaultWorkingDirectory)/.ssh/
