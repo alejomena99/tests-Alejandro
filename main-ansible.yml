@@ -64,42 +64,46 @@ stages:
       workingDirectory: 'terraform/'
 
     - script: |
-        terraform apply -auto-approve
-      displayName: 'Terraform apply'
+        terraform destroy -auto-approve
+      displayName: 'Terraform destroy'
       workingDirectory: 'terraform/'
 
     - script: |
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
-        vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
-        echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true;issecret=true]$vmPublicIp"
-        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
-      name: vm_public_key
-      displayName: 'Get VM public IP'
+        az storage account delete --name $(STORAGE_ACCOUNT) --resource-group $(RESOURCE_GROUP)
+
+    # - script: |
+    #     az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+    #     vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
+    #     vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
+    #     echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true;issecret=true]$vmPublicIp"
+    #     echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
+    #   name: vm_public_key
+    #   displayName: 'Get VM public IP'
 
 
-  - job: 'connect_vm'
-    pool:
-      vmImage: ubuntu-latest
+  # - job: 'connect_vm'
+  #   pool:
+  #     vmImage: ubuntu-latest
 
-    dependsOn: create_vm
-    variables:
-      knownHostsEntry: $[ dependencies.create_vm.outputs['vm_public_key.knownHostsEntry'] ]  
-      vmPublicIp: $[ dependencies.create_vm.outputs['vm_public_key.vmPublicIp'] ] 
+  #   dependsOn: create_vm
+  #   variables:
+  #     knownHostsEntry: $[ dependencies.create_vm.outputs['vm_public_key.knownHostsEntry'] ]  
+  #     vmPublicIp: $[ dependencies.create_vm.outputs['vm_public_key.vmPublicIp'] ] 
 
-    steps:
+  #   steps:
 
-    - task: InstallSSHKey@0
-      displayName: 'Install an SSH key'
-      inputs:
-        knownHostsEntry: '$(knownHostsEntry)'
-        sshKeySecureFile: 'alejo_id_rsa'
+  #   - task: InstallSSHKey@0
+  #     displayName: 'Install an SSH key'
+  #     inputs:
+  #       knownHostsEntry: '$(knownHostsEntry)'
+  #       sshKeySecureFile: 'alejo_id_rsa'
 
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for ansible scripts'
-      inputs:
-        targetFiles: |
-          ansible/*.ini
+  #   - task: replacetokens@3
+  #     displayName: 'Replace Tokens for ansible scripts'
+  #     inputs:
+  #       targetFiles: |
+  #         ansible/*.ini
     
-    - script: ssh -n adminuser@$(vmPublicIp)
+  #   - script: ssh -n adminuser@$(vmPublicIp)
 
