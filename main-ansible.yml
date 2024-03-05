@@ -66,8 +66,10 @@ stages:
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
         vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
         vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
+        echo $vmPublicIp
         echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true]$vmPublicIp"
-      name: vm_public_ip
+        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
+      name: vm_public_key
       displayName: 'Get VM public IP'
 
     - task: InstallSSHKey@0
@@ -76,34 +78,31 @@ stages:
         knownHostsEntry: 'NA'
         sshKeySecureFile: 'alejo_id_rsa'
 
-    - script: |
-        echo $(vmPublicIp)
-        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $(vmPublicIp) | grep ssh-rsa)"
-      name: vm_public_key
-      displayName: 'Get known Host'
+  - job: 'job2'
+    pool:
+      vmImage: ubuntu-latest
 
+    dependsOn: job
+    variables:
+      knownHostsEntry: $[ dependencies.job.outputs['vm_public_key.knownHostsEntry'] ]  
+      vmPublicIp: $[ dependencies.job.outputs['vm_public_key.vmPublicIp'] ] 
 
-  # - job: 'job2'
-  #   pool:
-  #     vmImage: ubuntu-latest
+    steps:
 
-  #   dependsOn: job
-  #   variables:
-  #     knownHostsEntry: $[ dependencies.job.outputs['vm_public_key.knownHostsEntry'] ]  
-  #     vmPublicIp: $[ dependencies.job.outputs['vm_public_ip.vmPublicIp'] ] 
+    # - task: InstallSSHKey@0
+    #   displayName: 'Install an SSH key'
+    #   inputs:
+    #     knownHostsEntry: '$(knownHostsEntry)'
+    #     sshKeySecureFile: 'alejo_id_rsa'
 
-  #   steps:
-
-  #   - task: InstallSSHKey@0
-  #     displayName: 'Install an SSH key'
-  #     inputs:
-  #       knownHostsEntry: '$(knownHostsEntry)'
-  #       sshKeySecureFile: 'alejo_id_rsa'
-
-  #   - task: replacetokens@3
-  #     displayName: 'Replace Tokens for ansible scripts'
-  #     inputs:
-  #       targetFiles: |
-  #         ansible/*.ini
+    # - task: replacetokens@3
+    #   displayName: 'Replace Tokens for ansible scripts'
+    #   inputs:
+    #     targetFiles: |
+    #       ansible/*.ini
     
-  #   - script: ssh -n adminuser@$(vmPublicIp)
+    # - script: ssh -n adminuser@$(vmPublicIp)
+
+    - scipt: |
+        echo $(knownHostsEntry)
+        echo $(vmPublicIp)
