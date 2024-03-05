@@ -80,11 +80,18 @@ stages:
     #     targetFiles: |clear
     #       ansible/*.ini
 
+    - script: |
+        echo "Retrieving host key..."
+        ssh-keyscan 52.179.166.17 >> $(Build.SourcesDirectory)/known_hosts
+      displayName: 'Retrieve Host Key'
+
     - task: InstallSSHKey@0
       displayName: 'Install an SSH key'
       inputs:
-        knownHostsEntry: 'SHA256:E1+/8KvF1kEYIQ7Vmg6WY94iSSA3X9MWs9IDvBohAOQ manuel.mena@quind.io'
+        knownHostsEntry: |
+          $(Build.SourcesDirectory)/known_hosts
         sshKeySecureFile: 'alejo_id_rsa'
 
     - script: ssh -n adminuser@52.179.166.17
+      displayName: 'SSH Connection'
 
