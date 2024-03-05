@@ -89,17 +89,20 @@ stages:
 
     steps:
 
-    - task: InstallSSHKey@0
-      displayName: 'Install an SSH key'
-      inputs:
-        knownHostsEntry: '$(knownHostsEntry)'
-        sshKeySecureFile: 'alejo_id_rsa'
+    # - task: InstallSSHKey@0
+    #   displayName: 'Install an SSH key'
+    #   inputs:
+    #     knownHostsEntry: '$(knownHostsEntry)'
+    #     sshKeySecureFile: 'alejo_id_rsa'
 
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for ansible scripts'
-      inputs:
-        targetFiles: |
-          ansible/*.ini
+    # - task: replacetokens@3
+    #   displayName: 'Replace Tokens for ansible scripts'
+    #   inputs:
+    #     targetFiles: |
+    #       ansible/*.ini
     
-    - script: ssh -n adminuser@$(vmPublicIp)
+    # - script: ssh -n adminuser@$(vmPublicIp)
 
+    - script: |
+        echo $(knownHostsEntry)
+        echo $(vmPublicIp)
