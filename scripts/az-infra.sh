@@ -9,8 +9,8 @@ stg_account_check=$(az storage account check-name -n #{STORAGE_ACCOUNT}# -o json
 if [ $stg_account_check == false ]; then
 	echo "El storage account #{STORAGE_ACCOUNT}# ya existe"
 
-	az storage account keys list --account-name mystorageaccount --query "[0].value" --output tsv
-	stg_account_key=$(az storage account keys list --account-name mystorageaccount --query "[0].value" --output tsv)
+	az storage account keys list --account-name #{STORAGE_ACCOUNT}# --query "[0].value" --output tsv
+	stg_account_key=$(az storage account keys list --account-name #{STORAGE_ACCOUNT}# --query "[0].value" --output tsv)
 	stg_container_check=$(az storage container exists --account-name #{STORAGE_ACCOUNT}# --name #{STORAGE_CONTAINER}# --account-key $stg_account_key| jq -r '.exists')
 	if [ $stg_container_check == false ]; then
 		echo "El storage container #{STORAGE_CONTAINER}# no existe"
