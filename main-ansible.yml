@@ -19,5 +19,5 @@ stages:
       inputs:
         filePath: 'scripts/az-infra.sh'
     
-    - script: echo $(mySecretVal)
+    # - script: echo $(mySecretVal)
     - script: echo $(myVal)
