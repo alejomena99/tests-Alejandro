@@ -83,8 +83,8 @@ stages:
     - task: InstallSSHKey@0
       displayName: 'Install an SSH key'
       inputs:
-        knownHostsEntry: 'SHA256:yQI5DhquUN4AQ1L98IxQH2BVBslU7ZvDpBZRL3ttt7I'
+        knownHostsEntry: 'SHA256:E1+/8KvF1kEYIQ7Vmg6WY94iSSA3X9MWs9IDvBohAOQ manuel.mena@quind.io'
         sshKeySecureFile: 'alejo_id_rsa'
 
-    - script: ssh -o StrictHostKeyChecking=no adminuser@52.179.166.17
+    - script: ssh -n adminuser@52.179.166.17
 
