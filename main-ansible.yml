@@ -80,9 +80,10 @@ stages:
     #     targetFiles: |clear
     #       ansible/*.ini
 
-    - script: |
-        mkdir $(System.DefaultWorkingDirectory)/.ssh/
-        cp $(sshPriv) $(System.DefaultWorkingDirectory)/.ssh/id_rsa
-      displayName: 'Add private ssh key'
+    - task: InstallSSHKey@0
+      displayName: 'Install an SSH key'
+      inputs:
+        knownHostsEntry: 'alejo_azure_vm'
+        sshKeySecureFile: 'alejo_id_rsa'
 
-    - script: ssh adminuser@52.179.166.17
+    - script: ls -a
