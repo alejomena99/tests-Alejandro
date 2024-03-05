@@ -3,6 +3,9 @@ trigger: none
 variables:
   - group: alejo-var-infra
 
+  - name: sshPub
+    value: $(sshPub.secureFilePath)
+
 stages:
 - stage: stage
   displayName: stage
@@ -13,11 +16,34 @@ stages:
 
     steps:
 
-    - script: echo hola Ansible
+    - task: DownloadSecureFile@1
+      displayName: 'VM ssh file download'
+      name: sshPub
+      inputs:
+        secureFile: 'alejo-ssh.pub'
+
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for bash scripts'
+      inputs:
+        targetFiles: |
+          scripts/*.sh
 
     - task: Bash@3
       inputs:
         filePath: 'scripts/az-infra.sh'
     
-    # - script: echo $(mySecretVal)
-    - script: echo $(myVal)
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for terraform scripts'
+      inputs:
+        targetFiles: |
+          terraform/*.tf
+
+    - task: TerraformInstaller@1
+      displayName: 'Install or Update Terraform'
+      inputs:
+        terraformVersion: 1.0.7
+    
+    - script: |
+        terraform init
+      displayName: 'terraform init'
+      workingDirectory: 'terraform/'

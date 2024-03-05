@@ -4,10 +4,6 @@ terraform {
       source = "hashicorp/azurerm"
       version = "=3.42.0"
     }
-    tls = {
-      source = "hashicorp/tls"
-      version = "~>4.0"
-    }
   }
   backend "azurerm" {
     resource_group_name  = "#{RESOURCE_GROUP}#"
