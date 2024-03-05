@@ -57,3 +57,7 @@ stages:
         terraform apply -auto-approve
       displayName: 'terraform apply'
       workingDirectory: 'terraform/'
+
+    - script: |
+        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+        az vm list --output table
