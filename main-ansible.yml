@@ -16,50 +16,50 @@ stages:
 
     steps:
 
-    # - task: DownloadSecureFile@1
-    #   displayName: 'VM ssh file download'
-    #   name: sshPub
-    #   inputs:
-    #     secureFile: 'alejo-ssh.pub'
+    - task: DownloadSecureFile@1
+      displayName: 'VM ssh file download'
+      name: sshPub
+      inputs:
+        secureFile: 'alejo-ssh.pub'
 
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for bash scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       scripts/*.sh
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for bash scripts'
+      inputs:
+        targetFiles: |
+          scripts/*.sh
 
-    # - task: Bash@3
-    #   inputs:
-    #     filePath: 'scripts/az-infra.sh'
+    - task: Bash@3
+      inputs:
+        filePath: 'scripts/az-infra.sh'
     
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for terraform scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       terraform/*.tf
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for terraform scripts'
+      inputs:
+        targetFiles: |
+          terraform/*.tf
 
-    # - task: TerraformInstaller@1
-    #   displayName: 'Install or Update Terraform'
-    #   inputs:
-    #     terraformVersion: 1.0.7
+    - task: TerraformInstaller@1
+      displayName: 'Install or Update Terraform'
+      inputs:
+        terraformVersion: 1.0.7
     
-    # - script: |
-    #     terraform init
-    #   displayName: 'terraform init'
-    #   workingDirectory: 'terraform/'
-
-    # - script: |
-    #     terraform plan
-    #   displayName: 'terraform plan'
-    #   workingDirectory: 'terraform/'
-
-    # - script: |
-    #     terraform apply -auto-approve
-    #   displayName: 'terraform apply'
-    #   workingDirectory: 'terraform/'
+    - script: |
+        terraform init
+      displayName: 'terraform init'
+      workingDirectory: 'terraform/'
 
     - script: |
-        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
-        az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
+        terraform plan
+      displayName: 'terraform plan'
+      workingDirectory: 'terraform/'
+
+    - script: |
+        terraform apply -auto-approve
+      displayName: 'terraform apply'
+      workingDirectory: 'terraform/'
+
+    # - script: |
+    #     az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+    #     vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
+    #     az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv
 
