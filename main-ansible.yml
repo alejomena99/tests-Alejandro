@@ -86,4 +86,5 @@ stages:
         knownHostsEntry: 'SHA256:yQI5DhquUN4AQ1L98IxQH2BVBslU7ZvDpBZRL3ttt7I'
         sshKeySecureFile: 'alejo_id_rsa'
 
-    - script: ssh -n adminuser@52.179.166.17
+    - script: ssh -o StrictHostKeyChecking=no adminuser@52.179.166.17
+
