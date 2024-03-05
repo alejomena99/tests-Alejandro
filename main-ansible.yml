@@ -36,13 +36,18 @@ stages:
       inputs:
         targetFiles: |
           scripts/*.sh
-          terraform/*.tf
 
     - task: Bash@3
       displayName: 'Create storage and container account'
       inputs:
         filePath: 'scripts/az-infra.sh'
     
+    - task: replacetokens@3
+      displayName: 'Replace Tokens for terraform scripts'
+      inputs:
+        targetFiles: |
+          terraform/*.tf
+
     - task: TerraformInstaller@1
       displayName: 'Install or Update Terraform'
       inputs:
@@ -50,17 +55,17 @@ stages:
     
     - script: |
         terraform init
-      displayName: 'terraform init'
+      displayName: 'Terraform init'
       workingDirectory: 'terraform/'
 
     - script: |
         terraform plan
-      displayName: 'terraform plan'
+      displayName: 'Terraform plan'
       workingDirectory: 'terraform/'
 
     - script: |
         terraform apply -auto-approve
-      displayName: 'terraform apply'
+      displayName: 'Terraform apply'
       workingDirectory: 'terraform/'
 
     - script: |
