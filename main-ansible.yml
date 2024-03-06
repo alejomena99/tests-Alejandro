@@ -100,6 +100,8 @@ stages:
         targetFiles: |
           ansible/*.ini
     
+    - script: chmod 600 $(sshPub)
+
     - task: Ansible@0
       inputs:
         ansibleInterface: 'agentMachine'
