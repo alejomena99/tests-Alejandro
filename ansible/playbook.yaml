@@ -1,6 +1,7 @@
 ---
 - hosts: dev
   remote_user: root
+  become: yes
   tasks:
     - name: Ensure Apache is at the latest version
       apt:
