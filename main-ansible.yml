@@ -48,12 +48,13 @@ stages:
       displayName: 'Create storage account'
       continueOnError: true
 
-  #   - script: |
-  #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-  #       stg_account_key=$(az storage account keys list -n $(STORAGE_ACCOUNT) -g $(RESOURCE_GROUP) --query "[0].value" --output tsv)
-  #       az storage container create -n $(STORAGE_CONTAINER) --account-name $(STORAGE_ACCOUNT) --account-key $stg_account_key
-  #     displayName: 'Create storage container'
-  #     continueOnError: true
+    - script: |
+        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+        az storage account keys list --account-name $(STORAGE_ACCOUNT)
+        stg_account_key=$(az storage account keys list --account-name $(STORAGE_ACCOUNT) -o json | jq -r '.[0].value')
+        az storage container exists --account-name $(STORAGE_ACCOUNT) --name $(STORAGE_CONTAINER) --account-key $stg_account_key
+      displayName: 'Create storage container'
+      continueOnError: true
 
   #   - script:
   #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
