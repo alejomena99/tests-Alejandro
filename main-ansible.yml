@@ -15,7 +15,7 @@ stages:
   jobs:
   - job: 'create_vm'
     pool:
-      vmImage: ubuntu-latest
+      vmImage: ubuntu-20.04
 
     steps:
 
@@ -110,7 +110,7 @@ stages:
 
   - job: 'connect_vm'
     pool:
-      vmImage: ubuntu-latest
+      vmImage: ubuntu-20.04
 
     dependsOn: create_vm
     variables:
