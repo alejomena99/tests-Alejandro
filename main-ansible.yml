@@ -62,12 +62,6 @@ stages:
       displayName: 'Create storage container'
       continueOnError: true
 
-    - script:
-        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        stg_account_key=$(az storage account keys list -n $(STORAGE_ACCOUNT) -g $(RESOURCE_GROUP) --query "[0].value" --output tsv)
-        echo "##vso[task.setvariable variable=ACCESS_KEY;issecret=true]$stg_account_key"
-      displayName: 'Get storage account key'
-
     - task: replacetokens@3
       displayName: 'Replace Tokens for terraform scripts'
       inputs:
