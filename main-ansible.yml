@@ -39,7 +39,7 @@ stages:
       displayName: 'VM ssh file download'
       name: sshPriv
       inputs:
-        secureFile: 'alejo-ssh.pub'
+        secureFile: 'alejo_id_rsa'
 
     - script: |
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
@@ -110,7 +110,6 @@ stages:
           ansible/*.ini
 
     - script: |
-        chmod 600 $(sshPub)
         chmod 600 $(sshPriv)
 
     - task: Ansible@0
