@@ -126,6 +126,6 @@ stages:
     - task: Ansible@0
       inputs:
         ansibleInterface: 'agentMachine'
-        playbookPathOnAgentMachine: 'ansible/test.yaml'
+        playbookPathOnAgentMachine: 'ansible/playbook.yaml'
         inventoriesAgentMachine: 'file'
         inventoryFileOnAgentMachine: 'ansible/inventory.ini'
