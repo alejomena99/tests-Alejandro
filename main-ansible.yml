@@ -52,7 +52,13 @@ stages:
 
     - script: |
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        az storage container exists --account-name $(STORAGE_ACCOUNT) --name $(STORAGE_CONTAINER) --account-key $(ACCESS_KEY)
+        stg_container_check=$(az storage container exists --account-name $(STORAGE_ACCOUNT) --name $(STORAGE_CONTAINER) --account-key $(ACCESS_KEY) | jq '.exists')
+        if [ $stg_container_check == false ]; then
+          echo "El storage container $(STORAGE_CONTAINER) no existe y sera creado"
+          az storage container create -n $(STORAGE_CONTAINER) --account-name $(STORAGE_ACCOUNT) --account-key $(ACCESS_KEY)
+        else
+          echo "El storage container $(STORAGE_CONTAINER) ya existe"
+        fi
       displayName: 'Create storage container'
       continueOnError: true
 
