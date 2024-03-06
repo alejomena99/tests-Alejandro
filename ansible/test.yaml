@@ -1,4 +1,4 @@
-hosts: all 
+hosts: dev 
 remote_user: root 
 tasks: 
 - name: Ensure Apache is at the latest version 
