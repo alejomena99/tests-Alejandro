@@ -19,117 +19,98 @@ stages:
 
     steps:
 
-    - task: InstallSSHKey@0
-      displayName: 'Install an SSH key'
-      inputs:
-        knownHostsEntry: 'NA'
-        sshKeySecureFile: 'alejo_id_rsa'
-
-    - task: DownloadSecureFile@1
-      displayName: 'VM ssh file download'
-      name: sshPub
-      inputs:
-        secureFile: 'alejo-ssh.pub'
-
-    # - task: replacetokens@3
-    #   displayName: 'Replace Tokens for bash scripts'
-    #   inputs:
-    #     targetFiles: |
-    #       scripts/*.sh
-
-    # - task: Bash@3
-    #   displayName: 'Create storage and container account'
-    #   inputs:
-    #     filePath: 'scripts/az-infra.sh'
-    - script:
-        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-
-        stg_account_check=$(az storage account check-name -n $(STORAGE_ACCOUNT) -o json | jq -r '.nameAvailable')
-
-        if [ $stg_account_check == false ]; then
-          echo "El storage account $(STORAGE_ACCOUNT) ya existe"
-
-          stg_account_key=$(az storage account keys list --account-name $(STORAGE_ACCOUNT) --query "[0].value" --output tsv)
-          stg_container_check=$(az storage container exists --account-name $(STORAGE_ACCOUNT) --name $(STORAGE_CONTAINER) --account-key $stg_account_key | jq -r '.exists')
-          if [ $stg_container_check == false ]; then
-            echo "El storage container $(STORAGE_CONTAINER) no existe"
-            az storage container create -n $(STORAGE_CONTAINER) --account-name $(STORAGE_ACCOUNT)
-          else
-            echo "El storage container $(STORAGE_CONTAINER) ya existe"
-          fi
-        else
-          echo "El storage account $(STORAGE_ACCOUNT) no existe"
-          az storage account create -n $(STORAGE_ACCOUNT) -g $(RESOURCE_GROUP) -l westus --sku Standard_LRS
-          az storage container create -n $(STORAGE_CONTAINER) --account-name $(STORAGE_ACCOUNT)
-        fi
-
-        stg_account_key=$(az storage account keys list -g $(RESOURCE_GROUP) -n $(STORAGE_ACCOUNT) -o json | jq -r '.[0].value')
-
-        echo "##vso[task.setvariable variable=ACCESS_KEY;issecret=true]$stg_account_key"
-      displayName: 'Create storage and container account'
-
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for terraform scripts'
-      inputs:
-        targetFiles: |
-          terraform/*.tf
-
-    - task: TerraformInstaller@1
-      displayName: 'Install or Update Terraform'
-      inputs:
-        terraformVersion: 1.0.7
-    
-    - script: |
-        terraform init
-      displayName: 'Terraform init'
-      workingDirectory: 'terraform/'
-
-    - script: |
-        terraform plan
-      displayName: 'Terraform plan'
-      workingDirectory: 'terraform/'
-
-    - script: |
-        terraform apply -auto-approve
-      displayName: 'Terraform apply'
-      workingDirectory: 'terraform/'
-
-    # - script: |
-    #     az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-    #     az storage account delete --name $(STORAGE_ACCOUNT) --resource-group $(RESOURCE_GROUP) --yes
-
     - script: |
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
-        vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
-        echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true;issecret=true]$vmPublicIp"
-        echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
-      name: vm_public_key
-      displayName: 'Get VM public IP'
+        az storage account delete --name $(STORAGE_ACCOUNT) --resource-group $(RESOURCE_GROUP) --yes
 
+  #   - task: InstallSSHKey@0
+  #     displayName: 'Install an SSH key'
+  #     inputs:
+  #       knownHostsEntry: 'NA'
+  #       sshKeySecureFile: 'alejo_id_rsa'
 
-  - job: 'connect_vm'
-    pool:
-      vmImage: ubuntu-20.04
+  #   - task: DownloadSecureFile@1
+  #     displayName: 'VM ssh file download'
+  #     name: sshPub
+  #     inputs:
+  #       secureFile: 'alejo-ssh.pub'
 
-    dependsOn: create_vm
-    variables:
-      knownHostsEntry: $[ dependencies.create_vm.outputs['vm_public_key.knownHostsEntry'] ]  
-      vmPublicIp: $[ dependencies.create_vm.outputs['vm_public_key.vmPublicIp'] ] 
+  #   - script: |
+  #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+  #       az storage account create -n $(STORAGE_ACCOUNT) -g $(RESOURCE_GROUP) -l westus --sku Standard_LRS
+  #     displayName: 'Create storage account'
+  #     continueOnError: true
 
-    steps:
+  #   - script: |
+  #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+  #       az storage container create -n $(STORAGE_CONTAINER) --account-name $(STORAGE_ACCOUNT)
+  #     displayName: 'Create storage container'
+  #     continueOnError: true
 
-    - task: InstallSSHKey@0
-      displayName: 'Install an SSH key'
-      inputs:
-        knownHostsEntry: '$(knownHostsEntry)'
-        sshKeySecureFile: 'alejo_id_rsa'
+  #   - script:
+  #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+  #       stg_account_key=$(az storage account keys list -g $(RESOURCE_GROUP) -n $(STORAGE_ACCOUNT) -o json | jq -r '.[0].value')
+  #       echo "##vso[task.setvariable variable=ACCESS_KEY;issecret=true]$stg_account_key"
+  #     displayName: 'Create storage account key'
 
-    - task: replacetokens@3
-      displayName: 'Replace Tokens for ansible scripts'
-      inputs:
-        targetFiles: |
-          ansible/*.ini
+  #   - task: replacetokens@3
+  #     displayName: 'Replace Tokens for terraform scripts'
+  #     inputs:
+  #       targetFiles: |
+  #         terraform/*.tf
+
+  #   - task: TerraformInstaller@1
+  #     displayName: 'Install or Update Terraform'
+  #     inputs:
+  #       terraformVersion: 1.0.7
     
-    - script: ssh -n adminuser@$(vmPublicIp)
+  #   - script: |
+  #       terraform init
+  #     displayName: 'Terraform init'
+  #     workingDirectory: 'terraform/'
+
+  #   - script: |
+  #       terraform plan
+  #     displayName: 'Terraform plan'
+  #     workingDirectory: 'terraform/'
+
+  #   - script: |
+  #       terraform apply -auto-approve
+  #     displayName: 'Terraform apply'
+  #     workingDirectory: 'terraform/'
+
+  #   - script: |
+  #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+  #       vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
+  #       vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
+  #       echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true;issecret=true]$vmPublicIp"
+  #       echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
+  #     name: vm_public_key
+  #     displayName: 'Get VM public IP'
+
+
+  # - job: 'connect_vm'
+  #   pool:
+  #     vmImage: ubuntu-20.04
+
+  #   dependsOn: create_vm
+  #   variables:
+  #     knownHostsEntry: $[ dependencies.create_vm.outputs['vm_public_key.knownHostsEntry'] ]  
+  #     vmPublicIp: $[ dependencies.create_vm.outputs['vm_public_key.vmPublicIp'] ] 
+
+  #   steps:
+
+  #   - task: InstallSSHKey@0
+  #     displayName: 'Install an SSH key'
+  #     inputs:
+  #       knownHostsEntry: '$(knownHostsEntry)'
+  #       sshKeySecureFile: 'alejo_id_rsa'
+
+  #   - task: replacetokens@3
+  #     displayName: 'Replace Tokens for ansible scripts'
+  #     inputs:
+  #       targetFiles: |
+  #         ansible/*.ini
+    
+  #   - script: ssh -n adminuser@$(vmPublicIp)
 
