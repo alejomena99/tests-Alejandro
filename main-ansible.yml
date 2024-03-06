@@ -127,6 +127,12 @@ stages:
 
       steps:
 
+      - task: DownloadSecureFile@1
+        displayName: 'VM ssh file download'
+        name: sshPub
+        inputs:
+          secureFile: 'alejo-ssh.pub'
+          
       - script: |
           az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
           echo "##vso[task.setvariable variable=ACCESS_KEY;issecret=true]$(az storage account keys list --account-name $(STORAGE_ACCOUNT) -o json | jq -r '.[0].value')"
