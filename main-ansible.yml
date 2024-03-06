@@ -98,7 +98,7 @@ stages:
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
         vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
         vmPublicIp=$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)
-        echo "##vso[task.setvariable variable=vmPublicIp;isoutput=true;issecret=true]$vmPublicIp"
+        echo "##vso[task.setvariable variable=vmPublicIp;issecret=true]$vmPublicIp"
         echo "##vso[task.setvariable variable=knownHostsEntry;isoutput=true;issecret=true]$(ssh-keyscan $vmPublicIp | grep ssh-rsa)"
       name: vm_public_key
       displayName: 'Get VM public IP'
