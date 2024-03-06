@@ -123,3 +123,9 @@ stages:
     
     - script: ssh -n adminuser@$(vmPublicIp)
 
+    - task: Ansible@0
+      inputs:
+        ansibleInterface: 'agentMachine'
+        playbookPathOnAgentMachine: 'ansible/test.yaml'
+        inventoriesAgentMachine: 'file'
+        inventoryFileOnAgentMachine: 'ansible/inventory.ini'
