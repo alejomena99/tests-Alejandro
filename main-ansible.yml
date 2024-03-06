@@ -19,9 +19,9 @@ stages:
 
     steps:
 
-    - script: |
-        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        az storage account delete --name $(STORAGE_ACCOUNT) --resource-group $(RESOURCE_GROUP) --yes
+    # - script: |
+    #     az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+    #     az storage account delete --name $(STORAGE_ACCOUNT) --resource-group $(RESOURCE_GROUP) --yes
 
   #   - task: InstallSSHKey@0
   #     displayName: 'Install an SSH key'
@@ -35,11 +35,18 @@ stages:
   #     inputs:
   #       secureFile: 'alejo-ssh.pub'
 
-  #   - script: |
-  #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-  #       az storage account create -n $(STORAGE_ACCOUNT) -g $(RESOURCE_GROUP) -l westus --sku Standard_LRS
-  #     displayName: 'Create storage account'
-  #     continueOnError: true
+    - script: |
+        az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
+        stg_account_check=$(az storage account check-name -n $(STORAGE_ACCOUNT) -o json | jq -r '.nameAvailable')
+
+        if [ $stg_account_check == false ]; then
+          echo "El storage account $(STORAGE_ACCOUNT) ya existe"
+        else
+          echo "El storage account $(STORAGE_ACCOUNT) no existe y sera creado"
+          az storage account create -n $(STORAGE_ACCOUNT) -g $(RESOURCE_GROUP) -l westus --sku Standard_LRS
+        fi
+      displayName: 'Create storage account'
+      continueOnError: true
 
   #   - script: |
   #       az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
