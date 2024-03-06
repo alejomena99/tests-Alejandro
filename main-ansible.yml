@@ -64,8 +64,8 @@ stages:
       workingDirectory: 'terraform/'
 
     - script: |
-        terraform destroy -auto-approve
-      displayName: 'Terraform destroy'
+        terraform apply -auto-approve
+      displayName: 'Terraform apply'
       workingDirectory: 'terraform/'
 
     # - script: |
