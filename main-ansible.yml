@@ -41,18 +41,18 @@ stages:
 
         if [ $stg_account_check == false ]; then
           echo "El storage account $(STORAGE_ACCOUNT) ya existe"
+          echo "##vso[task.setvariable variable=ACCESS_KEY;issecret=true]$(az storage account keys list --account-name $(STORAGE_ACCOUNT) -o json | jq -r '.[0].value')
         else
           echo "El storage account $(STORAGE_ACCOUNT) no existe y sera creado"
           az storage account create -n $(STORAGE_ACCOUNT) -g $(RESOURCE_GROUP) -l westus --sku Standard_LRS
+          echo "##vso[task.setvariable variable=ACCESS_KEY;issecret=true]$(az storage account keys list --account-name $(STORAGE_ACCOUNT) -o json | jq -r '.[0].value')
         fi
       displayName: 'Create storage account'
       continueOnError: true
 
     - script: |
         az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
-        az storage account keys list --account-name $(STORAGE_ACCOUNT)
-        stg_account_key=$(az storage account keys list --account-name $(STORAGE_ACCOUNT) -o json | jq -r '.[0].value')
-        az storage container exists --account-name $(STORAGE_ACCOUNT) --name $(STORAGE_CONTAINER) --account-key $stg_account_key
+        az storage container exists --account-name $(STORAGE_ACCOUNT) --name $(STORAGE_CONTAINER) --account-key $(ACCESS_KEY)
       displayName: 'Create storage container'
       continueOnError: true
 
