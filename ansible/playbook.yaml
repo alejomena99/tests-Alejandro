@@ -3,10 +3,14 @@
   remote_user: root
   become: yes
   tasks:
+    - name: Cambiar el nombre de la máquina
+      command: hostnamectl set-hostname vm-quind
+
     - name: Ensure Apache is at the latest version
       apt:
         name: apache2
         state: latest
+
     - name: ensure apache is running
       service:
         name: apache2
