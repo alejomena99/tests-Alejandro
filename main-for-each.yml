@@ -10,6 +10,11 @@ parameters:
   displayName: 'Install Front on AKS'
   type: boolean
 
+- name: myStep
+  type: step
+  default:
+    script: echo my step
+
 variables:
 - name: installCluster
   value: ${{ parameters.installOks }}, ${{ parameters.installAks }}
@@ -26,3 +31,4 @@ jobs:
   - ${{ each value in split(variables.installCluster, ',')}}:
     - script: echo ${{ value }}
 
+  - ${{ parameters.myStep }}
