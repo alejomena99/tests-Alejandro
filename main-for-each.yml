@@ -27,6 +27,7 @@ parameters:
 variables:
 - name: installCluster
   value: |
+    - True
     - OKS: ${{ parameters.installOks }}
     - AKS: ${{ parameters.installAks }}
     - AKS2: ${{ parameters.installAks2 }}
