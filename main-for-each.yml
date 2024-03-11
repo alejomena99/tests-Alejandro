@@ -31,6 +31,8 @@ variables:
     - AKS: ${{ parameters.installAks }}
     - AKS2: ${{ parameters.installAks2 }}
     - OKE: ${{ parameters.installOke }}
+    - True
+    - b: True
 
 jobs:
 # - template: Test/main-test.yml
@@ -41,7 +43,7 @@ jobs:
 
 - job: A1 
   steps:
-  - ${{ each value in split(variables.installCluster, '-')}}:
+  - ${{ each value in containsValue( split(variables.installCluster, '-'), 'True' ) }}:
     - ${{ if ne(value, '') }}:
       - script: echo ${{ value }}
 
