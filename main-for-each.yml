@@ -43,7 +43,7 @@ jobs:
 - job: A1 
   steps:
   - ${{ each value in split(variables.installCluster, '-')}}:
-    - ${{ containsValue(value, 'True') }}:
+    - ${{ contains(value, 'True') }}:
       - script: echo ${{ value }}
 
   - ${{ parameters.myStep }}
