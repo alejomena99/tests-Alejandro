@@ -43,7 +43,7 @@ jobs:
 - job: A1 
   steps:
   - ${{ each value in split(variables.installCluster, '-')}}:
-    - ${{ contains('ABCDE', 'BCD') }}:
+    - ${{ if contains('ABCDE', 'BCD') }}:
       - script: echo ${{ value }}
 
   - ${{ parameters.myStep }}
