@@ -3,11 +3,11 @@ trigger: none
 parameters:
 
 - name: installOks
-  displayName: 'Install Front on OKS'
+  displayName: 'Install on OKS'
   type: boolean
 
 - name: installAks
-  displayName: 'Install Front on AKS'
+  displayName: 'Install on AKS'
   type: boolean
 
 - name: installAks2
@@ -18,11 +18,50 @@ parameters:
   displayName: 'Install on OKE'
   type: boolean
 
+- name: branch
+  displayName: 'Branch Prefix'
+  type: string
+  default: dev
+  values:
+  - dev
+  - qa
+  # - pdn
 
-- name: myStep
-  type: step
-  default:
-    script: echo my step
+- name: createNamespace
+  displayName: 'Namespace'
+  type: string
+  default: none
+  values:
+  - upgrade
+  - delete
+  - none
+
+- name: helmOperator
+  displayName: 'Operator Helm command'
+  type: string
+  default: none
+  values:
+  - upgrade
+  - delete
+  - none
+
+- name: helmCollector
+  displayName: 'Collector Helm command'
+  type: string
+  default: none
+  values:
+  - upgrade
+  - delete
+  - none
+
+- name: helmInstrumentation
+  displayName: 'Instrumentation Kube command'
+  type: string
+  default: none
+  values:
+  - upgrade
+  - delete
+  - none
 
 variables:
 - name: installCluster
@@ -43,6 +82,3 @@ jobs:
   steps:
   - ${{ each value in split(variables.installCluster, '-')}}:
     - ${{ if and(contains(value, 'True'), ne(value, '') ) }}:
-      - script: echo ${{ value }}
-
-  - ${{ parameters.myStep }}
