@@ -18,8 +18,8 @@ parameters:
 variables:
 - name: installCluster
   value: |
-    - ${{ parameters.installOks }}
-    - ${{ parameters.installAks }}
+    ${{ parameters.installOks }}
+    ${{ parameters.installAks }}
 
 jobs:
 # - template: Test/main-test.yml
@@ -30,7 +30,7 @@ jobs:
 
 - job: A1 
   steps:
-  - ${{ each value in split(variables.installCluster, '-')}}:
+  - ${{ each value in split(variables.installCluster, '\n')}}:
     - script: echo ${{ value }}
 
   - ${{ parameters.myStep }}
