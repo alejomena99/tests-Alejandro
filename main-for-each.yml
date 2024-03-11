@@ -44,7 +44,7 @@ jobs:
 
 - job: A1 
   steps:
-  - ${{ each value in containsValue( split(variables.installCluster, '-'), 'True' ) }}:
+  - ${{ each value in split( containsValue( variables.installCluster, 'True' ), '-') }}:
     - ${{ if ne(value, '') }}:
       - script: echo ${{ value }}
 
