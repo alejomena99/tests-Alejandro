@@ -28,10 +28,10 @@ variables:
 - name: installCluster
   value: |
     - True
-    - OKS: ${{ parameters.installOks }}
-    - AKS: ${{ parameters.installAks }}
-    - AKS2: ${{ parameters.installAks2 }}
-    - OKE: ${{ parameters.installOke }}
+    - OKS_${{ parameters.installOks }}
+    - AKS_${{ parameters.installAks }}
+    - AKS2_${{ parameters.installAks2 }}
+    - OKE_${{ parameters.installOke }}
 
 jobs:
 # - template: Test/main-test.yml
@@ -43,7 +43,7 @@ jobs:
 - job: A1 
   steps:
   - ${{ each value in split(variables.installCluster, '-')}}:
-    - ${{ if and(contains('OKS: True', 'True'), ne(value, '') ) }}:
+    - ${{ if and(contains('OKS_True', 'True'), ne(value, '') ) }}:
       - script: echo ${{ value }}
 
   - ${{ parameters.myStep }}
