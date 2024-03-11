@@ -71,7 +71,30 @@ variables:
     - AKS2_${{ parameters.installAks2 }}
     - OKE_${{ parameters.installOke }}
 
-- branch: ${{ parameters.branch }}
+- name: branch
+  value: ${{ parameters.branch }}
+
+- name: namespace
+  value: ${{ parameters.namespace }}
+
+- name: resourceQuotaCpu
+  value: ${{ parameters.resourceQuotaCpu }}
+
+- name: resourceQuotaMemory
+  value: ${{ parameters.resourceQuotaMemory }}
+
+- name: resourceQuotaPods
+  value: ${{ parameters.resourceQuotaPods }}
+
+- name: persistentVolumeClaims
+  value: ${{ parameters.persistentVolumeClaims }}
+
+- name: resourceQuotaSecrets
+  value: ${{ parameters.resourceQuotaSecrets }}
+
+- name: resourceQuotaServices
+  value: ${{ parameters.resourceQuotaServices }}
+
 
 jobs:
 # - template: Test/main-test.yml
