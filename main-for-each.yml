@@ -10,6 +10,15 @@ parameters:
   displayName: 'Install Front on AKS'
   type: boolean
 
+- name: installAks2
+  displayName: 'Install on AKS 2'
+  type: boolean
+
+- name: installOke
+  displayName: 'Install on OKE'
+  type: boolean
+
+
 - name: myStep
   type: step
   default:
@@ -20,6 +29,8 @@ variables:
   value: |
     - OKS: ${{ parameters.installOks }}
     - AKS: ${{ parameters.installAks }}
+    - AKS2: ${{ parameters.installAks2 }}
+    - OKE: ${{ parameters.installOke }}
 
 jobs:
 # - template: Test/main-test.yml
