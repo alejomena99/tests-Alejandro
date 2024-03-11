@@ -71,6 +71,8 @@ variables:
     - AKS2_${{ parameters.installAks2 }}
     - OKE_${{ parameters.installOke }}
 
+- branch: ${{ parameters.branch }}
+
 jobs:
 # - template: Test/main-test.yml
 #   parameters:
@@ -82,3 +84,6 @@ jobs:
   steps:
   - ${{ each value in split(variables.installCluster, '-')}}:
     - ${{ if and(contains(value, 'True'), ne(value, '') ) }}:
+      - script: echo ${{ value }}
+  
+  - script: echo $(branch)
