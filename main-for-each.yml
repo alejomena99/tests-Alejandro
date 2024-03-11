@@ -10,10 +10,19 @@ parameters:
   displayName: 'Install Front on AKS'
   type: boolean
 
+variables:
+- name: installCluster
+  values: ${{ parameters.installOks }}, ${{ parameters.installAks }}
+
 jobs:
-- template: Test/main-test.yml
-  parameters:
-    branchOptions: 
-      - ${{ parameters.installOks }}
-      - ${{ parameters.installAks }}
+# - template: Test/main-test.yml
+#   parameters:
+#     branchOptions: 
+#       - ${{ parameters.installOks }}
+#       - ${{ parameters.installAks }}
+
+- job: A1 
+  steps:
+  - ${{ each value in split(variables.installCluster, ',')}}:
+    - script: echo ${{ value }}
 
