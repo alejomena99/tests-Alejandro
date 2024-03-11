@@ -27,6 +27,7 @@ parameters:
 variables:
 - name: installCluster
   value: |
+    - True
     - OKS: ${{ parameters.installOks }}
     - AKS: ${{ parameters.installAks }}
     - AKS2: ${{ parameters.installAks2 }}
@@ -43,7 +44,7 @@ jobs:
 
 - job: A1 
   steps:
-  - ${{ each value in if containsValue( split(variables.installCluster, '-'), 'True' ) }}:
+  - ${{ each value in containsValue( split(variables.installCluster, '-'), 'True' ) }}:
     - ${{ if ne(value, '') }}:
       - script: echo ${{ value }}
 
