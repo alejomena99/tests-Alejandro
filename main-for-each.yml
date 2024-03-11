@@ -18,8 +18,8 @@ parameters:
 variables:
 - name: installCluster
   value: |
-    - ${{ parameters.installOks }}
-    - ${{ parameters.installAks }}
+    - OKS_${{ parameters.installOks }}
+    - AKS_${{ parameters.installAks }}
 
 jobs:
 # - template: Test/main-test.yml
