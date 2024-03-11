@@ -63,6 +63,41 @@ parameters:
   - delete
   - none
 
+- name: namespace
+  displayName: 'Namespace Name (Usar minúsculas y caracter especial guíon -)'
+  type: string
+  default: ''
+
+- name: resourceQuotaCpu
+  displayName: 'ResourceQuota CPU [m]'
+  type: string
+  default: 'Complete it if you are creating a new namespace.'
+
+- name: resourceQuotaMemory
+  displayName: 'ResourceQuota Memory [Mi]'
+  type: string
+  default: 'Complete it if you are creating a new namespace.'
+
+- name: resourceQuotaPods
+  displayName: 'ResourceQuota Pods'
+  type: string
+  default: 'Complete it if you are creating a new namespace.'
+
+- name: persistentVolumeClaims
+  displayName: 'Persistent Volume Claims'
+  type: string
+  default: 'Complete it if you are creating a new namespace.'
+
+- name: resourceQuotaSecrets
+  displayName: 'ResourceQuota Secrets'
+  type: string
+  default: 'Complete it if you are creating a new namespace.'
+
+- name: resourceQuotaServices
+  displayName: 'ResourceQuota Services'
+  type: string
+  default: 'Complete it if you are creating a new namespace.'
+
 variables:
 - name: installCluster
   value: |
@@ -103,10 +138,38 @@ jobs:
 #       - ${{ parameters.installOks }}
 #       - ${{ parameters.installAks }}
 
-- job: A1 
-  steps:
-  - ${{ each value in split(variables.installCluster, '-')}}:
-    - ${{ if and(contains(value, 'True'), ne(value, '') ) }}:
-      - script: echo ${{ value }}
-  
-  - script: echo $(branch)
+
+- ${{ if eq(parameters.createNamespace, 'upgrade' ) }}:
+  - job: Validate 
+    displayName: 'Validate'
+    dependsOn: []
+    pool:
+      name: "Azure Pipelines"
+      VmImage: Ubuntu-20.04
+      
+    steps:
+    - script: echo $(branch)
+    - script: echo $(namespace)
+
+    - ${{ each value in split(variables.installCluster, '-')}}:
+      - ${{ if and(contains(value, 'True'), ne(value, '') ) }}:
+        - script: echo ${{ parameters.createNamespace }} ${{ value }}
+
+- ${{ if in(parameters.createNamespace, 'upgrade', 'delete') }}:
+  - job: 'namespace'
+    displayName: 'Namespace'
+    dependsOn: 
+      - ${{ if eq(parameters.createNamespace, 'upgrade' ) }}:
+        - validate
+      # - ${{ if eq(parameters.createNamespace, 'delete' ) }}:
+      #   - helm_instrumentation
+    pool:
+      name: "Azure Pipelines"
+      VmImage: Ubuntu-20.04
+
+    steps:
+
+    - ${{ each value in split(variables.installCluster, '-')}}:
+      - ${{ if and(contains(value, 'True'), ne(value, '') ) }}:
+        - script: echo ${{ parameters.createNamespace }} ${{ value }}
+
