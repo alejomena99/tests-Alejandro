@@ -41,8 +41,8 @@ jobs:
 
 - job: A1 
   steps:
-  - ${{ each value in contains(split(variables.installCluster, '-'), 'true' )}}:
-    - ${{ if ne(value, '') }}:
+  - ${{ each value in split(variables.installCluster, '-')}}:
+    - ${{ if and(ne(value, ''), contains('value', 'true') ) }}:
       - script: echo ${{ value }}
 
   - ${{ parameters.myStep }}
