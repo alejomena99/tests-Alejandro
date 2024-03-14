@@ -59,10 +59,10 @@
         name: nmon
         state: present
 
-    - name: Copy file with owner and permissions
-      ansible.builtin.copy:
-        src: "{{ nmon_script_path }}"
-        dest: /admin/nmon
+    # - name: Copy file with owner and permissions
+    #   ansible.builtin.copy:
+    #     src: "{{ nmon_script_path }}"
+    #     dest: /admin/nmon
 
     - name: Ensure weekly NMON job exists
       ansible.builtin.cron:
