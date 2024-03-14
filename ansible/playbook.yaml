@@ -54,10 +54,10 @@
         update_cache: yes
         upgrade: "dist"
 
-    - name: Enable SELinux
-      ansible.posix.selinux:
-        policy: targeted
-        state: enforcing
+    # - name: Enable SELinux
+    #   ansible.posix.selinux:
+    #     policy: targeted
+    #     state: enforcing
 
     - name: Install apache nmon
       ansible.builtin.apt:
