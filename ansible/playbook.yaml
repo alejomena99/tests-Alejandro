@@ -59,10 +59,10 @@
         name: nmon
         state: present
 
-    # - name: Copy file with owner and permissions
-    #   ansible.builtin.copy:
-    #     src: {{ nmon_script_path }}
-    #     dest: /admin/nmon
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: "{{ nmon_script_path }}"
+        dest: /admin/nmon
 
     - name: Ensure weekly NMON job exists
       ansible.builtin.cron:
@@ -112,4 +112,4 @@
         job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl 10.2.177.56 > /var/tmp/lpar2rrd-agent.out 2>&1"
 
     - name: Run Antivirus script
-      ansible.builtin.script: {{ antivirus_script_path }}
+      ansible.builtin.script: "{{ antivirus_script_path }}"
