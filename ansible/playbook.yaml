@@ -10,7 +10,7 @@
     - name: Add the user 'eacastaneda'
       ansible.builtin.user:
         name: eacastaneda
-        group: admin
+        group: sudo
         password: "{{ 'eacastaneda12345' | password_hash('sha512') }}"
         generate_ssh_key: yes
         ssh_key_bits: 2048
@@ -19,7 +19,7 @@
     - name: Add the user 'sangarces'
       ansible.builtin.user:
         name: sangarces
-        group: admin
+        group: sudo
         password:  "{{ 'sangarces12345' | password_hash('sha512') }}"
         generate_ssh_key: yes
         ssh_key_bits: 2048
@@ -28,17 +28,17 @@
     - name: Add the user 'admarus'
       ansible.builtin.user:
         name: admarus
-        group: admin
+        group: sudo
         password: "{{ 'admarus12345' | password_hash('sha512') }}"
 
     - name: Add the user 'Luislx'
       ansible.builtin.user:
         name: Luislx
-        group: admin
+        group: sudo
         password: "{{ 'Luislx12345' | password_hash('sha512') }}"
 
     - name: Add the user 'Luisre'
       ansible.builtin.user:
         name: Luisre
-        group: admin
+        group: sudo
         password: "{{ 'Luisre12345' | password_hash('sha512') }}"
