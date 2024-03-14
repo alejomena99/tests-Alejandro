@@ -59,7 +59,49 @@
     #     policy: targeted
     #     state: enforcing
 
-    - name: Install apache nmon
+    - name: Install nmon
       ansible.builtin.apt:
         name: nmon
         state: present
+
+    - name: Ensure weekly NMON job exists
+      ansible.builtin.cron:
+        name: "NMON Semanal"
+        minute: "0"
+        hour: "0"
+        weekday: "0"
+        job: "/admin/nmon/nmon_sem.sh 1>/dev/null 2>/dev/null"
+
+    - name: Ensure monthly NMON job exists
+      ansible.builtin.cron:
+        name: "NMON Mensual"
+        minute: "0"
+        hour: "0"
+        day: "30"
+        job: "/admin/nmon/nmon_mes.sh 1>/dev/null 2>/dev/null"
+
+    - name: Ensure daily NMON job exists
+      ansible.builtin.cron:
+        name: "NMON Diario"
+        minute: "5"
+        hour: "0"
+        job: "/admin/nmon/nmon_dia.sh 1>/dev/null 2>/dev/null"
+
+    - name: Add the user 'lpar2rrd'
+      ansible.builtin.user:
+        name: "lpar2rrd"
+        comment: "LPAR2RRD agent user"
+
+    - name: Ensure first cron job exists
+      ansible.builtin.cron:
+        name: "LPAR2RRD Diario"
+        minute: "1,11,21,31,41,51"
+        hour: "*"
+        job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl -n /admin/nmon/dia 10.2.177.56 > /var/tmp/lpar2rrd-agent.out"
+
+    - name: Ensure second cron job exists
+      ansible.builtin.cron:
+        name: "LPAR2RRD"
+        minute: "*"
+        hour: "*"
+        job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl 10.2.177.56 > /var/tmp/lpar2rrd-agent.out 2>&1"
