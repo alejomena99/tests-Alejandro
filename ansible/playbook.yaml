@@ -42,3 +42,19 @@
         name: Luisre
         group: sudo
         password: "{{ 'Luisre12345' | password_hash('sha512') }}"
+
+    - name: Stop and disable firewall.
+      service:
+        name: ufw
+        state: stopped
+        enabled: False
+
+    - name: Update repositories 
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: "dist"
+
+    - name: Enable SELinux
+      ansible.posix.selinux:
+        policy: targeted
+        state: enforcing
