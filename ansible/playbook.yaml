@@ -11,7 +11,7 @@
       ansible.builtin.user:
         name: eacastaneda
         group: admin
-        password: eacastaneda12345
+        password: "{{ lookup('pipe', 'echo -n eacastaneda12345 | mkpasswd --method=sha-512 --stdin') }}"
         generate_ssh_key: yes
         ssh_key_bits: 2048
         ssh_key_file: .ssh/authorized_keys
@@ -20,7 +20,7 @@
       ansible.builtin.user:
         name: sangarces
         group: admin
-        password: sangarces12345
+        password: "{{ lookup('pipe', 'echo -n sangarces12345 | mkpasswd --method=sha-512 --stdin') }}"
         generate_ssh_key: yes
         ssh_key_bits: 2048
         ssh_key_file: .ssh/authorized_keys
@@ -29,16 +29,16 @@
       ansible.builtin.user:
         name: admarus
         group: admin
-        password: admarus12345
+        password: "{{ lookup('pipe', 'echo -n admarus12345 | mkpasswd --method=sha-512 --stdin') }}"
 
     - name: Add the user 'Luislx'
       ansible.builtin.user:
         name: Luislx
         group: admin
-        password: Luislx12345
+        password: "{{ lookup('pipe', 'echo -n Luislx12345 | mkpasswd --method=sha-512 --stdin') }}"
 
     - name: Add the user 'Luisre'
       ansible.builtin.user:
         name: Luisre
         group: admin
-        password: Luisre12345
+        password: "{{ lookup('pipe', 'echo -n Luisre12345 | mkpasswd --method=sha-512 --stdin') }}"
