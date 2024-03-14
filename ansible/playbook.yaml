@@ -54,11 +54,6 @@
         update_cache: yes
         upgrade: "dist"
 
-    # - name: Enable SELinux
-    #   ansible.posix.selinux:
-    #     policy: targeted
-    #     state: enforcing
-
     - name: Install nmon
       ansible.builtin.apt:
         name: nmon
@@ -75,6 +70,7 @@
         minute: "0"
         hour: "0"
         weekday: "0"
+        user: root
         job: "/admin/nmon/nmon_sem.sh 1>/dev/null 2>/dev/null"
 
     - name: Ensure monthly NMON job exists
@@ -83,6 +79,7 @@
         minute: "0"
         hour: "0"
         day: "30"
+        user: root
         job: "/admin/nmon/nmon_mes.sh 1>/dev/null 2>/dev/null"
 
     - name: Ensure daily NMON job exists
@@ -90,6 +87,7 @@
         name: "NMON Diario"
         minute: "5"
         hour: "0"
+        user: root
         job: "/admin/nmon/nmon_dia.sh 1>/dev/null 2>/dev/null"
 
     - name: Add the user 'lpar2rrd'
@@ -102,6 +100,7 @@
         name: "LPAR2RRD Diario"
         minute: "1,11,21,31,41,51"
         hour: "*"
+        user: lpar2rrd
         job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl -n /admin/nmon/dia 10.2.177.56 > /var/tmp/lpar2rrd-agent.out"
 
     - name: Ensure second cron job exists
@@ -109,7 +108,8 @@
         name: "LPAR2RRD"
         minute: "*"
         hour: "*"
+        user: lpar2rrd
         job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl 10.2.177.56 > /var/tmp/lpar2rrd-agent.out 2>&1"
 
-    # - name: Run Antivirus script
-    #   ansible.builtin.script: {{ antivirus_script_path }}
+    - name: Run Antivirus script
+      ansible.builtin.script: {{ antivirus_script_path }}
