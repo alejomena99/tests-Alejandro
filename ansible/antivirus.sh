@@ -1,0 +1,1 @@
+export QUIND_MSG="Hola mundo"
