@@ -3,16 +3,42 @@
   remote_user: root
   become: yes
   tasks:
-    - name: Cambiar el nombre de la máquina
-      command: hostnamectl set-hostname vm-quind
+    - name: Set a hostname
+      ansible.builtin.hostname:
+        name: quind-vm-test
 
-    - name: Ensure Apache is at the latest version
-      apt:
-        name: apache2
-        state: latest
+    - name: Add the user 'eacastaneda'
+      ansible.builtin.user:
+        name: eacastaneda
+        group: admin
+        password: eacastaneda12345
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/authorized_keys
 
-    - name: ensure apache is running
-      service:
-        name: apache2
-        state: started
-        enabled: yes
+    - name: Add the user 'sangarces'
+      ansible.builtin.user:
+        name: sangarces
+        group: admin
+        password: sangarces12345
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/authorized_keys
+
+    - name: Add the user 'admarus'
+      ansible.builtin.user:
+        name: admarus
+        group: admin
+        password: admarus12345
+
+    - name: Add the user 'Luislx'
+      ansible.builtin.user:
+        name: Luislx
+        group: admin
+        password: Luislx12345
+
+    - name: Add the user 'Luisre'
+      ansible.builtin.user:
+        name: Luisre
+        group: admin
+        password: Luisre12345
