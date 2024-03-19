@@ -1,0 +1,21 @@
+trigger: none
+
+variables:
+  - name: test 
+    value: variables/vars-azure-pipeline.yml
+  - template: ${{ variables.test }}
+
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - deployment: job
+    displayName: 'job'
+    environment: Alejo-prueba
+    strategy:
+        runOnce:
+            deploy:
+                steps:
+
+                - script: echo hola
