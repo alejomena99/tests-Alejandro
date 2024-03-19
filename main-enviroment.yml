@@ -1,10 +1,5 @@
 trigger: none
 
-variables:
-  - name: test 
-    value: variables/vars-azure-pipeline.yml
-  - template: ${{ variables.test }}
-
 
 stages:
 - stage: stage
