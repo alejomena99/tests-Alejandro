@@ -10,13 +10,11 @@
         state: stopped
         enabled: False
 
-    - name: Update repositories and apply security updates
-      # ansible.builtin.yum:
-      #   name: "*"
-      #   state: latest
-      #   security: yes
-      ansible.builtin.command:
-        cmd: yum update --security
+    - name: checking updates
+      yum:
+        name: '*'
+        security: yes
+        state: latest
 
     - name: Install nmon
       ansible.builtin.yum:
