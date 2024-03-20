@@ -11,6 +11,7 @@
         enabled: False
 
     - name: checking updates
+      become: yes
       yum:
         name: '*'
         security: yes
