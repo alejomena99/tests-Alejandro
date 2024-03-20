@@ -119,3 +119,12 @@
 
     - name: Run Antivirus script
       ansible.builtin.script: "{{ antivirus_script_path }}"
+
+    - name: Distribution
+      debug: msg="{{ ansible_distribution }}"
+
+    - name: Distribution version
+      debug: msg="{{ ansible_distribution_version}}"
+      
+    - name: Distribution major version
+      debug: msg="{{ ansible_distribution_major_version }}"
