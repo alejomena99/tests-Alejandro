@@ -14,7 +14,7 @@
       yum:
         name: '*'
         security: yes
-        state: latest
+        state: installed
         update_cache: yes
 
     - name: Install nmon
