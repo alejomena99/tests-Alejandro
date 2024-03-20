@@ -1,0 +1,10 @@
+---
+- hosts: red hat
+  remote_user: root
+  become: yes
+  tasks:
+
+
+
+
+
