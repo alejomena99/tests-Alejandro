@@ -131,6 +131,8 @@ stages:
           inventoriesAgentMachine: 'file'
           inventoryFileOnAgentMachine: 'ansible/inventory.ini'
 
+      - script: cat $(System.DefaultWorkingDirectory)/vm_info.json
+      
   - ${{ if eq(parameters.command, 'destroy') }}:
     - job: 'delete_vm'
       pool:
