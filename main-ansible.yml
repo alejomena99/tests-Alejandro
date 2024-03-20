@@ -108,7 +108,7 @@ stages:
           terraform output -json
         displayName: 'Terraform outputs'
         workingDirectory: 'terraform/'
-        
+
       - script: |
           echo "##vso[task.setvariable variable=vmPublicIp;issecret=true]$(terraform output -json | jq -r '.virtual_machine_ip.value')"
         displayName: 'Get VM public IP'
@@ -127,7 +127,7 @@ stages:
         displayName: 'VM Ansible provisioning'
         inputs:
           ansibleInterface: 'agentMachine'
-          playbookPathOnAgentMachine: 'ansible/playbook.yaml'
+          playbookPathOnAgentMachine: 'ansible/info.yaml'
           inventoriesAgentMachine: 'file'
           inventoryFileOnAgentMachine: 'ansible/inventory.ini'
 

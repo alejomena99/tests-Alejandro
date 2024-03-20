@@ -1,0 +1,31 @@
+---
+- hosts: all
+  remote_user: root
+  become: yes
+  tasks:
+    - name: Distribution
+      debug:
+        var: ansible_distribution
+
+    - name: Distribution version
+      debug:
+        var: ansible_distribution_version
+
+    - name: Distribution major version
+      debug:
+        var: ansible_distribution_major_version
+
+    - name: Generate JSON content
+      set_fact:
+        json_content: |
+          {
+            "distribution": "{{ ansible_distribution }}",
+            "distribution_version": "{{ ansible_distribution_version }}",
+            "distribution_major_version": "{{ ansible_distribution_major_version }}"
+          }
+
+    - name: Save JSON content to a file
+      copy:
+        content: "{{ json_content }}"
+        dest: "{{ host_pwd }}/vm_info.json"
+        force: yes
