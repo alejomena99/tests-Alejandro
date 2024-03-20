@@ -15,7 +15,6 @@
         name: "*"
         state: latest
         security: yes
-        deltarpm: no
 
     - name: Install nmon
       ansible.builtin.yum:
