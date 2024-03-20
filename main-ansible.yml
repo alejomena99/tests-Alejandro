@@ -141,7 +141,7 @@ stages:
           fi
         displayName: 'VM Distribution'
 
-      - script: echo $(System.DefaultWorkingDirectory)/ansible/inventory.ini
+      - script: cat $(System.DefaultWorkingDirectory)/ansible/inventory.ini
 
       - task: replacetokens@6
         displayName: 'Replace Tokens for ansible scripts'
