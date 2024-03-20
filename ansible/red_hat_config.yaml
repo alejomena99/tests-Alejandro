@@ -15,7 +15,7 @@
       yum:
         name: '*'
         security: yes
-        state: latest
+        state: installed
 
     - name: Install nmon
       ansible.builtin.yum:
