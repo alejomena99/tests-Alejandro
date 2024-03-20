@@ -112,6 +112,7 @@ stages:
       - task: replacetokens@3
         displayName: 'Replace Tokens for ansible scripts'
         inputs:
+          missingVarAction: 'keep'
           targetFiles: |
             ansible/*.ini
 
@@ -143,6 +144,7 @@ stages:
       - task: replacetokens@3
         displayName: 'Replace Tokens for ansible scripts'
         inputs:
+          missingVarAction: 'keep'
           targetFiles: |
             ansible/*.ini
 
