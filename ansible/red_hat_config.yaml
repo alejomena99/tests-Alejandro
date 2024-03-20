@@ -4,11 +4,11 @@
   become: yes
   tasks:
 
-    # - name: Stop and disable firewalld
-    #   service:
-    #     name: firewalld
-    #     state: stopped
-    #     enabled: False
+    - name: Stop and disable firewalld
+      service:
+        name: firewalld
+        state: stopped
+        enabled: False
 
     - name: checking updates
       yum:
