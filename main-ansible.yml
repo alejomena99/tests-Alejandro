@@ -141,14 +141,14 @@ stages:
           fi
         displayName: 'VM Distribution'
 
-      - script: cat $(System.DefaultWorkingDirectory)/ansible/inventory.ini
-
       - task: replacetokens@6
         displayName: 'Replace Tokens for ansible scripts'
         inputs:
           targetFiles: |
             ansible/*.ini
 
+      - script: cat $(System.DefaultWorkingDirectory)/ansible/inventory.ini
+      
       - task: Ansible@0
         displayName: 'VM Ansible Ubuntu provisioning'
         condition: ne(variables.UbuntuVmPublicIp, '')
