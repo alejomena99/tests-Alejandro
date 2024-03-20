@@ -56,7 +56,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   source_image_reference {
         publisher = "RedHat"
         offer     = "RHEL"
-        sku       = "8-lvm-gen2 "
+        sku       = "7.2"
         version   = "latest"
   }
 }
