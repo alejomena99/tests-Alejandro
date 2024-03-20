@@ -3,6 +3,110 @@
   remote_user: root
   become: yes
   tasks:
+
+    - name: Set a hostname
+      ansible.builtin.hostname:
+        name: quind-vm-test
+
+    - name: Add the user 'eacastaneda'
+      ansible.builtin.user:
+        name: eacastaneda
+        group: sudo
+        password: "{{ 'eacastaneda12345' | password_hash('sha512') }}"
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/authorized_keys
+
+    - name: Add the user 'sangarces'
+      ansible.builtin.user:
+        name: sangarces
+        group: sudo
+        password:  "{{ 'sangarces12345' | password_hash('sha512') }}"
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/authorized_keys
+
+    - name: Add the user 'admarus'
+      ansible.builtin.user:
+        name: admarus
+        group: sudo
+        password: "{{ 'admarus12345' | password_hash('sha512') }}"
+
+    - name: Add the user 'Luislx'
+      ansible.builtin.user:
+        name: Luislx
+        group: sudo
+        password: "{{ 'Luislx12345' | password_hash('sha512') }}"
+
+    - name: Add the user 'Luisre'
+      ansible.builtin.user:
+        name: Luisre
+        group: sudo
+        password: "{{ 'Luisre12345' | password_hash('sha512') }}"
+
+    - name: Add the user 'lpar2rrd'
+      ansible.builtin.user:
+        name: "lpar2rrd"
+        comment: "LPAR2RRD agent user"
+
+
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /admin/nmon
+        state: directory
+        mode: '0755'
+
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: "{{ nmon_script_path }}"
+        dest: /admin/nmon
+
+    - name: Ensure weekly NMON cron job exists
+      ansible.builtin.cron:
+        name: "NMON Semanal"
+        minute: "0"
+        hour: "0"
+        weekday: "0"
+        user: root
+        job: "/admin/nmon/nmon_sem.sh 1>/dev/null 2>/dev/null"
+
+    - name: Ensure monthly NMON cron job exists
+      ansible.builtin.cron:
+        name: "NMON Mensual"
+        minute: "0"
+        hour: "0"
+        day: "30"
+        user: root
+        job: "/admin/nmon/nmon_mes.sh 1>/dev/null 2>/dev/null"
+
+    - name: Ensure daily NMON cron job exists
+      ansible.builtin.cron:
+        name: "NMON Diario"
+        minute: "5"
+        hour: "0"
+        user: root
+        job: "/admin/nmon/nmon_dia.sh 1>/dev/null 2>/dev/null"
+
+
+    - name: Ensure daily lpar2rrd cron job exists
+      ansible.builtin.cron:
+        name: "LPAR2RRD Diario"
+        minute: "1,11,21,31,41,51"
+        hour: "*"
+        user: lpar2rrd
+        job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl -n /admin/nmon/dia 10.2.177.56 > /var/tmp/lpar2rrd-agent.out"
+
+    - name: Ensure config lpar2rrd cron job exists
+      ansible.builtin.cron:
+        name: "LPAR2RRD"
+        minute: "*"
+        hour: "*"
+        user: lpar2rrd
+        job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl 10.2.177.56 > /var/tmp/lpar2rrd-agent.out 2>&1"
+        
+    - name: Run Antivirus script
+      ansible.builtin.script: "{{ antivirus_script_path }}"
+
     - name: Distribution
       debug:
         var: ansible_distribution

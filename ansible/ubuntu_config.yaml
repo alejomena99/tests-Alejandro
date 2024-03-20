@@ -1,0 +1,23 @@
+---
+- hosts: ubuntu
+  remote_user: root
+  become: yes
+  tasks:
+    - name: Stop and disable firewall.
+      service:
+        name: ufw
+        state: stopped
+        enabled: False
+
+    - name: Update repositories 
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: "dist"
+
+    - name: Install nmon
+      ansible.builtin.apt:
+        name: nmon
+        state: present
+
+
+
