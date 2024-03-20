@@ -29,3 +29,4 @@
         content: "{{ json_content }}"
         dest: "{{ host_pwd }}/vm_info.json"
         force: yes
+      delegate_to: localhost
