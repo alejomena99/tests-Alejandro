@@ -135,8 +135,12 @@ stages:
               echo "La distribución es Ubuntu"
               echo "##vso[task.setvariable variable=UbuntuVmPublicIp;issecret=true]$(vmPublicIp)"
               cat $(System.DefaultWorkingDirectory)/vm_info.json
+          elif [[ "$distribution" == "RedHat" ]]; then
+              echo "La distribución es RedHat"
+              echo "##vso[task.setvariable variable=RedHatVmPublicIp;issecret=true]$(vmPublicIp)"
+              cat $(System.DefaultWorkingDirectory)/vm_info.json
           else
-              echo "La distribución no es Ubuntu"
+              echo "La distribución no es conocida"
               cat $(System.DefaultWorkingDirectory)/vm_info.json
           fi
         displayName: 'VM Distribution'

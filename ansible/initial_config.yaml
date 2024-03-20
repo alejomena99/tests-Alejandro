@@ -49,12 +49,15 @@
         name: "lpar2rrd"
         comment: "LPAR2RRD agent user"
 
-
-    - name: Create a directory if it does not exist
+    - name: Create nmon folders
       ansible.builtin.file:
-        path: /admin/nmon
+        path: "/admin/nmon/{{ item }}"
         state: directory
         mode: '0755'
+      loop:
+        - dia
+        - mes
+        - sem
 
     - name: Copy file with owner and permissions
       ansible.builtin.copy:
