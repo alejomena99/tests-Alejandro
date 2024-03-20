@@ -147,11 +147,20 @@ stages:
             ansible/*.ini
 
       - task: Ansible@0
-        displayName: 'VM Ansible Specific provisioning'
+        displayName: 'VM Ansible Ubuntu provisioning'
+        condition: ne(variables.UbuntuVmPublicIp, '')
         inputs:
           ansibleInterface: 'agentMachine'
-          ${{ if ne(variables.['UbuntuVmPublicIp'], '') }}:
-            playbookPathOnAgentMachine: 'ansible/ubuntu_config.yaml'
+          playbookPathOnAgentMachine: 'ansible/ubuntu_config.yaml'
+          inventoriesAgentMachine: 'file'
+          inventoryFileOnAgentMachine: 'ansible/inventory.ini'
+
+      - task: Ansible@0
+        displayName: 'VM Ansible Red hay provisioning'
+        condition: ne(variables.RedHatVmPublicIp, '')
+        inputs:
+          ansibleInterface: 'agentMachine'
+          playbookPathOnAgentMachine: 'ansible/red_hat_config.yaml'
           inventoriesAgentMachine: 'file'
           inventoryFileOnAgentMachine: 'ansible/inventory.ini'
 
