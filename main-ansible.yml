@@ -129,7 +129,7 @@ stages:
         displayName: 'VM Ansible provisioning'
         inputs:
           ansibleInterface: 'agentMachine'
-          playbookPathOnAgentMachine: 'ansible/info.yaml'
+          playbookPathOnAgentMachine: 'ansible/initial_config.yaml'
           inventoriesAgentMachine: 'file'
           inventoryFileOnAgentMachine: 'ansible/inventory.ini'
 
