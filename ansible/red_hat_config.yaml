@@ -11,11 +11,11 @@
         enabled: False
 
     - name: checking updates
-      become: yes
       yum:
         name: '*'
         security: yes
-        state: installed
+        state: latest
+        update_cache: yes
 
     - name: Install nmon
       ansible.builtin.yum:
