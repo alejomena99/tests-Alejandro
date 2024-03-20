@@ -105,6 +105,11 @@ stages:
         workingDirectory: 'terraform/'
 
       - script: |
+          terraform output -json
+        displayName: 'Terraform apply'
+        workingDirectory: 'terraform/'
+
+      - script: |
           az login --service-principal -u $(CLIENT_ID) -p $(CLIENT_SECRET) --tenant $(TENANT_ID)
           vm_name=$(az vm list --resource-group $(RESOURCE_GROUP) | jq -r '.[].name')
           echo "##vso[task.setvariable variable=vmPublicIp;issecret=true]$(az vm show -g $(RESOURCE_GROUP) -n $vm_name -d --query publicIps -o tsv)"
