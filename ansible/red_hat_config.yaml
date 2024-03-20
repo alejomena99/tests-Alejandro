@@ -4,17 +4,17 @@
   become: yes
   tasks:
 
-    - name: Stop and disable firewalld
-      service:
-        name: firewalld
-        state: stopped
-        enabled: False
+    # - name: Stop and disable firewalld
+    #   service:
+    #     name: firewalld
+    #     state: stopped
+    #     enabled: False
 
     - name: checking updates
       yum:
         name: '*'
         security: yes
-        state: installed
+        state: latest
         update_cache: yes
 
     - name: Install nmon
