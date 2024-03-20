@@ -12,9 +12,10 @@
 
     - name: Update only security-related packages
       ansible.builtin.yum:
-        name: '*'
-        security: yes
+        name: "*"
         state: latest
+        security: yes
+
 
 
 

@@ -163,7 +163,7 @@ stages:
           inventoryFileOnAgentMachine: 'ansible/inventory.ini'
 
       - task: Ansible@0
-        displayName: 'VM Ansible Red hay provisioning'
+        displayName: 'VM Ansible RedHat provisioning'
         condition: ne(variables.RedHatVmPublicIp, '')
         inputs:
           ansibleInterface: 'agentMachine'
