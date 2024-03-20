@@ -123,6 +123,8 @@ stages:
       - script: chmod 600 $(sshPriv)
         displayName: 'Set permission for private key'
 
+      - script: touch $(System.DefaultWorkingDirectory)/vm_info.json
+      
       - task: Ansible@0
         displayName: 'VM Ansible provisioning'
         inputs:
@@ -132,7 +134,7 @@ stages:
           inventoryFileOnAgentMachine: 'ansible/inventory.ini'
 
       - script: cat $(System.DefaultWorkingDirectory)/vm_info.json
-      
+
   - ${{ if eq(parameters.command, 'destroy') }}:
     - job: 'delete_vm'
       pool:
