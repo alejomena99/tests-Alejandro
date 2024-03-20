@@ -78,7 +78,7 @@ stages:
         displayName: 'Create storage container'
         continueOnError: true
 
-      - task: replacetokens@3
+      - task: replacetokens@6
         displayName: 'Replace Tokens for terraform scripts'
         inputs:
           targetFiles: |
@@ -109,7 +109,7 @@ stages:
         displayName: 'Get VM public IP'
         workingDirectory: 'terraform/'
 
-      - task: replacetokens@3
+      - task: replacetokens@6
         displayName: 'Replace Tokens for ansible scripts'
         inputs:
           missingVarAction: 'keep'
@@ -133,7 +133,7 @@ stages:
 
           if [[ "$distribution" == "Ubuntu" ]]; then
               echo "La distribución es Ubuntu"
-              echo "##vso[task.setvariable variable=UbuntuVmPublicIp]$(terraform output -json | jq -r '.virtual_machine_ip.value')"
+              echo "##vso[task.setvariable variable=UbuntuVmPublicIp;issecret=true]$(terraform output -json | jq -r '.virtual_machine_ip.value')"
               cat $(System.DefaultWorkingDirectory)/vm_info.json
           else
               echo "La distribución no es Ubuntu"
@@ -141,10 +141,11 @@ stages:
           fi
         displayName: 'VM Distribution'
 
-      - task: replacetokens@3
+      - script: echo $(System.DefaultWorkingDirectory)/ansible/inventory.ini
+
+      - task: replacetokens@6
         displayName: 'Replace Tokens for ansible scripts'
         inputs:
-          missingVarAction: 'keep'
           targetFiles: |
             ansible/*.ini
 
