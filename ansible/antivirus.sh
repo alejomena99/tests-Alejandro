@@ -1,1 +1,1 @@
-sudo export QUIND_MSG="Hola mundo"
+export QUIND_MSG="Hola mundo"
