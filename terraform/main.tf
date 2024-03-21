@@ -54,14 +54,14 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   }
 
   source_image_reference {
-        publisher = "Canonical"
-        offer     = "UbuntuServer"
-        sku       = "18.04-LTS"
+        publisher = "RedHat"
+        offer     = "RHEL"
+        sku       = "7.8"
         version   = "latest"
   }
 }
 
-        # publisher = "RedHat"
-        # offer     = "RHEL"
-        # sku       = "7.8"
+        # publisher = "Canonical"
+        # offer     = "UbuntuServer"
+        # sku       = "18.04-LTS"
         # version   = "latest"
