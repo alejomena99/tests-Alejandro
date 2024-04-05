@@ -2,7 +2,10 @@ trigger: none
 
 variables:
 - name: sonarProperties
-  value: \n# sonar.c.file.suffixes=- \n# sonar.cpp.file.suffixes=- \n# sonar.objc.file.suffixes=-
+  value: |
+    sonar.c.file.suffixes=-
+    sonar.cpp.file.suffixes=-
+    sonar.objc.file.suffixes=-
 
 stages:
 - stage: stage
@@ -13,10 +16,12 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    - task: replacetokens@3
-      displayName: 'Replace Tokens'
-      inputs:
-          targetFiles: |
-            **/**.txt
+    - script: echo hola
 
-    - script: cat SonarCloudPrepare@1.txt
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonarcloud-Alejandro'
+        organization: 'quind'
+        scannerMode: 'Other'
+        extraProperties: |
+            $(sonarProperties)
