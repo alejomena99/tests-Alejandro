@@ -4,8 +4,8 @@ variables:
 - name: sonarProperties
   value: |
     sonar.c.file.suffixes=-
-    sonar.cpp.file.suffixes=-
-    sonar.objc.file.suffixes=-
+        sonar.cpp.file.suffixes=-
+        sonar.objc.file.suffixes=-
 
 stages:
 - stage: stage
