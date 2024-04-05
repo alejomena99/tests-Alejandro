@@ -8,6 +8,9 @@ variables:
     sonar.cpp.file.suffixes=-
     sonar.objc.file.suffixes=-
 
+- name: sonarPropertiesReplace
+  value: ${{ replace('sonarPropertiesLibrary2', ',' , '\n') }}
+
 stages:
 - stage: stage
   displayName: stage
@@ -17,7 +20,7 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    - script: echo hola
+    - script: echo $(sonarPropertiesReplace)
 
     - task: SonarCloudPrepare@1
       inputs:
