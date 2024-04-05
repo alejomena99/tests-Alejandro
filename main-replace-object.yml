@@ -16,5 +16,10 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    - script: |
-        echo $(sonarProperties)
+    - task: replacetokens@3
+      displayName: 'Replace Tokens'
+      inputs:
+          targetFiles: |
+            **/**.txt
+
+    - script: cat SonarCloudPrepare@1.txt
