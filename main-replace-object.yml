@@ -9,7 +9,7 @@ variables:
     sonar.objc.file.suffixes=-
 
 - name: sonarPropertiesReplace
-  value: ${{ replace('sonarPropertiesLibrary2', ',' , '\n') }}
+  value: ${{ replace('$(sonarPropertiesLibrary2)', ',' , '\n') }}
 
 stages:
 - stage: stage
