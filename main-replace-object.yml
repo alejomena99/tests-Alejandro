@@ -38,4 +38,4 @@ stages:
         extraProperties: |
             $(sonarPropertiesReplace)
 
-    - script: echo ls -a
+    - script: ls -a
