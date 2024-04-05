@@ -5,7 +5,7 @@ variables:
 - group: alejo-var-back
 
 - name: sonarPropertiesReplace
-  value: ${{ split(variables.sonarPropertiesLibrary2, ';') }}
+  value: ${{ split($(sonarPropertiesLibrary2), ';') }}
 
 
   
