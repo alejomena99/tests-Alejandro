@@ -2,10 +2,7 @@ trigger: none
 
 variables:
 - name: sonarProperties
-  value: |
-    sonar.c.file.suffixes=-
-        sonar.cpp.file.suffixes=-
-        sonar.objc.file.suffixes=-
+  value: \n# sonar.c.file.suffixes=- \n# sonar.cpp.file.suffixes=- \n# sonar.objc.file.suffixes=-
 
 stages:
 - stage: stage
