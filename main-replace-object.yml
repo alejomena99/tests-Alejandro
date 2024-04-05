@@ -1,0 +1,21 @@
+trigger: none
+
+variables:
+- name: sonarProperties
+  value: |
+    - OKS_${{ parameters.installOks }}
+    - AKS_${{ parameters.installAks }}
+    - AKS2_${{ parameters.installAks2 }}
+    - OKE_${{ parameters.installOke }}
+
+stages:
+- stage: stage
+  displayName: stage
+  jobs:
+  - job: 'job'
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+
+    - script: |
+        echo $(sonarProperties)
