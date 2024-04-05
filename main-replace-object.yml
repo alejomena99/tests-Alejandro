@@ -2,11 +2,7 @@ trigger: none
 
 variables:
 - group: Alejo-test-sonar
-- name: sonarProperties
-  value: |
-    sonar.c.file.suffixes=-
-    sonar.cpp.file.suffixes=-
-    sonar.objc.file.suffixes=-
+- group: alejo-var-back
 
 - name: sonarPropertiesReplace
   value: ${{ replace('$(sonarPropertiesLibrary2)', ';' , '\n') }}
@@ -21,21 +17,36 @@ stages:
     steps:
 
     # - script: echo $(sonarPropertiesReplace)
+    - checkout: git://training-quind/training-AlejandroBack
+      fetchDepth: 1
+
+    # - task: SonarCloudPrepare@1
+    #   inputs:
+    #     SonarCloud: 'sonarcloud-Alejandro'
+    #     organization: 'quind'
+    #     scannerMode: 'Other'
+    #     extraProperties: |
+    #         $(sonarPropertiesReplace)
 
     - task: SonarCloudPrepare@1
       inputs:
         SonarCloud: 'sonarcloud-Alejandro'
         organization: 'quind'
         scannerMode: 'Other'
-        extraProperties: |
-            $(sonarProperties)
 
-    - task: SonarCloudPrepare@1
+    - task: Gradle@3
       inputs:
-        SonarCloud: 'sonarcloud-Alejandro'
-        organization: 'quind'
-        scannerMode: 'Other'
-        extraProperties: |
-            $(sonarPropertiesReplace)
+        gradleWrapperFile: 'gradlew'
+        tasks: 'build'
+        publishJUnitResults: true
+        testResultsFiles: '**/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        sonarQubeRunAnalysis: true
+        sqGradlePluginVersionChoice: 'build'
+        spotBugsAnalysis: false
 
-    - script: ls -a
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+          
+
