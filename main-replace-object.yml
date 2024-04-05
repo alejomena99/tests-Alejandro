@@ -20,7 +20,7 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    - script: echo $(sonarPropertiesReplace)
+    # - script: echo $(sonarPropertiesReplace)
 
     - task: SonarCloudPrepare@1
       inputs:
