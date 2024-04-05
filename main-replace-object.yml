@@ -17,7 +17,7 @@ stages:
     steps:
 
     # - script: echo $(sonarPropertiesReplace)
-    - checkout: git://training-quind/training-AlejandroBack
+    - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
       fetchDepth: 1
 
     # - task: SonarCloudPrepare@1
