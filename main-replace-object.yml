@@ -32,7 +32,7 @@ stages:
         organization: 'quind'
         scannerMode: 'Other'
         extraProperties: |
-            $(sonarPropertiesReplace)
+            $(sonarPropertiesLibrary)
 
     # - task: SonarCloudPrepare@1
     #   inputs:
