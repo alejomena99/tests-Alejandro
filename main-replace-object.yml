@@ -3,10 +3,9 @@ trigger: none
 variables:
 - name: sonarProperties
   value: |
-    - OKS_${{ parameters.installOks }}
-    - AKS_${{ parameters.installAks }}
-    - AKS2_${{ parameters.installAks2 }}
-    - OKE_${{ parameters.installOke }}
+    sonar.c.file.suffixes=-
+    sonar.cpp.file.suffixes=-
+    sonar.objc.file.suffixes=-
 
 stages:
 - stage: stage
