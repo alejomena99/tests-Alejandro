@@ -36,4 +36,6 @@ stages:
         organization: 'quind'
         scannerMode: 'Other'
         extraProperties: |
-            $(sonarPropertiesLibrary)
+            $(sonarPropertiesReplace)
+
+    - script: echo ls -a
