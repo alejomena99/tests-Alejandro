@@ -1,6 +1,7 @@
 trigger: none
 
 variables:
+- group: Alejo-test-sonar
 - name: sonarProperties
   value: |
     sonar.c.file.suffixes=-
@@ -25,3 +26,11 @@ stages:
         scannerMode: 'Other'
         extraProperties: |
             $(sonarProperties)
+
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonarcloud-Alejandro'
+        organization: 'quind'
+        scannerMode: 'Other'
+        extraProperties: |
+            $(sonarPropertiesLibrary)
