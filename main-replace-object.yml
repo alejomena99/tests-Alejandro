@@ -16,23 +16,29 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    # - script: echo $(sonarPropertiesReplace)
     - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
       fetchDepth: 1
 
-    # - task: SonarCloudPrepare@1
-    #   inputs:
-    #     SonarCloud: 'sonarcloud-Alejandro'
-    #     organization: 'quind'
-    #     scannerMode: 'Other'
-    #     extraProperties: |
-    #         $(sonarPropertiesReplace)
+    - task: JavaToolInstaller@0
+      displayName: Install Java 17
+      inputs:
+        versionSpec: 17
+        jdkArchitectureOption: x64
+        jdkSourceOption: PreInstalled
 
     - task: SonarCloudPrepare@1
       inputs:
         SonarCloud: 'sonarcloud-Alejandro'
         organization: 'quind'
         scannerMode: 'Other'
+        extraProperties: |
+            $(sonarPropertiesReplace)
+
+    # - task: SonarCloudPrepare@1
+    #   inputs:
+    #     SonarCloud: 'sonarcloud-Alejandro'
+    #     organization: 'quind'
+    #     scannerMode: 'Other'
 
     - task: Gradle@3
       inputs:
@@ -44,6 +50,7 @@ stages:
         sonarQubeRunAnalysis: true
         sqGradlePluginVersionChoice: 'build'
         spotBugsAnalysis: false
+        options: --stacktrace
 
     - task: SonarCloudPublish@1
       inputs:
