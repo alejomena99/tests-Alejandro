@@ -1,0 +1,14 @@
+  - task: SonarCloudPrepare@1
+    displayName: Prepare analysis on SonarCloud
+    inputs:
+      SonarCloud: 'SonarCloud Grupo Exito'
+      organization: org-grupoexito
+      scannerMode: CLI
+      configMode: manual
+      configFile: Exito/sonar-project.properties
+      cliProjectKey: #{Build.Repository.Name}#
+      cliProjectName: #{Build.Repository.Name}#
+      cliProjectVersion: #{Build.BuildNumber}#
+      cliSources: Exito
+      extraProperties: |
+        #{sonarProperties}#
