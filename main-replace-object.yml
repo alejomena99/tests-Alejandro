@@ -25,6 +25,7 @@ stages:
 
     - script: |
         tree
+        pwd
         cat sonar-project.properties
 
     # - task: SonarCloudPrepare@1
