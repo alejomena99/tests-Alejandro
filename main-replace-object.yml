@@ -31,7 +31,10 @@ stages:
         # cliProjectName: '$(Build.Repository.Name)'
         cliSources: '$(System.DefaultWorkingDirectory)'
         extraProperties: |
-            sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/** | sonar.testExecutionReportPaths=test-report.xml | sonar.javascript.lcov.reportPaths=coverage/lcov.info | sonar.projectName=alejovarTest
+            sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/**
+            sonar.testExecutionReportPaths=test-report.xml
+            sonar.javascript.lcov.reportPaths=coverage/lcov.info
+            sonar.projectName=alejovarTest
 
     - task: Npm@1
       displayName: 'Install Dependencies'
