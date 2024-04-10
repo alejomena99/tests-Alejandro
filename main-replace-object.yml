@@ -31,7 +31,7 @@ stages:
         # cliProjectName: '$(Build.Repository.Name)'
         cliSources: '$(System.DefaultWorkingDirectory)'
         extraProperties: |
-          $(sonarPropertiesLibrary2)
+          ${{ split(variables.sonarPropertiesLibrary2, '|') }}
 
     - task: Npm@1
       displayName: 'Install Dependencies'
