@@ -21,7 +21,7 @@ stages:
     steps:
     - ${{ each value in split(variables.sonarPropertiesReplace, ';') }}:
       - script: echo ${{ value }}
-    - script: echo $(sonarPropertiesLibrary2)
+    # - script: echo $(sonarPropertiesLibrary2)
     # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
     #   fetchDepth: 1
 
