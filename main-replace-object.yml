@@ -28,6 +28,18 @@ stages:
     - checkout: git://training-quind/training-AlejandroFront@master
       fetchDepth: 1
 
+    # - task: SonarCloudPrepare@1
+    #   displayName: 'Configure Static Code Analysis'
+    #   inputs:
+    #     SonarCloud: 'sonarcloud-Alejandro'
+    #     # organization: 'quind'
+    #     scannerMode: 'CLI'
+    #     configMode: 'file'
+    #     # cliProjectKey: '$(Build.Repository.Name)'
+    #     # cliProjectName: '$(Build.Repository.Name)'
+    #     # cliSources: '$(System.DefaultWorkingDirectory)'
+    #     configFile: 'sonar-project.properties'
+
     - task: SonarCloudPrepare@1
       displayName: 'Configure Static Code Analysis'
       inputs:
@@ -35,10 +47,7 @@ stages:
         organization: 'quind'
         scannerMode: 'CLI'
         configMode: 'file'
-        cliProjectKey: '$(Build.Repository.Name)'
-        # cliProjectName: '$(Build.Repository.Name)'
-        # cliSources: '$(System.DefaultWorkingDirectory)'
-        configFile: 'sonar-project.properties'
+
 
     - task: Npm@1
       displayName: 'Install Dependencies'
