@@ -15,7 +15,7 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - ${{ each value in split(variables.sonarPropertiesLibrary2, '|') }}:
+    - ${{ each value in split(variables.sonarPropertiesLibrary2, 'Z') }}:
       - script: echo ${{ value }}
       - script: echo $(sonarPropertiesLibrary2)
     # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
