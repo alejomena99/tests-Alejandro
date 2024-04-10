@@ -32,7 +32,7 @@ stages:
       displayName: 'Configure Static Code Analysis'
       inputs:
         SonarCloud: 'sonarcloud-Alejandro'
-        # organization: 'quind'
+        organization: 'quind'
         scannerMode: 'CLI'
         configMode: 'file'
         cliProjectKey: '$(Build.Repository.Name)'
