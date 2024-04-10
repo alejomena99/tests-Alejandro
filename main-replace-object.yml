@@ -7,9 +7,6 @@ variables:
 - name: sonarPropertiesReplace
   value: split(variables.sonarPropertiesLibrary2, ';')
 
-
-    - ${{ each value in split(variables.installCluster, '-')}}:
-
 stages:
 - stage: stage
   displayName: stage
@@ -19,7 +16,7 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - ${{ each value in variables.sonarPropertiesReplace }}:
-      - scripts: echo ${{ value }}
+      - script: echo ${{ value }}
     # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
     #   fetchDepth: 1
 
