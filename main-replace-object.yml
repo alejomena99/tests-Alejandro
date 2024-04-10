@@ -16,6 +16,8 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+    - checkout: git://training-quind/training-AlejandroFront@master
+      fetchDepth: 1
 
     - script: |
         sonar_properties="$(sonarPropertiesLibrary2)"
@@ -24,9 +26,6 @@ stages:
     - script: |
         tree
         cat sonar-project.properties
-
-    - checkout: git://training-quind/training-AlejandroFront@master
-      fetchDepth: 1
 
     # - task: SonarCloudPrepare@1
     #   displayName: 'Configure Static Code Analysis'
@@ -53,7 +52,7 @@ stages:
         organization: 'quind'
         scannerMode: 'CLI'
         configMode: 'file'
-
+        configFile: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
 
     - task: Npm@1
       displayName: 'Install Dependencies'
