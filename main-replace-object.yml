@@ -28,31 +28,31 @@ stages:
     - checkout: git://training-quind/training-AlejandroFront@master
       fetchDepth: 1
 
-    - task: SonarCloudPrepare@1
-      displayName: 'Configure Static Code Analysis'
-      inputs:
-        SonarCloud: 'sonarcloud-Alejandro'
-        organization: 'quind'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: '$(Build.Repository.Name)'
-        cliProjectName: '$(Build.Repository.Name)'
-        cliSources: '$(System.DefaultWorkingDirectory)'
-        extraProperties: |
-          sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/**
-          sonar.testExecutionReportPaths=test-report.xml
-          sonar.javascript.lcov.reportPaths=coverage/lcov.info
-          sonar.language=js
-          sonar.projectName=alejovarTest
-
-
     # - task: SonarCloudPrepare@1
     #   displayName: 'Configure Static Code Analysis'
     #   inputs:
     #     SonarCloud: 'sonarcloud-Alejandro'
     #     organization: 'quind'
     #     scannerMode: 'CLI'
-    #     configMode: 'file'
+    #     configMode: 'manual'
+    #     cliProjectKey: '$(Build.Repository.Name)'
+    #     cliProjectName: '$(Build.Repository.Name)'
+    #     cliSources: '$(System.DefaultWorkingDirectory)'
+    #     extraProperties: |
+    #       sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/**
+    #       sonar.testExecutionReportPaths=test-report.xml
+    #       sonar.javascript.lcov.reportPaths=coverage/lcov.info
+    #       sonar.language=js
+    #       sonar.projectName=alejovarTest
+
+
+    - task: SonarCloudPrepare@1
+      displayName: 'Configure Static Code Analysis'
+      inputs:
+        SonarCloud: 'sonarcloud-Alejandro'
+        organization: 'quind'
+        scannerMode: 'CLI'
+        configMode: 'file'
 
 
     - task: Npm@1
