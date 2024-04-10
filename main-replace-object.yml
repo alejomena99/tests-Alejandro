@@ -5,7 +5,7 @@ variables:
 - group: alejo-var-back
 
 - name: sonarPropertiesReplace
-  value: split(variables.sonarPropertiesLibrary2, ';')
+  value: $(sonarPropertiesLibrary2)
 
 - name: sonarTest
   value: sonar.verbose=false ; sonar.c.file.suffixes=- ; sonar.cpp.file.suffixes=- ; sonar.objc.file.suffixes=-
@@ -19,7 +19,7 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - ${{ each value in split(variables.sonarTest, ';') }}:
+    - ${{ each value in split(variables.sonarPropertiesReplace, ';') }}:
       - script: echo ${{ value }}
     - script: echo $(sonarPropertiesLibrary2)
     # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
