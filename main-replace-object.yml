@@ -18,15 +18,14 @@ stages:
     steps:
 
     - script: |
-        cadena = "$(sonarPropertiesLibrary2)"
-        IFS=';' read -ra partes <<< "$cadena"
-        nombre_archivo="sonar-project.properties"
-        for parte in "${partes[@]}"; do
-            echo "$parte" >> "$nombre_archivo"
-        done
+        propiedades="$(sonarPropertiesLibrary2)"
 
+        # Reemplazar ';' por saltos de línea y escribir en el archivo
+        echo "$propiedades" | sed 's/;/\n/g' > sonar-project.properties
+
+    - script: |
+        tree
         cat sonar-project.properties
-
     # - checkout: git://training-quind/training-AlejandroFront@master
     #   fetchDepth: 1
 
