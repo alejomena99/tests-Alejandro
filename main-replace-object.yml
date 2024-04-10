@@ -34,7 +34,7 @@ stages:
         SonarCloud: 'sonarcloud-Alejandro'
         organization: 'quind'
         scannerMode: 'CLI'
-        configMode: 'manual'
+        configMode: 'file'
         cliProjectKey: '$(Build.Repository.Name)'
         # cliProjectName: '$(Build.Repository.Name)'
         cliSources: '$(System.DefaultWorkingDirectory)'
