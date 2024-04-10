@@ -7,6 +7,14 @@ variables:
 - name: sonarPropertiesReplace
   value: split(variables.sonarPropertiesLibrary2, ';')
 
+- name: sonarTest
+  value: |
+    Z sonar.verbose=false
+    Z sonar.c.file.suffixes=-
+    Z sonar.cpp.file.suffixes=-
+    Z sonar.objc.file.suffixes=-
+
+
 stages:
 - stage: stage
   displayName: stage
@@ -15,7 +23,7 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - ${{ each value in split(variables.sonarPropertiesLibrary2, 'Z') }}:
+    - ${{ each value in split(variables.sonarTest, 'Z') }}:
       - script: echo ${{ value }}
       - script: echo $(sonarPropertiesLibrary2)
     # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
