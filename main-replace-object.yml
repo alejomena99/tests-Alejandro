@@ -17,88 +17,59 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    - checkout: git://training-quind/training-AlejandroFront@master
-      fetchDepth: 1
-
-    - task: SonarCloudPrepare@1
-      displayName: 'Configure Static Code Analysis'
-      inputs:
-        SonarCloud: 'sonarcloud-Alejandro'
-        organization: 'quind'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: '$(Build.Repository.Name)'
-        # cliProjectName: '$(Build.Repository.Name)'
-        cliSources: '$(System.DefaultWorkingDirectory)'
-        extraProperties: |
-            sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/** \n sonar.testExecutionReportPaths=test-report.xml \n sonar.javascript.lcov.reportPaths=coverage/lcov.info \n sonar.projectName=alejovarTest
-
-    - task: Npm@1
-      displayName: 'Install Dependencies'
-      inputs:
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
-    
-    - task: Npm@1
-      displayName: 'jest sonar reporter'
-      inputs:
-        command: 'custom'
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
-        customCommand: 'i -D jest-sonar-reporter'
-
-    - task: Npm@1
-      displayName: 'Compile'
-      inputs:
-        command: 'custom'
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
-        customCommand: 'run build'
-        
-    - task: SonarCloudAnalyze@1
-      displayName: 'Configure Static Code Analysis'
-
-    - task: Npm@1
-      displayName: 'Unit Tests'
-      inputs:
-        command: 'custom'
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
-        customCommand: 'run test'
-        
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '300'
-        
-    # - task: JavaToolInstaller@0
-    #   displayName: Install Java 17
-    #   inputs:
-    #     versionSpec: 17
-    #     jdkArchitectureOption: x64
-    #     jdkSourceOption: PreInstalled
+    - script: echo hola
+    # - checkout: git://training-quind/training-AlejandroFront@master
+    #   fetchDepth: 1
 
     # - task: SonarCloudPrepare@1
+    #   displayName: 'Configure Static Code Analysis'
     #   inputs:
     #     SonarCloud: 'sonarcloud-Alejandro'
     #     organization: 'quind'
-    #     scannerMode: 'Other'
+    #     scannerMode: 'CLI'
+    #     configMode: 'manual'
+    #     cliProjectKey: '$(Build.Repository.Name)'
+    #     # cliProjectName: '$(Build.Repository.Name)'
+    #     cliSources: '$(System.DefaultWorkingDirectory)'
     #     extraProperties: |
-    #         $(sonarPropertiesLibrary2)
+    #         sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/** \n sonar.testExecutionReportPaths=test-report.xml \n sonar.javascript.lcov.reportPaths=coverage/lcov.info \n sonar.projectName=alejovarTest
 
-    # - task: Gradle@3
+    # - task: Npm@1
+    #   displayName: 'Install Dependencies'
     #   inputs:
-    #     gradleWrapperFile: 'gradlew'
-    #     tasks: 'build'
-    #     publishJUnitResults: true
-    #     testResultsFiles: '**/TEST-*.xml'
-    #     javaHomeOption: 'JDKVersion'
-    #     sonarQubeRunAnalysis: true
-    #     sqGradlePluginVersionChoice: 'build'
-    #     spotBugsAnalysis: false
-    #     options: --stacktrace
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
+    
+    # - task: Npm@1
+    #   displayName: 'jest sonar reporter'
+    #   inputs:
+    #     command: 'custom'
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
+    #     customCommand: 'i -D jest-sonar-reporter'
 
+    # - task: Npm@1
+    #   displayName: 'Compile'
+    #   inputs:
+    #     command: 'custom'
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
+    #     customCommand: 'run build'
+        
+    # - task: SonarCloudAnalyze@1
+    #   displayName: 'Configure Static Code Analysis'
+
+    # - task: Npm@1
+    #   displayName: 'Unit Tests'
+    #   inputs:
+    #     command: 'custom'
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
+    #     customCommand: 'run test'
+        
     # - task: SonarCloudPublish@1
     #   inputs:
     #     pollingTimeoutSec: '300'
-          
+
+
 
