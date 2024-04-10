@@ -38,7 +38,7 @@ stages:
         cliProjectKey: '$(Build.Repository.Name)'
         # cliProjectName: '$(Build.Repository.Name)'
         # cliSources: '$(System.DefaultWorkingDirectory)'
-        configFile: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
+        configFile: 'sonar-project.properties'
 
     - task: Npm@1
       displayName: 'Install Dependencies'
