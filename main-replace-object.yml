@@ -19,9 +19,14 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - ${{ each value in variables.sonarPropertiesLibrary2 }}:
-      - script: echo ${{ value }}
-    - script: echo $(sonarPropertiesLibrary2)
+
+    - task: replacetokens@5
+      displayName:  'Replace Tokens'
+      inputs:
+        targetFiles: |
+          SonarCloudPrepare@1.txt
+    
+    - script: cat SonarCloudPrepare@1.txt
     # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
     #   fetchDepth: 1
 
