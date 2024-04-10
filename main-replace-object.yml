@@ -17,7 +17,18 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    - script: echo hola
+    - script: |
+
+      cadena = "$(sonarPropertiesLibrary2)"
+      partes = cadena.split(";")
+      contenido = "\n".join(partes)
+      nombre_archivo = "sonar-project.properties"
+
+      with open(nombre_archivo, "w") as archivo:
+          archivo.write(contenido)
+
+      cat sonar-project.properties
+
     # - checkout: git://training-quind/training-AlejandroFront@master
     #   fetchDepth: 1
 
