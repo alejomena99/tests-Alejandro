@@ -4,9 +4,6 @@ variables:
 - group: Alejo-test-sonar
 - group: alejo-var-back
 
-- name: sonarPropertiesReplace
-  value: ${{ split(variables.sonarPropertiesLibrary2, ';') }}
-
 - name: sonarTest
   value: sonar.verbose=false ; sonar.c.file.suffixes=- ; sonar.cpp.file.suffixes=- ; sonar.objc.file.suffixes=-
 
@@ -20,51 +17,44 @@ stages:
       vmImage: ubuntu-latest
     steps:
 
-    - task: replacetokens@5
-      displayName:  'Replace Tokens'
-      inputs:
-        targetFiles: |
-          SonarCloudPrepare@1.txt
-    
-    - script: cat SonarCloudPrepare@1.txt
-    # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
-    #   fetchDepth: 1
+    - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
+      fetchDepth: 1
 
-    # - task: JavaToolInstaller@0
-    #   displayName: Install Java 17
-    #   inputs:
-    #     versionSpec: 17
-    #     jdkArchitectureOption: x64
-    #     jdkSourceOption: PreInstalled
+    - task: JavaToolInstaller@0
+      displayName: Install Java 17
+      inputs:
+        versionSpec: 17
+        jdkArchitectureOption: x64
+        jdkSourceOption: PreInstalled
+
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonarcloud-Alejandro'
+        organization: 'quind'
+        scannerMode: 'Other'
+        extraProperties: |
+            $(sonarPropertiesLibrary2)
 
     # - task: SonarCloudPrepare@1
     #   inputs:
     #     SonarCloud: 'sonarcloud-Alejandro'
     #     organization: 'quind'
     #     scannerMode: 'Other'
-    #     extraProperties: |
-    #         $(sonarPropertiesReplace)
 
-    # # - task: SonarCloudPrepare@1
-    # #   inputs:
-    # #     SonarCloud: 'sonarcloud-Alejandro'
-    # #     organization: 'quind'
-    # #     scannerMode: 'Other'
+    - task: Gradle@3
+      inputs:
+        gradleWrapperFile: 'gradlew'
+        tasks: 'build'
+        publishJUnitResults: true
+        testResultsFiles: '**/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        sonarQubeRunAnalysis: true
+        sqGradlePluginVersionChoice: 'build'
+        spotBugsAnalysis: false
+        options: --stacktrace
 
-    # - task: Gradle@3
-    #   inputs:
-    #     gradleWrapperFile: 'gradlew'
-    #     tasks: 'build'
-    #     publishJUnitResults: true
-    #     testResultsFiles: '**/TEST-*.xml'
-    #     javaHomeOption: 'JDKVersion'
-    #     sonarQubeRunAnalysis: true
-    #     sqGradlePluginVersionChoice: 'build'
-    #     spotBugsAnalysis: false
-    #     options: --stacktrace
-
-    # - task: SonarCloudPublish@1
-    #   inputs:
-    #     pollingTimeoutSec: '300'
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
           
 
