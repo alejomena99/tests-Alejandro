@@ -11,4 +11,4 @@
       cliProjectVersion: #{Build.BuildNumber}#
       cliSources: Exito
       extraProperties: |
-        #{sonarProperties}#
+        #{sonarPropertiesLibrary2}#
