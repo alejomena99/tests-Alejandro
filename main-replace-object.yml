@@ -18,66 +18,64 @@ stages:
     steps:
 
     - script: |
-        propiedades="$(sonarPropertiesLibrary2)"
-
-        # Reemplazar ';' por saltos de línea y escribir en el archivo
-        echo "$propiedades" | sed 's/;/\n/g' > sonar-project.properties
+        sonar_properties="$(sonarPropertiesLibrary2)"
+        echo "$sonar_properties" | sed 's/;/\n/g' > sonar-project.properties
 
     - script: |
         tree
         cat sonar-project.properties
-    # - checkout: git://training-quind/training-AlejandroFront@master
-    #   fetchDepth: 1
 
-    # - task: SonarCloudPrepare@1
-    #   displayName: 'Configure Static Code Analysis'
-    #   inputs:
-    #     SonarCloud: 'sonarcloud-Alejandro'
-    #     organization: 'quind'
-    #     scannerMode: 'CLI'
-    #     configMode: 'manual'
-    #     cliProjectKey: '$(Build.Repository.Name)'
-    #     # cliProjectName: '$(Build.Repository.Name)'
-    #     cliSources: '$(System.DefaultWorkingDirectory)'
-    #     extraProperties: |
-    #         sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/** \n sonar.testExecutionReportPaths=test-report.xml \n sonar.javascript.lcov.reportPaths=coverage/lcov.info \n sonar.projectName=alejovarTest
+    - checkout: git://training-quind/training-AlejandroFront@master
+      fetchDepth: 1
 
-    # - task: Npm@1
-    #   displayName: 'Install Dependencies'
-    #   inputs:
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
+    - task: SonarCloudPrepare@1
+      displayName: 'Configure Static Code Analysis'
+      inputs:
+        SonarCloud: 'sonarcloud-Alejandro'
+        organization: 'quind'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: '$(Build.Repository.Name)'
+        # cliProjectName: '$(Build.Repository.Name)'
+        cliSources: '$(System.DefaultWorkingDirectory)'
+        configFile: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
+
+    - task: Npm@1
+      displayName: 'Install Dependencies'
+      inputs:
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
     
-    # - task: Npm@1
-    #   displayName: 'jest sonar reporter'
-    #   inputs:
-    #     command: 'custom'
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
-    #     customCommand: 'i -D jest-sonar-reporter'
+    - task: Npm@1
+      displayName: 'jest sonar reporter'
+      inputs:
+        command: 'custom'
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
+        customCommand: 'i -D jest-sonar-reporter'
 
-    # - task: Npm@1
-    #   displayName: 'Compile'
-    #   inputs:
-    #     command: 'custom'
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
-    #     customCommand: 'run build'
+    - task: Npm@1
+      displayName: 'Compile'
+      inputs:
+        command: 'custom'
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
+        customCommand: 'run build'
         
-    # - task: SonarCloudAnalyze@1
-    #   displayName: 'Configure Static Code Analysis'
+    - task: SonarCloudAnalyze@1
+      displayName: 'Configure Static Code Analysis'
 
-    # - task: Npm@1
-    #   displayName: 'Unit Tests'
-    #   inputs:
-    #     command: 'custom'
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
-    #     customCommand: 'run test'
+    - task: Npm@1
+      displayName: 'Unit Tests'
+      inputs:
+        command: 'custom'
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
+        customCommand: 'run test'
         
-    # - task: SonarCloudPublish@1
-    #   inputs:
-    #     pollingTimeoutSec: '300'
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
 
 
 
