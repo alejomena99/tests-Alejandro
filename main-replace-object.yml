@@ -1,32 +1,52 @@
-trigger: none
+parameters:
+- name: resourceIds
+  type: object
+  default:
+  - /subscriptions/mysubscription/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/kubernetes-internal
+  - /subscriptions/mysubscription02/resourceGroups/myResourceGroup02/providers/Microsoft.Network/loadBalancers/kubernetes
+- name: environments
+  type: object
+  default: 
+  - prod1
+  - prod2
 
-variables:
-- group: Alejo-test-sonar
-- group: alejo-var-back
+trigger:
+- main
 
-- name: sonarPropertiesReplace
-  value: $[split(variables.sonarPropertiesLibrary2, ';')]
+steps:
+- ${{ each env in parameters.environments }}:
+  - ${{ each resourceId in parameters.resourceIds }}:
+      - script: echo ${{ replace(split(resourceId, '/')[8], '-', '_') }}_${{ env }}
 
-- name: sonarTest
-  value: sonar.verbose=false ; sonar.c.file.suffixes=- ; sonar.cpp.file.suffixes=- ; sonar.objc.file.suffixes=-
+# trigger: none
+
+# variables:
+# - group: Alejo-test-sonar
+# - group: alejo-var-back
+
+# - name: sonarPropertiesReplace
+#   value: $[split(variables.sonarPropertiesLibrary2, ';')]
+
+# - name: sonarTest
+#   value: sonar.verbose=false ; sonar.c.file.suffixes=- ; sonar.cpp.file.suffixes=- ; sonar.objc.file.suffixes=-
 
 
-stages:
-- stage: stage
-  displayName: stage
-  jobs:
-  - job: 'job'
-    pool:
-      vmImage: ubuntu-latest
-    steps:
+# stages:
+# - stage: stage
+#   displayName: stage
+#   jobs:
+#   - job: 'job'
+#     pool:
+#       vmImage: ubuntu-latest
+#     steps:
 
-    - task: replacetokens@5
-      displayName:  'Replace Tokens'
-      inputs:
-        targetFiles: |
-          SonarCloudPrepare@1.txt
+#     - task: replacetokens@5
+#       displayName:  'Replace Tokens'
+#       inputs:
+#         targetFiles: |
+#           SonarCloudPrepare@1.txt
     
-    - script: cat SonarCloudPrepare@1.txt
+#     - script: cat SonarCloudPrepare@1.txt
     # - checkout: git://training-quind/training-AlejandroBack@CalculatorBack
     #   fetchDepth: 1
 
