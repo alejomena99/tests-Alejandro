@@ -27,7 +27,7 @@ stages:
         tree
         pwd
         cat sonar-project.properties
-        echo $(a.b.c)
+        echo $(a:b:c)
 
 
     # - task: SonarCloudPrepare@1
