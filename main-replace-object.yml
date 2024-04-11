@@ -27,6 +27,8 @@ stages:
         tree
         pwd
         cat sonar-project.properties
+        echo $(a.b.c)
+
 
     # - task: SonarCloudPrepare@1
     #   displayName: 'Configure Static Code Analysis'
@@ -34,63 +36,45 @@ stages:
     #     SonarCloud: 'sonarcloud-Alejandro'
     #     organization: 'quind'
     #     scannerMode: 'CLI'
-    #     configMode: 'manual'
-    #     cliProjectKey: '$(Build.Repository.Name)'
-    #     cliProjectName: '$(Build.Repository.Name)'
-    #     cliSources: '$(System.DefaultWorkingDirectory)'
-    #     extraProperties: |
-    #       sonar.exclusions= **/node_modules/**,**/*.test.js,**/alejo-helm/**
-    #       sonar.testExecutionReportPaths=test-report.xml
-    #       sonar.javascript.lcov.reportPaths=coverage/lcov.info
-    #       sonar.language=js
-    #       sonar.projectName=alejovarTest
+    #     configMode: 'file'
+    #     configFile: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
 
-
-    - task: SonarCloudPrepare@1
-      displayName: 'Configure Static Code Analysis'
-      inputs:
-        SonarCloud: 'sonarcloud-Alejandro'
-        organization: 'quind'
-        scannerMode: 'CLI'
-        configMode: 'file'
-        configFile: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
-
-    - task: Npm@1
-      displayName: 'Install Dependencies'
-      inputs:
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
+    # - task: Npm@1
+    #   displayName: 'Install Dependencies'
+    #   inputs:
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
     
-    - task: Npm@1
-      displayName: 'jest sonar reporter'
-      inputs:
-        command: 'custom'
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
-        customCommand: 'i -D jest-sonar-reporter'
+    # - task: Npm@1
+    #   displayName: 'jest sonar reporter'
+    #   inputs:
+    #     command: 'custom'
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
+    #     customCommand: 'i -D jest-sonar-reporter'
 
-    - task: Npm@1
-      displayName: 'Compile'
-      inputs:
-        command: 'custom'
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
-        customCommand: 'run build'
+    # - task: Npm@1
+    #   displayName: 'Compile'
+    #   inputs:
+    #     command: 'custom'
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
+    #     customCommand: 'run build'
         
-    - task: SonarCloudAnalyze@1
-      displayName: 'Configure Static Code Analysis'
+    # - task: SonarCloudAnalyze@1
+    #   displayName: 'Configure Static Code Analysis'
 
-    - task: Npm@1
-      displayName: 'Unit Tests'
-      inputs:
-        command: 'custom'
-        workingDir: $(System.DefaultWorkingDirectory)
-        verbose: true
-        customCommand: 'run test'
+    # - task: Npm@1
+    #   displayName: 'Unit Tests'
+    #   inputs:
+    #     command: 'custom'
+    #     workingDir: $(System.DefaultWorkingDirectory)
+    #     verbose: true
+    #     customCommand: 'run test'
         
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '300'
+    # - task: SonarCloudPublish@1
+    #   inputs:
+    #     pollingTimeoutSec: '300'
 
 
 
