@@ -26,7 +26,10 @@ stages:
     - script: |
         tree
         pwd
+    - script: 
         cat sonar-project.properties
+      displayName: cat sonar
+    - script: 
         echo $(a:b:c)
 
 
