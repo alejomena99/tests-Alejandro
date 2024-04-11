@@ -33,7 +33,7 @@ stages:
         echo $(a:b:c)
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/sonar-project.properties'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
