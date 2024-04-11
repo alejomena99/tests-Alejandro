@@ -31,7 +31,11 @@ stages:
       displayName: cat sonar
     - script: 
         echo $(a:b:c)
-
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/sonar-project.properties'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 
     # - task: SonarCloudPrepare@1
     #   displayName: 'Configure Static Code Analysis'
