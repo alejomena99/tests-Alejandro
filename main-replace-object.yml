@@ -31,6 +31,7 @@ stages:
       displayName: cat sonar
     - script: 
         echo $(a:b:c)
+        echo $(Build.DefinitionName)
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
