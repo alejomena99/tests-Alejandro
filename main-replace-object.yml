@@ -38,51 +38,56 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-    # - task: SonarCloudPrepare@1
-    #   displayName: 'Configure Static Code Analysis'
-    #   inputs:
-    #     SonarCloud: 'sonarcloud-Alejandro'
-    #     organization: 'quind'
-    #     scannerMode: 'CLI'
-    #     configMode: 'file'
-    #     configFile: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
+    - task: SonarCloudPrepare@1
+      displayName: 'Configure Static Code Analysis'
+      inputs:
+        SonarCloud: 'sonarcloud-Alejandro'
+        organization: 'quind'
+        scannerMode: 'CLI'
+        configMode: 'file'
+        configFile: '$(System.DefaultWorkingDirectory)/sonar-project.properties'
 
-    # - task: Npm@1
-    #   displayName: 'Install Dependencies'
-    #   inputs:
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
+    - task: Npm@1
+      displayName: 'Install Dependencies'
+      inputs:
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
     
-    # - task: Npm@1
-    #   displayName: 'jest sonar reporter'
-    #   inputs:
-    #     command: 'custom'
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
-    #     customCommand: 'i -D jest-sonar-reporter'
+    - task: Npm@1
+      displayName: 'jest sonar reporter'
+      inputs:
+        command: 'custom'
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
+        customCommand: 'i -D jest-sonar-reporter'
 
-    # - task: Npm@1
-    #   displayName: 'Compile'
-    #   inputs:
-    #     command: 'custom'
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
-    #     customCommand: 'run build'
+    - task: Npm@1
+      displayName: 'Compile'
+      inputs:
+        command: 'custom'
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
+        customCommand: 'run build'
         
-    # - task: SonarCloudAnalyze@1
-    #   displayName: 'Configure Static Code Analysis'
+    - task: SonarCloudAnalyze@1
+      displayName: 'Configure Static Code Analysis'
 
-    # - task: Npm@1
-    #   displayName: 'Unit Tests'
-    #   inputs:
-    #     command: 'custom'
-    #     workingDir: $(System.DefaultWorkingDirectory)
-    #     verbose: true
-    #     customCommand: 'run test'
+    - task: Npm@1
+      displayName: 'Unit Tests'
+      inputs:
+        command: 'custom'
+        workingDir: $(System.DefaultWorkingDirectory)
+        verbose: true
+        customCommand: 'run test'
         
-    # - task: SonarCloudPublish@1
-    #   inputs:
-    #     pollingTimeoutSec: '300'
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
 
+    - task: sonarcloud-buildbreaker@2
+      displayName: Break build on quality gate failure
+      inputs:
+        SonarCloud: 'sonarcloud-Alejandro'
+        organization: quind
 
 
